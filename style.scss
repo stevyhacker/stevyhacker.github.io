@@ -10,7 +10,7 @@ body {
   padding-bottom: 50px;
   font-family: 'Montserrat', sans-serif;
   background-color: $main-bg-color;
-  background-image:url("img/android3.png");
+  background-image: url("img/android3.png");
   background-blend-mode: SCREEN;
 
 }
@@ -21,7 +21,7 @@ h1 {
 
 p {
   font-family: "Montserrat", sans-serif;
-  font-weight: 500 ;
+  font-weight: 500;
 }
 
 .navbar {
@@ -53,6 +53,11 @@ p {
 
 .project-showcase-container:hover {
   background-color: $item-bg-color-hover;
+
+  .img-rounded {
+    text-align: center;
+  }
+
 }
 
 #projects-showcase-grid {

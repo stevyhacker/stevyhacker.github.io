@@ -39,6 +39,8 @@ p {
 
 .project-showcase-container:hover {
   background-color: #396aba; }
+  .project-showcase-container:hover .img-rounded {
+    text-align: center; }
 
 #projects-showcase-grid {
   text-align: center; }
