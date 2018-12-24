@@ -1,0 +1,83 @@
+$main-bg-color: #fff176;
+$secondary-bg-color: #00aced;
+$item-bg-color: #5199ff;
+$item-bg-color-hover: #396aba;
+$menu-item-color: #325ab6;
+
+body {
+  position: relative;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  font-family: 'Montserrat', sans-serif;
+  background-color: $main-bg-color;
+  background-image:url("img/android3.png");
+  background-blend-mode: SCREEN;
+
+}
+
+h1 {
+  font-family: "Montserrat", sans-serif;
+}
+
+p {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500 ;
+}
+
+.navbar {
+  background-color: $secondary-bg-color;
+}
+
+.navbar a {
+  color: #fff !important;
+  /*bootstrap overrides colour otherwise*/
+}
+
+.navbar a:hover {
+  background-color: $menu-item-color !important;
+  /*bootstrap overrides colour otherwise*/
+}
+
+.project-showcase-container {
+  color: #fff;
+  padding: 3%;
+  margin-top: 1%;
+  margin-left: 4%;
+  margin-right: 4%;
+  margin-bottom: 2%;
+  background-color: $item-bg-color;
+  border-radius: 7%;
+  text-align: center;
+  font-size: 27px;
+}
+
+.project-showcase-container:hover {
+  background-color: $item-bg-color-hover;
+}
+
+#projects-showcase-grid {
+  text-align: center;
+}
+
+#home-menu-item {
+  background-color: $menu-item-color;
+}
+
+#home {
+  padding: 3%;
+  text-align: center;
+}
+
+#about {
+  padding: 3%;
+}
+
+#portfolio {
+  padding: 3%;
+  text-align: center;
+}
+
+#contact {
+  padding: 3%;
+  text-align: center;
+}
