@@ -3,7 +3,7 @@ body {
   padding-top: 50px;
   padding-bottom: 50px;
   font-family: 'Montserrat', sans-serif;
-  background-color: #fff176;
+  background-color: #FFD662FF;
   background-image: url("img/android3.png");
   background-blend-mode: SCREEN; }
 
@@ -15,7 +15,7 @@ p {
   font-weight: 500; }
 
 .navbar {
-  background-color: #00aced; }
+  background-color: #00539CFF; }
 
 .navbar a {
   color: #fff !important;
@@ -28,10 +28,7 @@ p {
 .project-showcase-container {
   color: #fff;
   padding: 3%;
-  margin-top: 1%;
-  margin-left: 4%;
-  margin-right: 4%;
-  margin-bottom: 2%;
+  margin: 1% 4% 2%;
   background-color: #5199ff;
   border-radius: 7%;
   text-align: center;
