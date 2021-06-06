@@ -1,8 +1,7 @@
 $main-bg-color: #FFD662FF;
-$secondary-bg-color: #00539CFF;
+$secondary-bg-color: rgba(0, 11, 50, 0.73);
 $item-bg-color: #5199ff;
 $item-bg-color-hover: #396aba;
-$menu-item-color: #325ab6;
 
 body {
 	position: relative;
@@ -10,8 +9,6 @@ body {
 	padding-bottom: 50px;
 	font-family: 'Montserrat', sans-serif;
 	background-color: $main-bg-color;
-	background-image: url("img/android3.png");
-	background-blend-mode: SCREEN;
 }
 
 h1 {
@@ -32,11 +29,6 @@ p {
 	/*bootstrap overrides colour otherwise*/
 }
 
-.navbar a:hover {
-	background-color: $menu-item-color !important;
-	/*bootstrap overrides colour otherwise*/
-}
-
 .project-showcase-container {
 	color: #fff;
 	padding: 3%;
@@ -44,12 +36,12 @@ p {
 	background-color: $item-bg-color;
 	border-radius: 7%;
 	text-align: center;
-	font-size: 27px;
+	font-size: 28px;
 }
 
 .project-showcase-container:hover {
 	background-color: $item-bg-color-hover;
-	
+
 	.img-rounded {
 		text-align: center;
 	}
@@ -57,10 +49,6 @@ p {
 
 #projects-showcase-grid {
 	text-align: center;
-}
-
-#home-menu-item {
-	background-color: $menu-item-color;
 }
 
 #home {
