@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible">
@@ -26,8 +27,7 @@
     <div class="container">
         <!--Header-->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                    data-target="#myNavbar">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -40,14 +40,11 @@
                 <li class="navbar-list-item"><a id="home-menu-item" class="menu-items"
                                                 onclick="navigationItemClicked(this)" href="#home">Home</a>
                 </li>
-                <li class="navbar-list-item"><a class="menu-items"
-                                                onclick="navigationItemClicked(this)" href="#about">About</a>
+                <li class="navbar-list-item"><a class="menu-items" onclick="navigationItemClicked(this)" href="#about">About</a>
                 </li>
-                <li class="navbar-list-item"><a class="menu-items"
-                                                onclick="navigationItemClicked(this)"
+                <li class="navbar-list-item"><a class="menu-items" onclick="navigationItemClicked(this)"
                                                 href="#portfolio">Portfolio</a></li>
-                <li class="navbar-list-item"><a class="menu-items"
-                                                onclick="navigationItemClicked(this)"
+                <li class="navbar-list-item"><a class="menu-items" onclick="navigationItemClicked(this)"
                                                 href="#contact">Contact</a></li>
             </ul>
         </div>
@@ -55,17 +52,15 @@
 </nav>
 
 <div class="container">
-    <div id="home">
+    <section id="home" class="dark">
         <h1 class="title">Stevan Bogosavljević</h1>
         <h3 class="subtitle">Android Developer</h3>
-        <h3>Check out my <a href="Stevan_Bogosavljević_VisualCV_Resume.pdf">CV</a></h3>
+        <h3>Here is my <a href="Stevan_Bogosavljević_VisualCV_Resume.pdf">CV</a></h3>
 
-        <a href="https://www.twitter.com/stevyhacker"
-           class="btn btn-primary btn-social btn-twitter">
+        <a href="https://www.twitter.com/stevyhacker" class="btn btn-primary btn-social btn-twitter">
             <span class="fa fa-twitter"></span>Twitter
         </a>
-        <a href="https://www.github.com/stevyhacker"
-           class="btn btn-primary btn-social btn-github">
+        <a href="https://www.github.com/stevyhacker" class="btn btn-primary btn-social btn-github">
             <span class="fa fa-github"></span>GitHub
         </a>
         <a href="https://me.linkedin.com/in/stevan-bogosavljević-3329338b"
@@ -76,51 +71,45 @@
         <br>
         <img class="img-rounded img-responsive center-block" width="600" height="400" src="img/pro.jpg"
              alt="Stevan Bogosavljević">
-    </div>
+    </section>
 
-    <div id="about">
+    <section id="about" class="dark">
         <h1 style="text-align: center" class="title">About</h1>
-        <p>I am a freelance android developer from Niksic, Montenegro.
+        <p>I am an android developer from Niksic, Montenegro. (CET)
         </p>
 
         <p> I have over 5 years of experience in android app development, working in teams, as a solo freelancer, in
-            office or remotely. <br> You can check out some of
-            my apps at
-            my <a
+            office or remotely. <br> You can check out some of my apps at my <a
                 href="https://play.google.com/store/apps/developer?id=MonteCode"> personal Play
                 Store
                 developer
                 account.</a> as well as in my portfolio <a href="#portfolio">here</a>. <br>
-            <br>I do native development with Kotlin/Java
-            and
-            I have worked with REST APIs(Retrofit),
-            SQLite databases(Room), Realm, Google Maps, GCM. Chromecast, Firebase, RxJava, Admob, Exoplayer, Leanback
-            and
-            countless
-            other
-            3rd party libraries. Some of my older personal projects are available on my Github
-            account. Through 2017/18 I had worked a lot on Android TV and Amazon Fire TV platforms as well.
+            <br>I do native development with Kotlin/Java and I have worked with REST APIs(Retrofit), SQLite
+            databases(Room), Realm, Google Maps, GCM. Chromecast, Firebase, RxJava, Admob, Exoplayer, Leanback and
+            countless other 3rd party libraries.
+            Some of my older personal projects are available on my Github account. Through 2017/18 I had worked a lot on
+            Android TV and Amazon Fire TV platforms as well.
         </p>
         <p>I used to write a blog(mostly about tech) but haven't been very active recently. You can check it out
-            <a href="https://stevyhacker.wordpress.com/">here</a>. <br>
-            I am also proud of my StackOverflow <a
-                href="https://stackoverflow.com/users/1038194/stevyhacker">profile</a>, I use it daily in my work
-            and try to help others when I can.</p>
-
-        <p>In Autumn of 2017 I have taken an interest in photography and it became an important hobby of mine.
-            Now I carry my DSLR everywhere I go. <br> You can check my photos on my Instagram <a
-                href="https://instagram.com/stevyhacker"> profile</a>. </p>
-    </div>
+            <a href="https://stevyhacker.wordpress.com/">here</a>. <br> I am also proud of my StackOverflow <a
+                href="https://stackoverflow.com/users/1038194/stevyhacker">profile</a>, I use it daily in my work and
+            try to help others when I can.</p>
+        <p>Last few years I have been investing a lot of my time in the blockchain space. That's why I now work
+            freelance
+            projects as a Solidity smart contract engineer as well. I work with Ethereum and popular tools like Hardhat
+            and Ethers for building decentralized applications.</p>
+    </section>
     <br>
 
-    <div id=portfolio>
+    <section id=portfolio class="dark">
+
         <h1 class="title">Portfolio</h1>
-        <h3 class="subtitle">Here you can check out some of my personal projects.</h3>
+        <h3 class="subtitle">Here you can check out some of my personal hobby projects.</h3>
 
         <div id="projects-showcase-grid">
             <div class="row">
                 <a href="https://tokenlocker.me">
-                    <div class="col-sm-5 project-showcase-container">
+                    <div class="col-sm-3 project-showcase-container">
                         <p>Token Locker (2021) </p>
                         <p style="font-size: small">React, Typescript, Solidity, Hardhat, Ethers, web3, SCSS </p>
                         <br>
@@ -128,84 +117,79 @@
                              alt="Token Locker">
                     </div>
                 </a>
-                <a href="https://play.google.com/store/apps/details?id=org.natura.montenegro.botanickabasta">
-                    <div class="col-sm-5 project-showcase-container">
-                        <p>Botanical Garden (2015)</p>
-                        <p style="font-size: small">Java, Realm, MediaPlayer</p>
-                        <br>
-                        <img class="img-rounded img-responsive center-block" src="img/natura.png"
-                             alt="Botanicka basta">
-                    </div>
-                </a>
-            </div>
-            <div class="row">
+
                 <a href="https://itstats.me">
-                    <div class="col-sm-5 project-showcase-container">
+                    <div class="col-sm-3 project-showcase-container">
                         <p>IT Stats (2020)</p>
                         <p style="font-size: small">React, Bootstrap, SCSS </p>
                         <br>
-                        <img class="img-rounded img-responsive center-block" src="img/it_stats.png"
-                             alt="Three tiles">
+                        <img class="img-rounded img-responsive center-block" src="img/it_stats.png" alt="Three tiles">
                     </div>
                 </a>
-                <a href="https://play.google.com/store/apps/details?id=me.montecode.kviz.ruskirulet">
-                    <div class="col-sm-5 project-showcase-container">
-                        <p>Russian Roulette Quiz (2014)</p>
-                        <p style="font-size: small">Java, SQLite, Admob, CircleView,
-                            CircleLayout</p>
-                        <br>
-                        <img class="img-rounded img-responsive center-block" src="img/rulet.png"
-                             alt="Ruski rulet kviz">
-                    </div>
-                </a>
-            </div>
-            <div class="row">
+
                 <a href="https://play.google.com/store/apps/details?id=com.stevyhacker.run">
-                    <div class="col-sm-5 project-showcase-container">
+                    <div class="col-sm-3 project-showcase-container">
                         <p>3D Run (2020) </p>
                         <p style="font-size: small">Unity, C#, Android SDK</p>
                         <br>
-                        <img class="img-rounded img-responsive center-block" src="img/3d_run.png"
-                             alt="3D Run">
+                        <img class="img-rounded img-responsive center-block" src="img/3d_run.png" alt="3D Run">
                     </div>
                 </a>
+
+            </div>
+
+            <div class="row">
+
                 <a href="https://play.google.com/store/apps/details?id=me.montecode.simplequizapp.gradovi">
-                    <div class="col-sm-5 project-showcase-container">
+                    <div class="col-sm-3 project-showcase-container">
                         <p>Guess The City Quiz (2016)</p>
                         <p style="font-size: small">Java, SQLite, Admob</p>
 
-                        <img class="img-rounded img-responsive center-block" src="img/kviz.png"
-                             alt="Pogodi grad kviz">
+                        <img class="img-rounded img-responsive center-block" src="img/kviz.png" alt="Pogodi grad kviz">
+                    </div>
+                </a>
+
+                <a href="https://play.google.com/store/apps/details?id=org.natura.montenegro.botanickabasta">
+                    <div class="col-sm-3 project-showcase-container">
+                        <p>Botanical Garden (2015)</p>
+                        <p style="font-size: small">Java, Realm, MediaPlayer</p>
+                        <br>
+                        <img class="img-rounded img-responsive center-block" src="img/natura.png" alt="Botanicka basta">
+                    </div>
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=me.montecode.kviz.ruskirulet">
+                    <div class="col-sm-3 project-showcase-container">
+                        <p>Russian Roulette Quiz (2014)</p>
+                        <p style="font-size: small">Java, SQLite, Admob, CircleView, CircleLayout
+                        </p>
+                        <br>
+                        <img class="img-rounded img-responsive center-block" src="img/rulet.png" alt="Ruski rulet kviz">
                     </div>
                 </a>
             </div>
-        </div>
-    </div>
+    </section>
 
     <br>
 
-    <div id="contact">
-        <h1 class="title">Contact</h1>
-        <h3 class="subtitle">Email: stevanbogosavljevic@gmail.com</h3>
-        <h3>Links:</h3>
-        <div class="btn-group ">
-            <a href="https://www.twitter.com/stevyhacker"
-               class="btn btn-primary btn-social btn-twitter">
+    <div id="contact" class="dark">
+        <h1 class="title">Contact:</h1>
+        <h3 class="subtitle">stevanbogosavljevic@gmail.com</h3>
+        <div class="btn-group social-links">
+            <a href="https://www.twitter.com/stevyhacker" class="btn btn-primary btn-social btn-twitter">
                 <span class="fa fa-twitter"></span>Twitter
-            </a>
-            <a href="https://www.github.com/stevyhacker"
-               class="btn btn-primary btn-social btn-github">
-                <span class="fa fa-github"></span>GitHub
             </a>
             <a href="https://me.linkedin.com/in/stevan-bogosavljević-3329338b"
                class="btn btn-primary btn-social btn-linkedin">
                 <span class="fa fa-linkedin"></span>LinkedIn
             </a>
-
+            <a href="https://www.github.com/stevyhacker" class="btn btn-primary btn-social btn-github">
+                <span class="fa fa-github"></span>GitHub
+            </a>
         </div>
     </div>
     <br>
 </div>
 
 </body>
+
 </html>

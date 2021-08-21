@@ -37,18 +37,31 @@ p {
   text-align: center; }
 
 #home {
-  padding: 3%;
+  margin: 2%;
+  padding: 2%;
   text-align: center; }
 
 #about {
-  padding: 3%; }
+  margin: 2%;
+  padding: 2%; }
+  #about p {
+    text-align: center; }
 
 #portfolio {
-  padding: 3%;
+  margin: 2%;
+  padding: 2%;
   text-align: center; }
 
 #contact {
-  padding: 3%;
+  margin: 2%;
+  padding: 2%;
   text-align: center; }
+
+.dark {
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 16px; }
+
+.social-links {
+  margin-top: 8px; }
 
 /*# sourceMappingURL=style.css.map */
