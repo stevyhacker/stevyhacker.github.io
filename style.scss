@@ -1,22 +1,27 @@
-$main-bg-color: #FFD662FF;
+$main-bg-color: #ffdd89;
 $secondary-bg-color: rgba(0, 0, 0, 0.90);
-$item-bg-color: rgba(194, 133, 0, 0.68);
-$item-bg-color-hover: rgba(121, 83, 0, 0.76);
+$item-bg-color: rgba(232, 174, 41, 0.66);
+$item-bg-color-hover: rgba(0, 0, 0, 0.30);
+
+@font-face {
+	font-family: 'Google Sans';
+	src: url('fonts/GoogleSans-Regular.ttf') format('truetype');
+}
 
 body {
 	position: relative;
 	padding-top: 50px;
 	padding-bottom: 50px;
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'Google Sans', sans-serif;
 	background-color: $main-bg-color;
 }
 
-h1 {
-	font-family: "Montserrat", sans-serif;
+h1 h2 h3{
+	font-family: 'Google Sans', sans-serif;
 }
 
 p {
-	font-family: "Montserrat", sans-serif;
+	font-family: 'Google Sans', sans-serif;
 	font-weight: 500;
 	font-size: 1.8rem;
 }
