@@ -1,0 +1,98 @@
+@font-face {
+  font-family: "Google Sans";
+  src: url("fonts/GoogleSans-Regular.ttf") format("truetype");
+}
+body {
+  position: relative;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  font-family: "Google Sans", sans-serif;
+  background-color: #ffdd89;
+}
+
+h1 h2 h3 {
+  font-family: "Google Sans", sans-serif;
+}
+
+p {
+  font-family: "Google Sans", sans-serif;
+  font-weight: 500;
+  font-size: 1.8rem;
+}
+
+.navbar {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.navbar a {
+  color: #fff !important;
+  /*bootstrap overrides colour otherwise*/
+}
+
+.subtitle {
+  font-family: "JetBrains Mono", monospace;
+}
+
+.project-showcase-container {
+  color: #fff;
+  padding: 3%;
+  margin: 1% 4% 2%;
+  background-color: rgba(232, 174, 41, 0.66);
+  border-radius: 7%;
+  text-align: center;
+  font-size: 28px;
+}
+.project-showcase-container p {
+  color: rgb(52, 52, 52);
+}
+.project-showcase-container .img-responsive {
+  max-height: 20rem;
+}
+
+.project-showcase-container:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.project-showcase-container:hover .img-rounded {
+  text-align: center;
+}
+
+#projects-showcase-grid {
+  text-align: center;
+}
+
+#home {
+  margin: 2%;
+  padding: 2%;
+  text-align: center;
+}
+
+#about {
+  margin: 2%;
+  padding: 2%;
+}
+#about p {
+  text-align: center;
+}
+
+#portfolio {
+  margin: 2%;
+  padding: 2%;
+  text-align: center;
+}
+
+#contact {
+  margin: 2%;
+  padding: 2%;
+  text-align: center;
+}
+
+.dark {
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 16px;
+}
+
+.social-links {
+  margin-top: 8px;
+}
+
+/*# sourceMappingURL=style.css.map */
