@@ -1,13 +1,16 @@
 @font-face {
   font-family: "Google Sans";
   src: url("fonts/GoogleSans-Regular.ttf") format("truetype");
+
+  font-family: "Nunito";
+  src: url("fonts/Nunito.ttf") format("truetype");
 }
 body {
   position: relative;
   padding-top: 50px;
   padding-bottom: 50px;
   font-family: "Google Sans", sans-serif;
-  background-color: #ffdd89;
+  background-color: rgba(234, 182, 118, 0.6);
 }
 
 h1 h2 h3 {
@@ -30,27 +33,29 @@ p {
 }
 
 .subtitle {
-  font-family: "JetBrains Mono", monospace;
+  /*font-weight: 400;*/
+  font-family: "Futura", monospace;
 }
 
 .project-showcase-container {
   color: #fff;
   padding: 3%;
+  border: 1px solid #fff;
   margin: 1% 4% 2%;
-  background-color: rgba(232, 174, 41, 0.66);
+  background-color: rgba(120, 255, 239, 0.3);
   border-radius: 7%;
+  height: 40rem;
   text-align: center;
-  font-size: 28px;
 }
 .project-showcase-container p {
-  color: rgb(52, 52, 52);
+  color: rgb(0, 0, 0);
 }
 .project-showcase-container .img-responsive {
   max-height: 20rem;
 }
 
 .project-showcase-container:hover {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(88, 211, 196, 0.6);
 }
 .project-showcase-container:hover .img-rounded {
   text-align: center;
