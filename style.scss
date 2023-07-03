@@ -1,7 +1,9 @@
-$main-bg-color: #ffdd89;
+//$main-bg-color: #ffdd89;
+$main-bg-color: rgba(234, 182, 118, 0.6);
+//$main-bg-color: #fff0e3;
 $secondary-bg-color: rgba(0, 0, 0, 0.90);
-$item-bg-color: rgba(232, 174, 41, 0.66);
-$item-bg-color-hover: rgba(0, 0, 0, 0.30);
+$item-bg-color: rgba(120, 255, 239, 0.3);
+$item-bg-color-hover: rgba(88, 211, 196, 0.6);
 
 @font-face {
 	font-family: 'Google Sans';
@@ -36,20 +38,27 @@ p {
 }
 
 .subtitle {
-	font-family: "JetBrains Mono", monospace;
+	font-weight: 400;
+	font-family: "Muna", monospace;
+}
+
+.subtitle-link {
+	//font-size: 1.1rem;
 }
 
 .project-showcase-container {
 	color: #fff;
 	padding: 3%;
+	border: 1px solid #fff;
 	margin: 1% 4% 2%;
 	background-color: $item-bg-color;
 	border-radius: 7%;
+	height: 45rem;
 	text-align: center;
-	font-size: 28px;
-	
+	//font-size: 28px;
+
 	p {
-		color: rgb(52, 52, 52);
+		color: rgb(0, 0, 0);
 	}
 	
 	.img-responsive {
