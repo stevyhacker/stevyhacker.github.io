@@ -9,19 +9,19 @@ function App() {
       <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-5"></div>
         <div className="z-10 max-w-4xl mx-auto px-4 text-center text-[#2f4858]">
-          <div className="mb-12">
-            <div className="w-80 h-80 mx-auto mb-12 rounded-full overflow-hidden border-4 border-white/20 shadow-[0_4px_12px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 transform hover:scale-110">
+          <div className="mb-8 sm:mb-12">
+            <div className="w-48 h-48 sm:w-80 sm:h-80 mx-auto mb-8 sm:mb-12 rounded-full overflow-hidden border-4 border-white/20 shadow-[0_4px_12px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] transition-all duration-300 transform hover:scale-110">
               <img 
                 src="/img/pro.jpg" 
                 alt="Stevan Bogosavljević"
                 className="w-full h-full object-cover duration-500"
               />
             </div>
-            <h1 className="text-7xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-[#2f4858] to-[#2f4858] animate-gradient-x drop-shadow-[0_2px_2px_rgba(0,0,0,0.15)] tracking-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-[#2f4858] to-[#2f4858] animate-gradient-x drop-shadow-[0_2px_2px_rgba(0,0,0,0.15)] tracking-tight px-4">
               Stevan Bogosavljević
             </h1>
-            <p className="text-3xl text-[#2f4858] mb-12 font-light tracking-wide animate-fade-in-up">Senior Software Engineer</p>
-            <div className="flex justify-center gap-8 mb-12">
+            <p className="text-xl sm:text-2xl md:text-3xl text-[#2f4858] mb-8 sm:mb-12 font-light tracking-wide animate-fade-in-up px-4">Senior Software Engineer</p>
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-8 mb-8 sm:mb-12 px-4">
               <a href="https://github.com/stevyhacker" 
                  className="p-4 rounded-2xl backdrop-blur-md 
                           shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_4px_8px_rgba(0,0,0,0.3)] 
@@ -64,9 +64,9 @@ function App() {
                 <FileText size={28} className="text-[#2f4858] dark:text-gray-300" />
               </a>
             </div>
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 px-4">
               {['Solidity', 'Smart Contracts', 'DeFi', 'React'].map((skill) => (
-                <span key={skill} className="px-6 py-3 bg-white/10 rounded-2xl backdrop-blur-md shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_4px_8px_rgba(0,0,0,0.3)] border border-white/10 font-bold hover:bg-white/20 hover:scale-105 transform transition-all duration-300 cursor-default">
+                <span key={skill} className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base bg-white/10 rounded-2xl backdrop-blur-md shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_4px_8px_rgba(0,0,0,0.3)] border border-white/10 font-bold hover:bg-white/20 hover:scale-105 transform transition-all duration-300 cursor-default">
                   {skill}
                 </span>
               ))}
