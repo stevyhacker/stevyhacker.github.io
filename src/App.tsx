@@ -190,28 +190,28 @@ const projects = [
     description: "Digital character AI-assisted generator tool with NFT minting as a saving mechanism.",
     image: "img/aimon.png",
     tech: ["React", "Next.js", "Solidity", "Hardhat", "OpenZeppelin"],
-    url: "https://ai-mons-frontend.vercel.app/"
+    url: "https://ai-mons-frontend.vercel.app"
   },
   {
     title: "Chain Art",
     description: "NFT minting tool with on-chain art generation and marketplace.",
     image: "/img/chainArt.png",
     tech: ["React", "Solidity", "IPFS", "OpenZeppelin"],
-    url: "https://chain-art.vercel.app/"
+    url: "https://chain-art-frontend.vercel.app"
   },
   {
     title: "IT Stats",
     description: "IT industry salary statistics and job market analysis tool.",
     image: "/img/it_stats.png",
     tech: ["React", "TypeScript", "TailwindCSS", "Chart.js"],
-    url: "https://it-stats.vercel.app/"
+    url: "https://itstats.me"
   },
   {
     title: "Token Locker",
     description: "Simple protocol for locking ERC20 tokens with a user-friendly interface.",
     image: "/img/ethereumLogo.png",
     tech: ["React", "TypeScript", "Solidity", "Hardhat", "ethers.js"],
-    url: "https://token-locker.vercel.app/"
+    url: "https://token-locker.vercel.app"
   }
 ];
 
