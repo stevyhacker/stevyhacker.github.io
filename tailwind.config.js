@@ -12,6 +12,7 @@ export default {
         'fade-in': 'fadeIn 2s ease-in-out',
         'fade-in-up': 'fadeInUp 1s ease-out',
         'gradient-x': 'gradientX 8s ease infinite',
+        'float': 'float 6s ease-in-out infinite',
       },
       keyframes: {
         fadeIn: {
@@ -31,6 +32,10 @@ export default {
             'background-size': '200% 200%',
             'background-position': 'right center',
           },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
         },
       },
     },
