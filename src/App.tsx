@@ -1,4 +1,3 @@
-import React from 'react';
 import { Github, Linkedin, Mail, ExternalLink, Code2, Brain, Wallet, Database, FileText, Twitter } from 'lucide-react';
 
 const projects = [
@@ -36,7 +35,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#F2D3AD] via-[#E6C39D] to-[#D9B48F] text-[#2f4858]">
       {/* Hero Section */}
-      <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <div id="main-content" className="relative min-h-screen flex items-center justify-center overflow-hidden" role="main">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-5"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#F2D3AD]/30 to-[#58857c]/20"></div>
         <div className="z-10 max-w-4xl mx-auto px-4 text-center text-[#2f4858]">
@@ -45,6 +44,8 @@ function App() {
               <div className="rounded-full overflow-hidden w-full h-full">
                 <img 
                   src="/img/pro.jpg" 
+                  fetchpriority="high"
+                  decoding="async"
                   alt="Stevan Bogosavljević"
                   className="w-full h-full object-cover duration-700"
                 />
@@ -91,22 +92,23 @@ function App() {
                 href="/Stevan_Bogosavljevic_CV.pdf" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-4 rounded-2xl backdrop-blur-md bg-white/20
+                className="inline-flex items-center gap-2 px-4 py-3 rounded-2xl backdrop-blur-md bg-white/20
                           shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_4px_8px_rgba(0,0,0,0.2)] 
                           hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),0_8px_16px_rgba(0,0,0,0.3)] 
-                          transition-all duration-300 hover:scale-110 hover:bg-white/30"
+                          transition-all duration-300 hover:scale-110 hover:bg-white/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
                 aria-label="Download CV"
               >
-                <FileText size={28} className="text-[#2f4858]" />
+                <FileText size={24} className="text-[#2f4858]" />
+                <span className="text-[#2f4858] font-medium">Download CV</span>
               </a>
             </div>
-            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 px-4">
-              {['Solidity', 'Smart Contracts', 'DeFi', 'React'].map((skill) => (
-                <span key={skill} className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base bg-white/20 rounded-2xl backdrop-blur-md shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_4px_8px_rgba(0,0,0,0.2)] border border-white/20 font-bold hover:bg-white/30 hover:scale-105 transform transition-all duration-300 cursor-default">
+            <ul className="flex flex-wrap justify-center gap-3 sm:gap-4 px-4" aria-label="Skills">
+              {['Solidity', 'EVM', 'Smart Contracts', 'DeFi', 'React', 'TypeScript'].map((skill) => (
+                <li key={skill} className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base bg-white/20 rounded-2xl backdrop-blur-md shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_4px_8px_rgba(0,0,0,0.2)] border border-white/20 font-bold hover:bg-white/30 hover:scale-105 transform transition-all duration-300 cursor-default">
                   {skill}
-                </span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
       </div>
@@ -138,8 +140,8 @@ function App() {
                 title: "Team Lead",
                 description: <span className="font-medium">Led mobile development teams and mentored Android developers</span> 
               },
-            ].map((item, index) => (
-              <div key={index} className="p-6 bg-white/20 rounded-2xl backdrop-blur-md shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_4px_8px_rgba(0,0,0,0.2)] border border-white/20 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_8px_16px_rgba(0,0,0,0.3)] transition-all duration-300 transform hover:scale-[1.02] hover:bg-white/30">
+            ].map((item) => (
+              <div key={item.title} className="p-6 bg-white/20 rounded-2xl backdrop-blur-md shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_4px_8px_rgba(0,0,0,0.2)] border border-white/20 hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_8px_16px_rgba(0,0,0,0.3)] transition-all duration-300 transform hover:scale-[1.02] hover:bg-white/30">
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-white/20 rounded-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)]">
                     {item.icon}
@@ -166,7 +168,7 @@ function App() {
                 <div className="absolute -inset-0.5 bg-gradient-to-b from-[#a3bba5] to-[#638767] rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
                 <div className="relative bg-white/20 rounded-2xl overflow-hidden backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.1)] border border-white/20 group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.2)] transition-all duration-500">
                   <div className="aspect-video relative overflow-hidden">
-                    <img src={project.image} alt={project.title} className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700" />
+                    <img src={project.image} alt={project.title} loading="lazy" decoding="async" width="1280" height="720" className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-60 group-hover:opacity-50 transition-opacity duration-300"></div>
                     <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                       <h3 className="font-sans text-2xl font-bold text-white mb-2 drop-shadow-lg">{project.title}</h3>
@@ -174,17 +176,17 @@ function App() {
                     </div>
                   </div>
                   <div className="p-6 bg-white/10 backdrop-blur-sm transition-colors duration-300">
-                    <div className="flex flex-wrap gap-2 mb-4">
+                    <ul className="flex flex-wrap gap-2 mb-4" aria-label="Technologies">
                       {project.tech.map((tech) => (
-                        <span key={tech} 
+                        <li key={tech} 
                           className="font-mono text-xs sm:text-sm px-3 py-1 bg-white/20 rounded-full
                                    shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] 
                                    border border-white/20 text-[#2f4858] font-medium
                                    hover:bg-white/30 hover:scale-105 transform transition-all duration-300">
                           {tech}
-                        </span>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                     <a 
                       href={project.url} 
                       target="_blank"
