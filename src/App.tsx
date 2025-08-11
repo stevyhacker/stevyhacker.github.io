@@ -99,7 +99,7 @@ function App() {
                 aria-label="Download CV"
               >
                 <FileText size={24} className="text-[#2f4858]" />
-                <span className="text-[#2f4858] font-medium">Download CV</span>
+                <span className="text-[#2f4858] font-medium">CV</span>
               </a>
             </div>
             <ul className="flex flex-wrap justify-center gap-3 sm:gap-4 px-4" aria-label="Skills">
