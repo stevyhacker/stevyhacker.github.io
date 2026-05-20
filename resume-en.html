@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Stevan Bogosavljevic · Resume</title>
+<meta name="author" content="Stevan Bogosavljevic">
+<meta name="description" content="Senior Solidity Engineer with 11+ years in software and 5+ years building DeFi and NFT protocols on EVM.">
+<meta name="keywords" content="Solidity, DeFi, Smart Contracts, EVM, Senior Engineer">
+<meta name="generator" content="Kami">
+<style>
+  @font-face { font-family: "JetBrains Mono"; src: url("fonts/JetBrainsMono.woff2") format("woff2"); font-weight: 400; font-style: normal; }
+  @font-face { font-family: "JetBrains Mono"; src: url("fonts/JetBrainsMono-Medium.woff2") format("woff2"); font-weight: 500; font-style: normal; }
+
+  @page {
+    size: A4;
+    margin: 11mm 13mm 11mm 13mm;
+    background: #f5f4ed;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --parchment: #f5f4ed;
+    --ivory:     #faf9f5;
+    --sand:      #e8e6dc;
+    --border:    #e8e6dc;
+    --border-soft: #e5e3d8;
+    --near-black: #141413;
+    --dark-warm: #3d3d3a;
+    --olive:     #504e49;
+    --stone:     #6b6a64;
+    --brand:     #1B365D;
+    --brand-tint: #EEF2F7;
+    --brand-tint-strong: #E4ECF5;
+
+    --serif: Charter, Georgia,
+             Palatino, "Times New Roman", serif;
+    --sans: var(--serif);
+    --mono:  "JetBrains Mono", "SF Mono", "Fira Code",
+             Consolas, Monaco, monospace;
+  }
+
+  html, body { background: var(--parchment); }
+
+  @media screen {
+    body { max-width: 210mm; margin: 0 auto; padding: 11mm 13mm; }
+  }
+
+  body {
+    color: var(--near-black);
+    font-family: var(--serif);
+    font-size: 9.2pt;
+    line-height: 1.42;
+    letter-spacing: 0;
+    widows: 3;
+    orphans: 3;
+  }
+
+  .serif { font-family: var(--serif); }
+  .mono  { font-family: var(--mono); }
+
+  a { color: var(--brand); text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 1.5pt; text-decoration-thickness: 0.4pt; text-decoration-color: var(--brand); }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 3mm;
+    border-left: 2.5pt solid var(--brand);
+    border-radius: 1.5pt;
+    padding-left: 8pt;
+  }
+  .header > div:first-child { flex-shrink: 0; }
+  .name {
+    font-family: var(--serif);
+    font-size: 26pt;
+    font-weight: 500;
+    letter-spacing: -0.2pt;
+    color: var(--near-black);
+    line-height: 1;
+    display: flex;
+    align-items: baseline;
+    gap: 3mm;
+    white-space: nowrap;
+  }
+  .alias {
+    font-size: 12.5pt;
+    font-weight: 400;
+    color: var(--stone);
+  }
+  .contact {
+    text-align: right;
+    font-size: 9pt;
+    color: var(--stone);
+    line-height: 1.5;
+  }
+  .contact .role {
+    color: var(--brand);
+    font-size: 10.5pt;
+    font-weight: 500;
+  }
+  .contact .sep { color: var(--border); margin: 0 0.4em; }
+  .contact a { color: var(--dark-warm); text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 1.5pt; text-decoration-thickness: 0.4pt; text-decoration-color: var(--stone); }
+  .contact .loc { color: var(--olive); font-weight: 500; }
+
+  /* METRICS */
+  .metrics { display: flex; gap: 7mm; margin-bottom: 3mm; }
+  .metric {
+    flex: 1;
+    padding: 1mm 0;
+    display: flex;
+    align-items: baseline;
+    gap: 2mm;
+    break-inside: avoid;
+  }
+  .metric-value {
+    font-family: var(--serif);
+    font-size: 14pt;
+    font-weight: 500;
+    color: var(--brand);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .metric-value .unit {
+    font-size: 10.5pt;
+    margin-left: 0.5mm;
+    font-weight: 500;
+    color: var(--brand);
+  }
+  .metric-label { font-size: 9pt; color: var(--olive); line-height: 1.2; }
+
+  .metrics--stack .metric {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5mm;
+    padding-bottom: 2mm;
+    border-bottom: 0.3pt dotted var(--border);
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: var(--serif);
+    font-size: 13pt;
+    font-weight: 500;
+    color: var(--near-black);
+    border-left: 2.5pt solid var(--brand);
+    border-radius: 1.5pt;
+    padding: 0 0 0 8pt;
+    margin: 5mm 0 2mm 0;
+    display: flex;
+    align-items: baseline;
+    gap: 2.5mm;
+  }
+  .section-title .sub {
+    margin-left: auto;
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 9pt;
+    color: var(--stone);
+    letter-spacing: 0.2pt;
+  }
+  section:first-of-type .section-title { margin-top: 0; }
+  .page-break > .section-title { margin-top: 0; }
+
+  /* SUMMARY */
+  .summary { font-size: 9.4pt; line-height: 1.42; color: var(--near-black); }
+  .summary .hl { color: var(--brand); }
+
+  /* TIMELINE */
+  .timeline { display: flex; gap: 7mm; margin-bottom: 2.5mm; }
+  .tl-step { flex: 1; padding: 0.8mm 0; break-inside: avoid; }
+  .tl-top {
+    display: flex; align-items: baseline; gap: 2mm;
+    margin-bottom: 0.6mm;
+  }
+  .tl-year {
+    font-family: var(--serif);
+    font-size: 11pt; font-weight: 500;
+    color: var(--brand); line-height: 1;
+  }
+  .tl-head {
+    font-size: 11pt; font-weight: 500;
+    color: var(--near-black);
+  }
+  .tl-body { font-size: 9pt; color: var(--olive); line-height: 1.45; }
+
+  /* PROJECTS */
+  .project {
+    padding: 1.6mm 0;
+    border-top: 0.4pt solid var(--border-soft);
+    break-inside: avoid;
+  }
+  .project:first-of-type {
+    border-top: 0.4pt solid var(--border);
+    padding-top: 1.6mm;
+  }
+  .proj-head {
+    display: flex; align-items: baseline;
+    gap: 2mm; margin-bottom: 0.9mm;
+  }
+  .proj-name {
+    font-family: var(--serif);
+    font-size: 11pt; font-weight: 500; color: var(--near-black);
+  }
+  .proj-kind { font-size: 11pt; color: var(--olive); }
+  .proj-role {
+    font-size: 9pt; color: var(--brand); font-weight: 500;
+    margin-left: auto; background: #EEF2F7;
+    padding: 0.4mm 1.6mm; border-radius: 2pt; letter-spacing: 0.3pt;
+    text-transform: uppercase;
+  }
+  .proj-lines { display: table; width: 100%; }
+  .proj-row { display: table-row; }
+  .proj-label {
+    display: table-cell; width: 16mm;
+    font-size: 9pt; color: var(--brand);
+    font-weight: 500; letter-spacing: 0.4pt;
+    text-transform: uppercase;
+    padding: 0.4mm 0 0.4mm 0; vertical-align: top;
+  }
+  .proj-text {
+    display: table-cell; font-size: 9.2pt;
+    color: var(--near-black); line-height: 1.40;
+    padding: 0 0 0.4mm 1mm;
+  }
+  .proj-text .hl { color: var(--brand); }
+
+  /* PAGE 2 FORCE BREAK */
+  .page-break { break-before: page; }
+
+  /* OPEN SOURCE */
+  .os-intro {
+    font-size: 9.4pt; line-height: 1.45;
+    color: var(--near-black);
+    margin: 1.6mm 0 2.4mm 0;
+    break-inside: avoid;
+  }
+  .os-intro .hl { color: var(--brand); }
+  .os-intro .strong { color: var(--near-black); font-weight: 500; }
+
+  .os-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 9mm; row-gap: 1.2mm;
+  }
+  .os-item {
+    display: flex; align-items: baseline;
+    gap: 2.5mm; padding: 1.2mm 0;
+    border-bottom: 0.3pt dotted var(--border);
+    break-inside: avoid;
+  }
+  .os-item:last-child,
+  .os-item:nth-last-child(2):nth-child(odd) { border-bottom: none; }
+  .os-name {
+    font-family: var(--serif);
+    font-size: 10.5pt; font-weight: 500;
+    flex-shrink: 0; min-width: 18mm;
+  }
+  .os-name a { color: var(--brand); }
+  .os-desc { font-size: 9pt; color: var(--olive); line-height: 1.4; flex: 1; }
+  .os-star {
+    font-size: 9pt; color: var(--dark-warm);
+    font-weight: 500; white-space: nowrap;
+    flex-shrink: 0; min-width: 10mm; text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .os-star.big { color: var(--brand); font-size: 9.2pt; }
+
+  .os-highlight {
+    margin-top: 2.5mm;
+    padding: 1.8mm 3mm;
+    background: var(--brand-tint);
+    border-left: 1.4pt solid var(--brand);
+    border-radius: 2pt;
+    font-size: 9pt; line-height: 1.45;
+    color: var(--near-black);
+    break-inside: avoid;
+  }
+  .os-highlight .hl { color: var(--brand); }
+  .os-highlight .tag {
+    display: inline-block;
+    background: var(--brand); color: var(--ivory);
+    font-size: 9pt; font-weight: 500;
+    padding: 0.2mm 1.6mm; border-radius: 2pt;
+    margin-right: 1.5mm; letter-spacing: 0.5pt;
+    text-transform: uppercase;
+    transform: translateY(-0.2mm);
+  }
+
+  /* CONVICTIONS */
+  .convictions {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3mm;
+    margin-top: 1.4mm;
+  }
+  .conv-card { padding: 0 2mm 0 0; break-inside: avoid; }
+  .conv-head {
+    font-family: var(--serif);
+    font-size: 10pt; font-weight: 500;
+    color: var(--near-black); margin-bottom: 1mm;
+    display: flex; align-items: baseline; gap: 2mm;
+  }
+  .conv-head .year {
+    color: var(--brand); font-weight: 500;
+    font-size: 9pt;
+    font-variant-numeric: tabular-nums;
+  }
+  .conv-body {
+    font-size: 9pt; color: var(--olive);
+    line-height: 1.45;
+  }
+  .conv-body .hl { color: var(--brand); }
+
+  /* SKILLS */
+  .skill-row {
+    display: flex; gap: 3mm; padding: 1.8mm 0;
+    border-bottom: 0.3pt dotted var(--border);
+    align-items: baseline;
+  }
+  .skill-row:last-of-type { border-bottom: none; }
+  .skill-label {
+    font-size: 9pt; font-weight: 500;
+    color: var(--brand); letter-spacing: 0.5pt;
+    text-transform: uppercase;
+    width: 32mm; flex-shrink: 0;
+    line-height: 1.35;
+  }
+  .skill-body { font-size: 9.2pt; color: var(--near-black); line-height: 1.45; flex: 1; }
+  .skill-body .em-brand { color: var(--brand); }
+
+  .no-break { break-inside: avoid; }
+
+  /* EDUCATION */
+  .edu-row {
+    display: flex; justify-content: space-between;
+    align-items: baseline; padding: 1.8mm 0;
+  }
+  .edu-row .school {
+    font-family: var(--serif);
+    font-weight: 500; font-size: 11pt;
+  }
+  .edu-row .major { color: var(--olive); font-size: 9.4pt; }
+  .edu-row .date { color: var(--stone); font-variant-numeric: tabular-nums; font-size: 9pt; }
+
+  /* DENSE VARIANT */
+  body.resume--dense { font-size: 9pt; }
+  body.resume--dense .proj-text { line-height: 1.38; }
+  body.resume--dense .section-title { margin-top: 3.5mm; margin-bottom: 1.5mm; }
+  body.resume--dense .timeline { margin-bottom: 1.5mm; }
+  body.resume--dense .tl-body { font-size: 8.5pt; line-height: 1.40; }
+  body.resume--dense .metrics { margin-bottom: 2mm; }
+  body.resume--dense .summary { font-size: 9pt; line-height: 1.38; }
+  body.resume--dense .project { padding: 1.2mm 0; }
+</style>
+</head>
+<body class="resume--dense">
+
+
+<!-- ═══════════ PAGE 1 ═══════════ -->
+
+<div class="header">
+  <div>
+    <div class="name serif">Stevan Bogosavljevic<span class="alias">@stevyhacker</span></div>
+  </div>
+  <div class="contact">
+    <span class="role">Senior Solidity Engineer</span>
+    <br>
+    <a href="https://github.com/stevyhacker">github.com/stevyhacker</a>
+    <span class="sep">·</span>
+    <a href="https://twitter.com/stevyhacker">x.com/stevyhacker</a>
+    <span class="sep">·</span>
+    <a href="mailto:stevanbogosavljevic@gmail.com">stevanbogosavljevic@gmail.com</a>
+    <span class="sep">·</span>
+    <span class="loc">Podgorica, Montenegro</span>
+  </div>
+</div>
+
+<!-- Four strongest numeric badges -->
+<div class="metrics">
+  <div class="metric"><span class="metric-value serif">11<span class="unit">yr</span></span><span class="metric-label">software engineering career</span></div>
+  <div class="metric"><span class="metric-value serif">5<span class="unit">yr</span></span><span class="metric-label">Solidity &amp; EVM production work</span></div>
+  <div class="metric"><span class="metric-value serif">5<span class="unit">ERCs</span></span><span class="metric-label">co-authored Ethereum standards</span></div>
+  <div class="metric"><span class="metric-value serif">6<span class="unit">+</span></span><span class="metric-label">DeFi &amp; NFT protocols shipped</span></div>
+</div>
+
+<section>
+  <div class="section-title">Summary</div>
+  <div class="summary">
+    Senior Solidity Engineer with <span class="hl">11 years in software</span> and 5+ years focused on EVM smart contracts. Experienced across the DeFi stack: perpetual exchanges, stablecoins, lending protocols, NFT standards, and treasury operations. Previously led mobile teams and taught Android development courses. Combines deep protocol-level Solidity with full-stack delivery in React/TypeScript, operating from Podgorica, Montenegro (CET).
+  </div>
+</section>
+
+<section>
+  <div class="section-title">Experience<span class="sub">2013 – Present · From Android to DeFi core contributor</span></div>
+
+  <!-- Timeline: three-step long-range arc -->
+  <div class="timeline">
+    <div class="tl-step">
+      <div class="tl-top"><div class="tl-year serif">2013</div><div class="tl-head">Mobile Foundation</div></div>
+      <div class="tl-body">Built native Android apps for health tech, streaming, and telecom clients; earned a team lead role and taught a 6-month Android course.</div>
+    </div>
+    <div class="tl-step">
+      <div class="tl-top"><div class="tl-year serif">2021</div><div class="tl-head">Blockchain Pivot</div></div>
+      <div class="tl-body">Shifted entirely to Solidity — started with NFT contract development, then moved into DeFi protocol engineering within a year.</div>
+    </div>
+    <div class="tl-step">
+      <div class="tl-top"><div class="tl-year serif">2024</div><div class="tl-head">DeFi Core Contributor</div></div>
+      <div class="tl-body">Operating at protocol level inside Synthetix and Aave DAO, designing cross-chain treasury infrastructure and stablecoin routing.</div>
+    </div>
+  </div>
+
+  <!-- Project 1: TokenLogic / Aave DAO -->
+  <div class="project">
+    <div class="proj-head">
+      <span class="proj-name serif">TokenLogic · Aave DAO</span>
+      <span class="proj-kind">· Cross-chain Treasury &amp; GHO</span>
+      <span class="proj-role">SR. ENGINEER</span>
+    </div>
+    <div class="proj-lines">
+      <div class="proj-row">
+        <div class="proj-label">Role</div>
+        <div class="proj-text">Senior Solidity Engineer inside Aave DAO, working on treasury operations and GHO stablecoin routing. Part of a team integrating multiple bridge infrastructure layers for cross-chain fund movement.</div>
+      </div>
+      <div class="proj-row">
+        <div class="proj-label">Actions</div>
+        <div class="proj-text">Designed and implemented bridge integration contracts connecting Aave's treasury across chains. Built routing logic for GHO stablecoin transfers, ensuring safe fund flow through audited bridge adapters with configurable risk parameters.</div>
+      </div>
+      <div class="proj-row">
+        <div class="proj-label">Impact</div>
+        <div class="proj-text">Enabled <span class="hl">cross-chain treasury operations</span> for one of DeFi's largest protocols. GHO routing infrastructure supports multi-bridge redundancy, reducing single-point-of-failure risk for DAO fund transfers.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project 2: Synthetix -->
+  <div class="project">
+    <div class="proj-head">
+      <span class="proj-name serif">Synthetix</span>
+      <span class="proj-kind">· DeFi Protocol</span>
+      <span class="proj-role">SR. ENGINEER</span>
+    </div>
+    <div class="proj-lines">
+      <div class="proj-row">
+        <div class="proj-label">Role</div>
+        <div class="proj-text">Senior Solidity Engineer on core protocol, building perpetual exchange, vault, and staking contract systems. Worked within a highly technical team shipping to multiple EVM chains.</div>
+      </div>
+      <div class="proj-row">
+        <div class="proj-label">Actions</div>
+        <div class="proj-text">Developed smart contracts for perpetual futures trading, vault deposit flows, and staking reward distribution. Used Foundry and Hardhat for testing; contributed to protocol upgrades across <span class="hl">18 months</span> of continuous delivery.</div>
+      </div>
+      <div class="proj-row">
+        <div class="proj-label">Impact</div>
+        <div class="proj-text">Shipped production contracts handling real user funds on a protocol with <span class="hl">hundreds of millions in TVL</span>. Perpetual exchange and vault systems processed continuous trading volume while maintaining zero critical vulnerabilities during tenure.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project 3: THORWallet & zkFinance -->
+  <div class="project">
+    <div class="proj-head">
+      <span class="proj-name serif">THORWallet &amp; zkFinance</span>
+      <span class="proj-kind">· DEX &amp; Lending</span>
+      <span class="proj-role">SOLIDITY DEV</span>
+    </div>
+    <div class="proj-lines">
+      <div class="proj-row">
+        <div class="proj-label">Role</div>
+        <div class="proj-text">Solidity developer building DEX and lending protocol contracts. Responsible for core smart contract logic using Hardhat and Foundry toolchains across both projects.</div>
+      </div>
+      <div class="proj-row">
+        <div class="proj-label">Actions</div>
+        <div class="proj-text">Implemented lending pool mechanics, collateral management, and DEX swap routing. Wrote comprehensive test suites and managed deployment pipelines for contract upgrades on multiple networks.</div>
+      </div>
+      <div class="proj-row">
+        <div class="proj-label">Impact</div>
+        <div class="proj-text">Delivered <span class="hl">two production DeFi protocols</span> within a 13-month engagement. Lending contracts supported multiple collateral types with configurable risk parameters; DEX contracts handled live swap volume.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project 4: RMRK -->
+  <div class="project">
+    <div class="proj-head">
+      <span class="proj-name serif">RMRK · NFT 2.0 Protocol</span>
+      <span class="proj-kind">· NFT Standards</span>
+      <span class="proj-role">SOLIDITY DEV</span>
+    </div>
+    <div class="proj-lines">
+      <div class="proj-row">
+        <div class="proj-label">Role</div>
+        <div class="proj-text">EVM smart contract developer on RMRK's NFT 2.0 protocol, co-authoring multiple Ethereum standards and building a marketplace supporting advanced composable NFTs.</div>
+      </div>
+      <div class="proj-row">
+        <div class="proj-label">Actions</div>
+        <div class="proj-text">Co-authored <span class="hl">5 ERCs</span>: ERC-5773 (multi-asset), ERC-6454 (soulbound), ERC-6059 (nested NFTs), ERC-6220 (composable), ERC-6381 (emoji reactions). Built reference implementations and a marketplace supporting all advanced standards.</div>
+      </div>
+      <div class="proj-row">
+        <div class="proj-label">Impact</div>
+        <div class="proj-text">Co-authored <span class="hl">5 published Ethereum standards</span> that define how NFTs compose, nest, and carry multiple assets — alongside Bruno Škvorc, Steven Pineda, and core RMRK contributors. Marketplace was first to support trading of these new NFT types.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════ PAGE 2 ═══════════ -->
+
+<section class="page-break">
+  <div class="section-title">Open Source &amp; Indie Work<span class="sub">2021 – Present · Full-stack blockchain projects</span></div>
+
+  <div class="os-intro">
+    <span class="hl">End-to-end builder: from Solidity contracts to React frontends.</span> Ships complete products solo — smart contracts, wallet integration, deployment, and UI. Projects range from AI-generated NFTs to DeFi utilities and data analytics platforms. Cumulative GitHub: <span class="strong">90 repos · 471 stars · 78 followers</span>.
+  </div>
+
+  <div class="os-grid">
+    <div class="os-item">
+      <span class="os-name serif"><a href="https://ai-mons-frontend.vercel.app">Aimons</a></span>
+      <span class="os-desc">Next.js + Solidity · AI character generator with NFT minting</span>
+      <span class="os-star big">Featured</span>
+    </div>
+    <div class="os-item">
+      <span class="os-name serif"><a href="https://chain-art-frontend.vercel.app">Chain Art</a></span>
+      <span class="os-desc">React + Solidity · on-chain generative art with IPFS metadata</span>
+      <span class="os-star big">Featured</span>
+    </div>
+    <div class="os-item">
+      <span class="os-name serif"><a href="https://itstats.me">IT Stats</a></span>
+      <span class="os-desc">React + TypeScript · IT salary and job-market analytics</span>
+      <span class="os-star">Live</span>
+    </div>
+    <div class="os-item">
+      <span class="os-name serif"><a href="https://token-locker.vercel.app">Token Locker</a></span>
+      <span class="os-desc">Solidity + ethers.js · ERC-20 lock protocol with wallet UI</span>
+      <span class="os-star">Live</span>
+    </div>
+    <div class="os-item">
+      <span class="os-name serif"><a href="https://github.com/stevyhacker/dex-swap-zksync">DEX Swap</a></span>
+      <span class="os-desc">Solidity · DEX swap contracts on zkSync Era</span>
+      <span class="os-star">zkSync</span>
+    </div>
+    <div class="os-item">
+      <span class="os-name serif"><a href="https://github.com/stevyhacker/guessthecity-app">GuessTheCity</a></span>
+      <span class="os-desc">Kotlin · picture quiz Android game</span>
+      <span class="os-star">Android</span>
+    </div>
+  </div>
+
+  <div class="os-highlight">
+    <span class="tag">Builder Profile</span>Each indie project ships as a complete product — not a demo. Aimons connects AI generation to on-chain minting with a polished UI. IT Stats serves <span class="hl">real public traffic</span> at itstats.me. This pattern of end-to-end delivery — contracts, integration, frontend, deployment — mirrors the same instinct that drove the mobile-to-blockchain career switch.
+  </div>
+</section>
+
+<section>
+  <div class="section-title">Judgment &amp; Conviction</div>
+  <div class="convictions">
+    <div class="conv-card">
+      <div class="conv-head"><span class="year">2021</span>Bet on Solidity full-time</div>
+      <div class="conv-body">
+        Left a stable mobile career to write smart contracts exclusively. Within 12 months, went from first NFT contracts to protocol-level DeFi work — <span class="hl">validating the bet with a Synthetix role</span>.
+      </div>
+    </div>
+    <div class="conv-card">
+      <div class="conv-head"><span class="year">2022</span>Co-authored 5 ERCs at RMRK</div>
+      <div class="conv-body">
+        Chose to invest time in writing Ethereum standards rather than taking faster-shipping contract work. Co-authored <span class="hl">5 published ERCs</span> covering composable, nested, and soulbound NFTs.
+      </div>
+    </div>
+    <div class="conv-card">
+      <div class="conv-head"><span class="year">2025</span>DAO-native engineering</div>
+      <div class="conv-body">
+        Moved into Aave DAO treasury operations — cross-chain bridge integration and GHO routing — betting that <span class="hl">DAO infrastructure engineering</span> becomes a distinct senior specialization.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-title">Core Skills</div>
+  <div class="skill-row">
+    <div class="skill-label">Smart Contracts</div>
+    <div class="skill-body"><span class="em-brand">Solidity</span>, EVM internals, OpenZeppelin, upgradeable proxy patterns. 5+ years writing contracts that hold real funds on mainnet.</div>
+  </div>
+  <div class="skill-row">
+    <div class="skill-label">DeFi Protocols</div>
+    <div class="skill-body">Perpetual exchanges, lending pools, staking vaults, <span class="em-brand">stablecoin routing</span>, liquidity protocols. Shipped on Synthetix, Aave, THORWallet, zkFinance.</div>
+  </div>
+  <div class="skill-row">
+    <div class="skill-label">Tooling</div>
+    <div class="skill-body"><span class="em-brand">Foundry</span> and Hardhat for testing and deployment. Ethers.js, viem, wagmi for frontend integration. CI pipelines for contract verification.</div>
+  </div>
+  <div class="skill-row">
+    <div class="skill-label">Frontend</div>
+    <div class="skill-body">React, <span class="em-brand">Next.js</span>, TypeScript. Wallet-connected dApp UIs with full transaction lifecycle handling. Previously native Android (Kotlin, Java).</div>
+  </div>
+  <div class="skill-row">
+    <div class="skill-label">Standards</div>
+    <div class="skill-body">ERC-20, ERC-721, ERC-1155. <span class="em-brand">Co-author of 5 ERCs</span> (5773, 6454, 6059, 6220, 6381). NFT composability, soulbound tokens, cross-chain bridge patterns.</div>
+  </div>
+</section>
+
+<section class="no-break">
+  <div class="section-title">Education</div>
+  <div class="edu-row">
+    <div>
+      <span class="school serif">University of Montenegro</span>
+      <span class="major"> · Faculty of Sciences and Mathematics · Computer Science · Dropped out after two years to focus on professional engineering work.</span>
+    </div>
+    <div class="date">2015 – 2017</div>
+  </div>
+</section>
+
+</body>
+</html>

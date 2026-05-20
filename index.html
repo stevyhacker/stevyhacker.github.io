@@ -2,33 +2,78 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Senior Software Engineer and Smart Contract Expert. Building Solidity/EVM, DeFi, and full‑stack React/TypeScript projects." />
+    <meta
+      name="description"
+      content="Stevan Bogosavljević — Senior Software Engineer. Smart contracts (Solidity/EVM), DeFi, NFTs, and full-stack React/TypeScript."
+    />
     <link rel="canonical" href="https://stevyhacker.github.io/" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&family=Ubuntu+Mono&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..72,400..800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="preload" as="image" href="/img/pro.jpg" />
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="Stevan Bogosavljevic – Senior Software Engineer" />
-    <meta property="og:description" content="Smart Contract Expert (Solidity/EVM), DeFi enthusiast, and full‑stack React/TypeScript developer." />
+    <meta property="og:title" content="Stevan Bogosavljević – Senior Software Engineer" />
+    <meta
+      property="og:description"
+      content="Smart contracts, DeFi, and full-stack products — Solidity on EVM to React/TypeScript interfaces."
+    />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://stevyhacker.github.io/" />
-    <meta property="og:image" content="/img/pro.jpg" />
+    <meta property="og:image" content="https://stevyhacker.github.io/img/pro.jpg" />
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Stevan Bogosavljevic – Senior Software Engineer" />
-    <meta name="twitter:description" content="Smart Contract Expert (Solidity/EVM), DeFi enthusiast, and full‑stack React/TypeScript developer." />
-    <meta name="twitter:image" content="/img/pro.jpg" />
+    <meta name="twitter:title" content="Stevan Bogosavljević – Senior Software Engineer" />
+    <meta
+      name="twitter:description"
+      content="Smart contracts, DeFi, and full-stack products — Solidity on EVM to React/TypeScript interfaces."
+    />
+    <meta name="twitter:image" content="https://stevyhacker.github.io/img/pro.jpg" />
     <meta name="twitter:site" content="@stevyhacker" />
 
-    <title>Stevan Bogosavljevic</title>
+    <title>Stevan Bogosavljević · Senior Software Engineer</title>
+    <style>
+      .skip-link {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
+      .skip-link:focus {
+        position: fixed;
+        left: 1rem;
+        top: 1rem;
+        z-index: 1000;
+        width: auto;
+        height: auto;
+        padding: 0.5rem 1rem;
+        background: #fff;
+        color: #2f4858;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      }
+      #root:empty::before {
+        content: 'Loading…';
+        display: block;
+        padding: 2rem;
+        text-align: center;
+        color: #2f4858;
+        font-family: system-ui, sans-serif;
+      }
+    </style>
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to content</a>
+    <a class="skip-link" href="#top">Skip to content</a>
+    <noscript>
+      <p style="padding: 2rem; text-align: center; font-family: system-ui, sans-serif">
+        This site requires JavaScript. Please enable it and reload.
+      </p>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
 
@@ -40,7 +85,7 @@
         "jobTitle": "Senior Software Engineer",
         "url": "https://stevyhacker.github.io/",
         "email": "mailto:stevan.bogosavljevic@gmail.com",
-        "image": "/img/pro.jpg",
+        "image": "https://stevyhacker.github.io/img/pro.jpg",
         "sameAs": [
           "https://github.com/stevyhacker",
           "https://twitter.com/stevyhacker",
