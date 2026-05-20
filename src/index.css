@@ -10,6 +10,21 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* Offset in-page anchors below the fixed nav (3.75rem / 4rem). */
+  #work,
+  #about,
+  #contact {
+    scroll-margin-top: 3.75rem;
+  }
+
+  @media (min-width: 640px) {
+    #work,
+    #about,
+    #contact {
+      scroll-margin-top: 4rem;
+    }
+  }
+
   body {
     @apply bg-sand text-ink antialiased;
   }
