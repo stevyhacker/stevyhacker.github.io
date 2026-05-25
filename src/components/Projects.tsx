@@ -15,7 +15,13 @@ function ProjectCard({
         className="absolute -inset-px rounded-3xl bg-gradient-to-br from-leaf via-sage-light to-sage opacity-30 blur-sm transition duration-500 group-hover:opacity-50"
         aria-hidden
       />
-      <div className="relative overflow-hidden rounded-3xl border border-white/35 bg-white/30 shadow-card backdrop-blur-md transition duration-500 group-hover:shadow-card-hover">
+      <a
+        href={project.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="wizard-hover relative block overflow-hidden rounded-3xl border border-white/35 bg-white/30 shadow-card backdrop-blur-md transition duration-500 group-hover:shadow-card-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-sage focus-visible:ring-offset-4 focus-visible:ring-offset-sand"
+        aria-label={`View project: ${project.title}`}
+      >
         <div
           className={`relative overflow-hidden ${large ? 'aspect-[21/9] sm:aspect-[2.35/1]' : 'aspect-video'}`}
         >
@@ -74,17 +80,12 @@ function ProjectCard({
               </li>
             ))}
           </ul>
-          <a
-            href={project.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-secondary !min-w-0 !px-5 !py-2.5 text-sm"
-          >
+          <span className="btn-secondary pointer-events-none !min-w-0 !px-5 !py-2.5 text-sm">
             View project
             <ExternalLink size={15} aria-hidden />
-          </a>
+          </span>
         </div>
-      </div>
+      </a>
     </article>
   );
 }
