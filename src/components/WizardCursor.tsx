@@ -3,18 +3,22 @@ import { useEffect, useRef } from 'react';
 const HOVER_TARGET_SELECTOR = '.wizard-hover, .glass-card, .btn-primary, .btn-secondary, .pill';
 
 const TRACE_POINTS = [
-  { height: 34, width: 82 },
-  { height: 32, width: 76 },
-  { height: 30, width: 70 },
-  { height: 28, width: 64 },
-  { height: 26, width: 58 },
-  { height: 24, width: 52 },
-  { height: 22, width: 47 },
-  { height: 20, width: 42 },
-  { height: 18, width: 37 },
-  { height: 17, width: 32 },
-  { height: 15, width: 28 },
-  { height: 14, width: 24 },
+  { height: 38, width: 120 },
+  { height: 36, width: 112 },
+  { height: 34, width: 104 },
+  { height: 32, width: 96 },
+  { height: 30, width: 88 },
+  { height: 28, width: 80 },
+  { height: 26, width: 72 },
+  { height: 24, width: 65 },
+  { height: 22, width: 58 },
+  { height: 20, width: 52 },
+  { height: 19, width: 46 },
+  { height: 18, width: 40 },
+  { height: 16, width: 35 },
+  { height: 15, width: 30 },
+  { height: 14, width: 26 },
+  { height: 13, width: 22 },
 ] as const;
 
 type Point = {
@@ -109,7 +113,7 @@ export function WizardCursor() {
       const dy = point.y - lastTrace.y;
       const distanceFromLastTrace = Math.hypot(dx, dy);
 
-      if (now - lastTrace.createdAt > 28 || distanceFromLastTrace > 10) {
+      if (now - lastTrace.createdAt > 24 || distanceFromLastTrace > 8) {
         const angle = distanceFromLastTrace > 0 ? Math.atan2(dy, dx) : lastTrace.angle;
         tracesRef.current[traceIndexRef.current] = { ...point, angle, createdAt: now };
         traceIndexRef.current = (traceIndexRef.current + 1) % TRACE_POINTS.length;
@@ -121,7 +125,7 @@ export function WizardCursor() {
 
     const render = () => {
       const now = performance.now();
-      const traceLifetime = 1150;
+      const traceLifetime = 1450;
 
       motesRef.current.forEach((mote, index) => {
         if (!mote) {
@@ -133,14 +137,14 @@ export function WizardCursor() {
         const age = now - trace.createdAt;
         const progress = Math.max(0, 1 - age / traceLifetime);
         const dissolve = 1 - progress;
-        const scale = 0.68 + dissolve * 1.45;
-        const floatX = Math.cos(trace.angle + Math.PI / 2) * dissolve * 5;
-        const floatY = -dissolve * 12;
+        const scale = 0.72 + dissolve * 1.55;
+        const floatX = Math.cos(trace.angle + Math.PI / 2) * dissolve * 8;
+        const floatY = -dissolve * 16;
 
         mote.style.transform = `translate3d(${trace.x - traceConfig.width / 2}px, ${
           trace.y - traceConfig.height / 2
         }px, 0) translate(${floatX}px, ${floatY}px) rotate(${trace.angle * 0.18}rad) scale(${scale})`;
-        mote.style.opacity = `${progress * 0.58}`;
+        mote.style.opacity = `${progress * 0.62}`;
       });
 
       rafRef.current = window.requestAnimationFrame(render);

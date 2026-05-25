@@ -130,8 +130,8 @@
       linear-gradient(180deg, rgba(255, 255, 255, 0.32), rgba(230, 239, 241, 0.08));
     box-shadow:
       0 0 12px rgba(255, 255, 255, 0.44),
-      0 0 26px rgba(214, 226, 228, 0.24),
-      0 10px 24px rgba(47, 72, 88, 0.08);
+      0 0 30px rgba(214, 226, 228, 0.28),
+      0 12px 28px rgba(47, 72, 88, 0.09);
     opacity: 0;
     transform-origin: center;
     will-change: opacity, transform;
