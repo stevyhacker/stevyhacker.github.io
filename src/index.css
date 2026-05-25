@@ -70,7 +70,7 @@
   }
 
   .glass-card {
-    @apply rounded-2xl border border-white/30 bg-white/25 shadow-card backdrop-blur-md transition duration-300;
+    @apply relative overflow-hidden rounded-2xl border border-white/30 bg-white/25 shadow-card backdrop-blur-md transition duration-300;
   }
 
   .glass-card:hover {
@@ -78,15 +78,15 @@
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-full bg-ink px-8 py-3.5 text-sm font-semibold text-cream shadow-btn-primary transition duration-300 hover:bg-[#3a5a6d] hover:shadow-btn-primary-hover hover:-translate-y-0.5 active:translate-y-0 active:shadow-btn-primary;
+    @apply relative inline-flex items-center justify-center overflow-hidden rounded-full bg-ink px-8 py-3.5 text-sm font-semibold text-cream shadow-btn-primary transition duration-300 hover:bg-[#3a5a6d] hover:shadow-btn-primary-hover hover:-translate-y-0.5 active:translate-y-0 active:shadow-btn-primary;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 bg-white/45 px-8 py-3.5 text-sm font-semibold text-ink shadow-btn backdrop-blur-md transition duration-300 hover:border-ink/25 hover:bg-white/60 hover:shadow-btn-hover hover:-translate-y-0.5 active:translate-y-0;
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border border-ink/15 bg-white/45 px-8 py-3.5 text-sm font-semibold text-ink shadow-btn backdrop-blur-md transition duration-300 hover:border-ink/25 hover:bg-white/60 hover:shadow-btn-hover hover:-translate-y-0.5 active:translate-y-0;
   }
 
   .pill {
-    @apply rounded-full border border-white/40 bg-white/30 px-3.5 py-1.5 text-xs font-medium text-ink shadow-pill backdrop-blur-sm transition duration-300 hover:border-white/55 hover:bg-white/45 hover:shadow-pill-hover sm:text-sm;
+    @apply relative inline-flex items-center overflow-hidden rounded-full border border-white/40 bg-white/30 px-3.5 py-1.5 text-xs font-medium text-ink shadow-pill backdrop-blur-sm transition duration-300 hover:border-white/55 hover:bg-white/45 hover:shadow-pill-hover sm:text-sm;
   }
 
   .nav-link {
@@ -100,6 +100,180 @@
 
   .nav-link:hover::after {
     @apply w-full;
+  }
+
+  .wizard-trail {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 79;
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+
+  .wizard-trail.is-visible {
+    opacity: 1;
+  }
+
+  .wizard-trail-mote {
+    pointer-events: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background:
+      radial-gradient(circle at 18% 64%, rgba(255, 255, 255, 0.82) 0 18%, rgba(255, 255, 255, 0.18) 35%, transparent 48%),
+      radial-gradient(circle at 38% 36%, rgba(255, 255, 255, 0.9) 0 22%, rgba(239, 246, 247, 0.32) 42%, transparent 58%),
+      radial-gradient(circle at 64% 48%, rgba(255, 255, 255, 0.82) 0 24%, rgba(232, 242, 244, 0.28) 45%, transparent 62%),
+      radial-gradient(circle at 84% 64%, rgba(255, 255, 255, 0.62) 0 18%, rgba(224, 238, 241, 0.2) 42%, transparent 60%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.32), rgba(230, 239, 241, 0.08));
+    box-shadow:
+      0 0 12px rgba(255, 255, 255, 0.44),
+      0 0 30px rgba(214, 226, 228, 0.28),
+      0 12px 28px rgba(47, 72, 88, 0.09);
+    opacity: 0;
+    transform-origin: center;
+    will-change: opacity, transform;
+  }
+
+  .wizard-trail-mote::before,
+  .wizard-trail-mote::after {
+    content: '';
+    position: absolute;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .wizard-trail-mote::before {
+    left: 15%;
+    top: -18%;
+    height: 68%;
+    width: 46%;
+    background: rgba(255, 255, 255, 0.46);
+    filter: blur(1px);
+  }
+
+  .wizard-trail-mote::after {
+    right: 9%;
+    top: 8%;
+    height: 60%;
+    width: 44%;
+    background: rgba(240, 247, 248, 0.32);
+    filter: blur(1.2px);
+    opacity: 0.82;
+  }
+
+  .wizard-hover,
+  .glass-card,
+  .btn-primary,
+  .btn-secondary,
+  .pill {
+    --wizard-x: 50%;
+    --wizard-y: 50%;
+    isolation: isolate;
+  }
+
+  .wizard-hover::before,
+  .glass-card::before,
+  .btn-primary::before,
+  .btn-secondary::before,
+  .pill::before {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    inset: -1px;
+    z-index: 0;
+    border-radius: inherit;
+    background:
+      radial-gradient(
+        120px circle at var(--wizard-x) var(--wizard-y),
+        rgba(255, 255, 255, 0.36),
+        rgba(232, 242, 244, 0.2) 42%,
+        rgba(188, 206, 211, 0.06) 64%,
+        transparent 72%
+      );
+    opacity: 0;
+    transition: opacity 220ms ease;
+  }
+
+  .wizard-hover::after,
+  .glass-card::after,
+  .btn-primary::after,
+  .btn-secondary::after,
+  .pill::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    padding: 1px;
+    background:
+      radial-gradient(
+        76px circle at var(--wizard-x) var(--wizard-y),
+        rgba(255, 255, 255, 0.84),
+        rgba(232, 242, 244, 0.38) 44%,
+        rgba(188, 206, 211, 0.13) 62%,
+        transparent 76%
+      );
+    opacity: 0;
+    transition: opacity 220ms ease, filter 220ms ease;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+
+  .wizard-hover.is-wizard-lit::before,
+  .wizard-hover:hover::before,
+  .glass-card.is-wizard-lit::before,
+  .glass-card:hover::before,
+  .btn-primary.is-wizard-lit::before,
+  .btn-primary:hover::before,
+  .btn-secondary.is-wizard-lit::before,
+  .btn-secondary:hover::before,
+  .pill.is-wizard-lit::before,
+  .pill:hover::before {
+    opacity: 1;
+  }
+
+  .wizard-hover.is-wizard-lit::after,
+  .wizard-hover:hover::after,
+  .glass-card.is-wizard-lit::after,
+  .glass-card:hover::after,
+  .btn-primary.is-wizard-lit::after,
+  .btn-primary:hover::after,
+  .btn-secondary.is-wizard-lit::after,
+  .btn-secondary:hover::after,
+  .pill.is-wizard-lit::after,
+  .pill:hover::after {
+    opacity: 0.58;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.28));
+  }
+
+  .btn-primary::before {
+    mix-blend-mode: soft-light;
+  }
+
+  @media (pointer: coarse), (prefers-reduced-motion: reduce) {
+    .wizard-trail,
+    .wizard-hover::before,
+    .wizard-hover::after,
+    .glass-card::before,
+    .glass-card::after,
+    .btn-primary::before,
+    .btn-primary::after,
+    .btn-secondary::before,
+    .btn-secondary::after,
+    .pill::before,
+    .pill::after {
+      display: none;
+    }
   }
 }
 
