@@ -105,19 +105,4 @@
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/najbolji-telefon-iphone-4-proizvodac-htc/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/digital-vs-analog/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/internet-u-2010/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
 </urlset>

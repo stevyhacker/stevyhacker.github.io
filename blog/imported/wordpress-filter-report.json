@@ -4,8 +4,8 @@
   "original_returned": 62,
   "short_word_threshold": 100,
   "unique_links_checked": 148,
-  "kept_count": 22,
-  "removed_count": 40,
+  "kept_count": 19,
+  "removed_count": 43,
   "removed_posts": [
     {
       "slug": "kupovina-bitkoina-i-drugih-kriptovaluta-kreditnom-karticom",
@@ -244,7 +244,7 @@
       "slug": "zanimljivi-testovi",
       "title": "Zanimljivi testovi",
       "date": "2011-08-13",
-      "word_count": 406,
+      "word_count": 295,
       "remove_reasons": [
         "manual_remove_user_request"
       ],
@@ -449,6 +449,16 @@
       ]
     },
     {
+      "slug": "najbolji-telefon-iphone-4-proizvodac-htc",
+      "title": "Najbolji telefon iPhone 4, proizvođač HTC",
+      "date": "2011-02-17",
+      "word_count": 199,
+      "remove_reasons": [
+        "manual_remove_user_request"
+      ],
+      "dead_links": []
+    },
+    {
       "slug": "nova-drustvena-mreza",
       "title": "Nove drustvene mreze",
       "date": "2011-02-14",
@@ -467,6 +477,26 @@
       "title": "Internet za robote",
       "date": "2011-02-13",
       "word_count": 539,
+      "remove_reasons": [
+        "manual_remove_user_request"
+      ],
+      "dead_links": []
+    },
+    {
+      "slug": "digital-vs-analog",
+      "title": "Digital VS Analog",
+      "date": "2011-02-13",
+      "word_count": 385,
+      "remove_reasons": [
+        "manual_remove_user_request"
+      ],
+      "dead_links": []
+    },
+    {
+      "slug": "internet-u-2010",
+      "title": "Internet u 2O10.",
+      "date": "2011-02-10",
+      "word_count": 420,
       "remove_reasons": [
         "manual_remove_user_request"
       ],
@@ -493,9 +523,12 @@
       "dead_links": []
     }
   ],
-  "manual_removed_count": 2,
+  "manual_removed_count": 5,
   "manual_removed_slugs": [
+    "digital-vs-analog",
+    "internet-u-2010",
     "internet-za-robote",
+    "najbolji-telefon-iphone-4-proizvodac-htc",
     "zanimljivi-testovi"
   ]
 }
