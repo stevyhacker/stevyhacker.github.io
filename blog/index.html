@@ -4,672 +4,29 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Field Notes · Stevan Bogosavljević</title>
-    <meta
-      name="description"
-      content="Stevan Bogosavljević's field notes on Solidity, DeFi searchers, protocol security, and AI automation."
-    />
+    <meta name="description" content="62 imported posts from Stevan Bogosavljević&#x27;s old WordPress blog, redesigned as warm editorial field notes." />
     <link rel="canonical" href="https://stevyhacker.github.io/blog/" />
-    <link rel="icon" type="image/svg+xml" href="../public/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/public/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Red+Hat+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Red+Hat+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/blog.css" />
     <meta property="og:title" content="Field Notes · Stevan Bogosavljević" />
-    <meta
-      property="og:description"
-      content="Warm, operator-written notes on smart contracts, searchers, and AI automation."
-    />
-    <meta property="og:type" content="website" />
+    <meta property="og:description" content="62 imported posts from Stevan Bogosavljević&#x27;s old WordPress blog, redesigned as warm editorial field notes." />
+    <meta property="og:type" content="article" />
     <meta property="og:url" content="https://stevyhacker.github.io/blog/" />
     <meta property="og:image" content="https://stevyhacker.github.io/public/img/pro.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@stevyhacker" />
-
-    <style>
-      :root {
-        --mai-ink: #5d524b;
-        --mai-ink-muted: rgba(93, 82, 75, 0.68);
-        --mai-ink-soft: rgba(93, 82, 75, 0.46);
-        --mai-paper: #fef9ed;
-        --mai-paper-2: #fbf4e5;
-        --mai-cream: #f7ecd9;
-        --mai-cream-2: #f2ead9;
-        --mai-peach: #fbd3be;
-        --mai-yellow-wash: #f7f1e3;
-        --mai-dark-brown: #2a1816;
-        --mai-link-warm: #a67c52;
-        --mai-green-wash: #d7e6d6;
-        --mai-blue-wash: #d9e4e9;
-        --font-serif: 'Newsreader', Georgia, serif;
-        --font-mono: 'Red Hat Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      html {
-        scroll-behavior: smooth;
-        text-rendering: optimizeLegibility;
-        -webkit-font-smoothing: antialiased;
-      }
-
-      body {
-        margin: 0;
-        font-family: var(--font-serif);
-        color: var(--mai-ink);
-        background: var(--mai-paper);
-      }
-
-      body::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        z-index: -2;
-        background:
-          radial-gradient(circle at 15% 8%, rgba(251, 211, 190, 0.62), transparent 30%),
-          radial-gradient(circle at 85% 22%, rgba(215, 230, 214, 0.66), transparent 27%),
-          radial-gradient(circle at 52% 105%, rgba(217, 228, 233, 0.56), transparent 36%),
-          linear-gradient(180deg, var(--mai-paper) 0%, var(--mai-yellow-wash) 42%, var(--mai-paper-2) 100%);
-      }
-
-      body::after {
-        content: '';
-        pointer-events: none;
-        position: fixed;
-        inset: 0;
-        z-index: -1;
-        opacity: 0.035;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      }
-
-      a {
-        color: inherit;
-      }
-
-      .skip-link {
-        position: absolute;
-        left: -9999px;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-      }
-
-      .skip-link:focus {
-        position: fixed;
-        left: 1rem;
-        top: 1rem;
-        z-index: 1000;
-        width: auto;
-        height: auto;
-        padding: 0.65rem 1rem;
-        border-radius: 999px;
-        color: var(--mai-paper);
-        background: var(--mai-ink);
-      }
-
-      .mai-nav {
-        position: fixed;
-        top: clamp(14px, 2vw, 28px);
-        left: clamp(14px, 2vw, 28px);
-        right: clamp(14px, 2vw, 28px);
-        z-index: 50;
-        min-height: 58px;
-        padding: 0 18px;
-        display: grid;
-        grid-template-columns: 1fr auto 1fr;
-        align-items: center;
-        gap: 18px;
-        border: 1px solid rgba(93, 82, 75, 0.08);
-        border-radius: 5px;
-        background: rgba(254, 249, 237, 0.86);
-        box-shadow: 0 18px 54px rgba(93, 82, 75, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-        backdrop-filter: blur(18px);
-      }
-
-      .brand,
-      .nav-links,
-      .button,
-      .mono,
-      .eyebrow,
-      .metadata,
-      .tiny-label {
-        font-family: var(--font-mono);
-      }
-
-      .brand {
-        text-decoration: none;
-        font-size: 13px;
-        font-weight: 500;
-        letter-spacing: -0.03em;
-      }
-
-      .nav-links {
-        display: flex;
-        gap: clamp(16px, 3vw, 38px);
-        justify-content: center;
-        padding: 0;
-        margin: 0;
-        list-style: none;
-        font-size: 12px;
-        font-weight: 500;
-        letter-spacing: -0.02em;
-      }
-
-      .nav-links a,
-      .nav-cta,
-      .button {
-        text-decoration: none;
-      }
-
-      .nav-links a {
-        color: var(--mai-ink-muted);
-        transition: color 180ms ease;
-      }
-
-      .nav-links a:hover {
-        color: var(--mai-ink);
-      }
-
-      .nav-cta {
-        justify-self: end;
-        min-height: 38px;
-        padding: 0 17px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 999px;
-        background: var(--mai-cream);
-        color: var(--mai-ink);
-        font-family: var(--font-mono);
-        font-size: 12px;
-        font-weight: 500;
-        letter-spacing: -0.02em;
-        transition: background 180ms ease, color 180ms ease;
-      }
-
-      .nav-cta:hover {
-        background: var(--mai-ink);
-        color: var(--mai-paper);
-      }
-
-      .hero {
-        min-height: 100vh;
-        padding: 136px 24px 96px;
-        display: grid;
-        place-items: center;
-        position: relative;
-        overflow: hidden;
-        text-align: center;
-        background: linear-gradient(180deg, var(--mai-peach), rgba(251, 211, 190, 0.36) 72%, transparent);
-      }
-
-      .hero::before,
-      .hero::after {
-        content: '';
-        position: absolute;
-        border-radius: 999px;
-        filter: blur(12px);
-        opacity: 0.78;
-        transform: rotate(-12deg);
-      }
-
-      .hero::before {
-        width: 210px;
-        height: 84px;
-        right: 11%;
-        top: 26%;
-        background: radial-gradient(circle at 22% 55%, #f2dddb 0 22%, transparent 24%),
-          radial-gradient(circle at 43% 40%, #f7ecd9 0 21%, transparent 23%),
-          radial-gradient(circle at 63% 56%, #d7e6d6 0 22%, transparent 24%),
-          radial-gradient(circle at 82% 42%, #d9e4e9 0 20%, transparent 22%);
-      }
-
-      .hero::after {
-        width: 168px;
-        height: 112px;
-        left: 8%;
-        bottom: 18%;
-        background: radial-gradient(circle at 22% 72%, #e9d3a7 0 24%, transparent 26%),
-          radial-gradient(circle at 42% 35%, #d7e6d6 0 20%, transparent 22%),
-          radial-gradient(circle at 68% 62%, #f2dddb 0 25%, transparent 27%);
-      }
-
-      .hero-inner {
-        position: relative;
-        z-index: 1;
-        width: min(100%, 1120px);
-      }
-
-      .eyebrow {
-        margin: 0 0 26px;
-        font-size: 12px;
-        font-weight: 500;
-        letter-spacing: 0.08em;
-        color: rgba(254, 249, 237, 0.88);
-      }
-
-      h1,
-      h2,
-      h3,
-      p {
-        margin-top: 0;
-      }
-
-      .hero-title {
-        margin: 0;
-        font-size: clamp(62px, 10.3vw, 152px);
-        line-height: 0.96;
-        letter-spacing: -0.055em;
-        font-weight: 450;
-        color: var(--mai-paper);
-      }
-
-      .hero-title em {
-        display: block;
-        font-style: italic;
-        font-weight: 450;
-      }
-
-      .hero-subtitle {
-        width: min(100%, 640px);
-        margin: 30px auto 0;
-        font-size: clamp(22px, 2vw, 32px);
-        line-height: 1.15;
-        letter-spacing: -0.03em;
-        color: rgba(254, 249, 237, 0.92);
-      }
-
-      .section {
-        padding: clamp(92px, 12vw, 172px) 24px;
-      }
-
-      .container {
-        width: min(100%, 1220px);
-        margin: 0 auto;
-      }
-
-      .section-title {
-        font-size: clamp(42px, 5.2vw, 78px);
-        line-height: 0.98;
-        letter-spacing: -0.045em;
-        font-weight: 450;
-      }
-
-      .lead {
-        font-size: clamp(22px, 2.4vw, 36px);
-        line-height: 1.12;
-        letter-spacing: -0.032em;
-        color: var(--mai-ink-muted);
-      }
-
-      .feature-story {
-        position: relative;
-        display: grid;
-        grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
-        gap: clamp(28px, 5vw, 76px);
-        align-items: end;
-      }
-
-      .portrait-panel {
-        min-height: 560px;
-        position: relative;
-        overflow: hidden;
-        border-radius: 4px;
-        background:
-          linear-gradient(180deg, rgba(93, 82, 75, 0.04), rgba(93, 82, 75, 0.16)),
-          var(--mai-cream);
-        box-shadow: 0 34px 80px rgba(93, 82, 75, 0.14);
-      }
-
-      .portrait-panel img {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center 28%;
-        filter: saturate(0.92) sepia(0.08);
-        opacity: 0.82;
-      }
-
-      .portrait-panel::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background:
-          radial-gradient(circle at 25% 15%, rgba(254, 249, 237, 0.5), transparent 28%),
-          linear-gradient(180deg, transparent 38%, rgba(42, 24, 22, 0.42));
-      }
-
-      .story-card {
-        position: relative;
-        margin-left: clamp(-180px, -10vw, -80px);
-        margin-bottom: 54px;
-        padding: clamp(28px, 4vw, 46px);
-        border-radius: 4px;
-        background: rgba(254, 249, 237, 0.94);
-        box-shadow: 0 28px 64px rgba(93, 82, 75, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.62);
-      }
-
-      .story-card h2 {
-        max-width: 680px;
-        margin-bottom: 28px;
-        font-size: clamp(34px, 4vw, 58px);
-        line-height: 1;
-        letter-spacing: -0.04em;
-        font-weight: 450;
-      }
-
-      .metadata {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 16px 30px;
-        align-items: center;
-        color: var(--mai-ink-muted);
-        font-size: 12px;
-        font-weight: 500;
-        letter-spacing: -0.02em;
-      }
-
-      .arrow-dot {
-        margin-left: auto;
-        width: 42px;
-        height: 42px;
-        display: inline-grid;
-        place-items: center;
-        border-radius: 2px;
-        background: var(--mai-cream);
-        color: var(--mai-link-warm);
-      }
-
-      .model-section {
-        background: linear-gradient(180deg, transparent, rgba(251, 244, 229, 0.82));
-      }
-
-      .section-heading-row {
-        display: grid;
-        grid-template-columns: minmax(0, 0.86fr) minmax(280px, 0.64fr);
-        gap: clamp(28px, 8vw, 118px);
-        align-items: end;
-        margin-bottom: clamp(72px, 10vw, 138px);
-      }
-
-      .writing-row {
-        display: grid;
-        grid-template-columns: 180px minmax(280px, 0.8fr) minmax(300px, 0.72fr);
-        gap: clamp(28px, 6vw, 92px);
-        align-items: center;
-        min-height: 286px;
-        border-top: 1px solid rgba(93, 82, 75, 0.14);
-      }
-
-      .writing-row:last-child {
-        border-bottom: 1px solid rgba(93, 82, 75, 0.14);
-      }
-
-      .watercolor-icon {
-        width: 138px;
-        height: 116px;
-        display: grid;
-        place-items: center;
-        filter: saturate(0.94);
-      }
-
-      .watercolor-icon svg {
-        width: 100%;
-        height: 100%;
-        overflow: visible;
-      }
-
-      .tiny-label {
-        margin-bottom: 14px;
-        color: var(--mai-ink-soft);
-        font-size: 12px;
-        font-weight: 500;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-
-      .writing-row h3 {
-        margin-bottom: 22px;
-        font-size: clamp(38px, 4vw, 58px);
-        line-height: 1.02;
-        letter-spacing: -0.045em;
-        font-weight: 450;
-      }
-
-      .writing-row p {
-        margin: 0;
-        font-size: clamp(20px, 2.1vw, 31px);
-        line-height: 1.16;
-        letter-spacing: -0.032em;
-        color: var(--mai-ink-muted);
-      }
-
-      .button-row {
-        margin-top: 26px;
-        display: flex;
-        gap: 8px;
-        align-items: center;
-      }
-
-      .button {
-        min-height: 44px;
-        padding: 0 22px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 999px;
-        background: var(--mai-cream);
-        color: var(--mai-ink);
-        border: 0;
-        font-size: 12px;
-        font-weight: 500;
-        letter-spacing: -0.02em;
-      }
-
-      .button-square {
-        width: 44px;
-        padding: 0;
-        border-radius: 3px;
-        color: var(--mai-link-warm);
-      }
-
-      .button:hover {
-        background: var(--mai-ink);
-        color: var(--mai-paper);
-      }
-
-      .manifesto {
-        min-height: 92vh;
-        display: grid;
-        place-items: center;
-        text-align: center;
-        background: var(--mai-yellow-wash);
-      }
-
-      .manifesto .section-title {
-        width: min(100%, 990px);
-        margin-inline: auto;
-      }
-
-      .manifesto .lead {
-        width: min(100%, 760px);
-        margin: 34px auto 0;
-      }
-
-      .queue-grid {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(320px, 0.82fr);
-        gap: clamp(28px, 6vw, 92px);
-        align-items: start;
-      }
-
-      .queue-card {
-        padding: clamp(26px, 4vw, 42px);
-        border-radius: 4px;
-        background: rgba(254, 249, 237, 0.76);
-        box-shadow: 0 24px 68px rgba(93, 82, 75, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.62);
-      }
-
-      .queue-list {
-        display: grid;
-        gap: 18px;
-        padding: 0;
-        margin: 0;
-        list-style: none;
-      }
-
-      .queue-list li {
-        padding-bottom: 18px;
-        border-bottom: 1px solid rgba(93, 82, 75, 0.12);
-      }
-
-      .queue-list li:last-child {
-        padding-bottom: 0;
-        border-bottom: 0;
-      }
-
-      .queue-list h3 {
-        margin: 8px 0 10px;
-        font-size: clamp(28px, 2.7vw, 38px);
-        line-height: 1.05;
-        letter-spacing: -0.035em;
-        font-weight: 450;
-      }
-
-      .queue-list p {
-        margin: 0;
-        color: var(--mai-ink-muted);
-        font-size: 19px;
-        line-height: 1.24;
-        letter-spacing: -0.02em;
-      }
-
-      .footer {
-        padding: 72px 24px;
-        background: var(--mai-ink);
-        color: var(--mai-paper);
-      }
-
-      .footer-inner {
-        width: min(100%, 1220px);
-        margin: 0 auto;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 28px;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .footer a {
-        color: rgba(254, 249, 237, 0.82);
-        text-decoration: none;
-      }
-
-      .footer-links {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 18px 28px;
-        font-family: var(--font-mono);
-        font-size: 12px;
-      }
-
-      @media (max-width: 900px) {
-        .mai-nav {
-          grid-template-columns: auto 1fr auto;
-        }
-
-        .nav-links {
-          justify-content: flex-start;
-          overflow-x: auto;
-        }
-
-        .feature-story,
-        .section-heading-row,
-        .queue-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .portrait-panel {
-          min-height: 420px;
-        }
-
-        .story-card {
-          margin: -90px 20px 0;
-        }
-
-        .writing-row {
-          grid-template-columns: 1fr;
-          gap: 20px;
-          padding: 52px 0;
-        }
-      }
-
-      @media (max-width: 640px) {
-        .mai-nav {
-          position: absolute;
-          top: 12px;
-          left: 12px;
-          right: 12px;
-          grid-template-columns: 1fr auto;
-        }
-
-        .nav-links {
-          display: none;
-        }
-
-        .nav-cta {
-          padding: 0 13px;
-        }
-
-        .hero {
-          padding: 118px 18px 82px;
-        }
-
-        .section {
-          padding: 82px 18px;
-        }
-
-        .story-card {
-          margin-inline: 0;
-        }
-
-        .metadata {
-          display: grid;
-          gap: 10px;
-        }
-
-        .arrow-dot {
-          margin-left: 0;
-        }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        *,
-        *::before,
-        *::after {
-          scroll-behavior: auto !important;
-          transition-duration: 0.01ms !important;
-          animation-duration: 0.01ms !important;
-        }
-      }
-    </style>
   </head>
-
   <body>
     <a class="skip-link" href="#content">Skip to content</a>
-
     <header class="mai-nav" aria-label="Primary navigation">
       <a class="brand" href="../">Stevan<span aria-hidden="true">.</span></a>
       <ul class="nav-links" aria-label="Sections">
         <li><a href="../#work">Work</a></li>
         <li><a href="../#about">About</a></li>
-        <li><a href="./">Blog</a></li>
+        <li><a href="../blog/">Blog</a></li>
         <li><a href="../#contact">Contact</a></li>
       </ul>
       <a class="nav-cta" href="../public/Stevan_Bogosavljevic_Resume.pdf">CV ↗</a>
@@ -678,11 +35,14 @@
     <main id="content">
       <section class="hero" aria-labelledby="page-title">
         <div class="hero-inner">
-          <p class="eyebrow">Solidity · Searchers · AI Automation</p>
+          <p class="eyebrow">Imported archive · 2011–2021 · Solidity before Solidity</p>
           <h1 id="page-title" class="hero-title"><em>Field</em> Notes</h1>
-          <p class="hero-subtitle">
-            Writing from the edge where smart contracts, DeFi operators, and useful automation meet.
-          </p>
+          <p class="hero-subtitle">62 old posts from the WordPress era, preserved and restyled as an editorial archive.</p>
+          <div class="hero-stats" aria-label="Archive statistics">
+            <span class="stat-pill">62 posts</span>
+            <span class="stat-pill">2011–2021</span>
+            <span class="stat-pill">source: stevyhacker.wordpress.com</span>
+          </div>
         </div>
       </section>
 
@@ -692,152 +52,806 @@
             <img src="../public/img/pro.jpg" alt="" decoding="async" />
           </div>
           <article class="story-card">
-            <h2 id="featured-note">The operator’s notebook for DeFi builders</h2>
+            <h2 id="featured-note">From Linux notes to DeFi engineering</h2>
             <div class="metadata">
-              <span>blog system</span>
-              <span>drafting in public</span>
-              <span>smart contracts → searchers → products</span>
-              <span class="arrow-dot" aria-hidden="true">→</span>
+              <span>latest import: Jan 09, 2021</span>
+              <span>Epska fantastika 123</span>
+              <span>3 min read</span>
+              <a class="arrow-dot" href="posts/epska-fantastika-123/" aria-label="Read latest imported post">→</a>
             </div>
           </article>
         </div>
       </section>
 
-      <section class="section model-section" aria-labelledby="writing-lanes">
+      <section class="section archive-section" aria-labelledby="archive-title">
         <div class="container">
           <div class="section-heading-row">
-            <h2 id="writing-lanes" class="section-title">What I’m writing about</h2>
-            <p class="lead">
-              Practical notes, not abstract takes: protocol mechanics, liquidation/searcher engineering,
-              standards work, and the AI workflows that turn research into shippable systems.
-            </p>
+            <h2 id="archive-title" class="section-title">Imported WordPress archive</h2>
+            <p class="lead">A chronological bridge from Android, Linux, education, internet work, and early crypto into the engineering path that became smart contracts and DeFi.</p>
           </div>
-
-          <article class="writing-row">
-            <div class="watercolor-icon" aria-hidden="true">
-              <svg viewBox="0 0 180 140" role="img">
-                <ellipse cx="58" cy="72" rx="42" ry="30" fill="#d7e6d6" opacity="0.78" />
-                <ellipse cx="84" cy="58" rx="48" ry="34" fill="#f2dddb" opacity="0.7" />
-                <ellipse cx="108" cy="78" rx="46" ry="32" fill="#f7ecd9" opacity="0.82" />
-                <ellipse cx="78" cy="88" rx="54" ry="22" fill="#d9e4e9" opacity="0.58" />
-              </svg>
+          <div class="filter-row" aria-label="Top imported categories">
+            <span class="filter-pill">Internet · 24</span>
+<span class="filter-pill">Zanimljivosti · 13</span>
+<span class="filter-pill">Obavjestenja · 11</span>
+<span class="filter-pill">Linuks · 10</span>
+<span class="filter-pill">Programiranje · 7</span>
+<span class="filter-pill">Android · 6</span>
+<span class="filter-pill">Hardver · 4</span>
+<span class="filter-pill">Igrice · 2</span>
+<span class="filter-pill">Uncategorized · 2</span>
+<span class="filter-pill">Knjizevnost · 1</span>
+<span class="filter-pill">Некатегоризовано · 1</span>
+          </div>
+          <div class="archive-list">
+            
+          <a class="archive-card" href="posts/epska-fantastika-123/">
+            <div class="archive-date">
+              <span>Jan 09, 2021</span>
+              <span>Knjizevnost</span>
+              <span>3 min read</span>
             </div>
             <div>
-              <p class="tiny-label">Draft lane</p>
-              <h3>Searcher engineering</h3>
-              <div class="button-row" aria-label="Status">
-                <span class="button">Coming soon</span>
-                <span class="button button-square" aria-hidden="true">→</span>
-              </div>
+              <h3>Epska fantastika 123</h3>
+              <p>Veliki sam ljubitelj ovog žanra, pa sam poželio da izdvojim par omiljenih serijala. Ako vam se sviđaju Gospodar prstenova i Igra prestola, onda će vam sigurno i neki od ovih biti zanimljivi. 3. Točak vremena – Robert Jordan (The…</p>
             </div>
-            <p>
-              Private-relay execution, liquidation ranking, calldata building, simulation discipline,
-              and the small operational details that decide whether a searcher survives contact with mainnet.
-            </p>
-          </article>
-
-          <article class="writing-row">
-            <div class="watercolor-icon" aria-hidden="true">
-              <svg viewBox="0 0 180 140" role="img">
-                <path d="M62 22 C34 42 34 98 62 118" fill="none" stroke="#6c8292" stroke-width="18" stroke-linecap="round" opacity="0.68" />
-                <path d="M118 22 C146 42 146 98 118 118" fill="none" stroke="#8c5462" stroke-width="18" stroke-linecap="round" opacity="0.64" />
-                <path d="M74 45 C90 31 105 47 90 62 C74 78 95 93 108 78" fill="none" stroke="#a67c52" stroke-width="10" stroke-linecap="round" opacity="0.45" />
-              </svg>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/nedostaci-i-problemi-rada-od-kuce/">
+            <div class="archive-date">
+              <span>Jan 18, 2019</span>
+              <span>Internet, Programiranje</span>
+              <span>6 min read</span>
             </div>
             <div>
-              <p class="tiny-label">Draft lane</p>
-              <h3>Protocol security</h3>
-              <div class="button-row" aria-label="Status">
-                <span class="button">Coming soon</span>
-                <span class="button button-square" aria-hidden="true">→</span>
-              </div>
+              <h3>Nedostaci i problemi rada od “kuće”</h3>
+              <p>Od kad sam počeo da se profesionalno bavim programiranjem ima već nekih 4 godine otprilike. Za to vrijeme sam uglavnom radio od “kuće”, a poslednjih 2 i po godine isključivo tako. Od “kuće” stavljam u navodnike zato što je lakše…</p>
             </div>
-            <p>
-              Solidity review patterns, access-control failures, treasury/DAO infrastructure,
-              and how to turn audit instincts into repeatable engineering checklists.
-            </p>
-          </article>
-
-          <article class="writing-row">
-            <div class="watercolor-icon" aria-hidden="true">
-              <svg viewBox="0 0 180 140" role="img">
-                <circle cx="52" cy="78" r="26" fill="#f2dddb" opacity="0.72" />
-                <circle cx="78" cy="62" r="30" fill="#f7ecd9" opacity="0.78" />
-                <circle cx="108" cy="75" r="32" fill="#d7e6d6" opacity="0.75" />
-                <path d="M42 106 C64 122 96 120 122 104" fill="none" stroke="#5d524b" stroke-width="5" stroke-linecap="round" opacity="0.35" />
-              </svg>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/novac-preko-interneta/">
+            <div class="archive-date">
+              <span>Apr 08, 2018</span>
+              <span>Internet</span>
+              <span>4 min read</span>
             </div>
             <div>
-              <p class="tiny-label">Draft lane</p>
-              <h3>AI operator systems</h3>
-              <div class="button-row" aria-label="Status">
-                <span class="button">Coming soon</span>
-                <span class="button button-square" aria-hidden="true">→</span>
-              </div>
+              <h3>Novac preko interneta</h3>
+              <p>Već dugo vremena radim online, uglavnom kao Andriod developer uz manje izlete u druge oblasti. Ono što sam htio podjeliti ovdje je dosta raznih načina koje sam otkrio usput o tome kako se novac može zaraditi online. Za sve…</p>
             </div>
-            <p>
-              Research pipelines, automated reporting, content-to-product loops, and ways to use agents
-              as a practical command center instead of a pile of prompts.
-            </p>
-          </article>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/rudarenjemining-kriptovaluta-bitcoin-i-ethereum/">
+            <div class="archive-date">
+              <span>Dec 26, 2017</span>
+              <span>Obavjestenja</span>
+              <span>3 min read</span>
+            </div>
+            <div>
+              <h3>Rudarenje(mining) kriptovaluta Bitcoin i Ethereum</h3>
+              <p>Skoro se raspisah o ovoj temi na jednom forumu pa evo i ovdje neke informacije. Majnovati možete preko procesora, grafičke ili ASICa. ASIC su specijalni uredjaji namjenjeni isključivo miningu i to najviše za Bitcoin i Litecoin.…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/kupovina-bitkoina-i-drugih-kriptovaluta-kreditnom-karticom/">
+            <div class="archive-date">
+              <span>Oct 30, 2017</span>
+              <span>Internet</span>
+              <span>2 min read</span>
+            </div>
+            <div>
+              <h3>Kupovina Bitkoina i drugih kriptovaluta kreditnom karticom</h3>
+              <p>Skoro sam počeo da se zanimam za kriptovalute i želio sam da probam kako funkcioniše čitav sistem, kreirao sam wallet za Bitcoin i Ethereum preko Exodus aplikacije. Tu dobijate adresu koju koristite za primanje i iz te aplikacije…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/web-dev-kurs-i-moj-portfolio/">
+            <div class="archive-date">
+              <span>Mar 03, 2016</span>
+              <span>Obavjestenja</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Web dev kurs i moj portfolio</h3>
+              <p>Pošto sam počeo prije par mjeseci da učim razvoj web aplikacija pomoću FreeCodeCamp kursa, želio sam i ovdje da podijelim jedan od projekata koji sam napravio u dosadašnjem toku kursa, a to je moja portfolio stranica. Evo ga…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/githubdevpack/">
+            <div class="archive-date">
+              <span>Oct 17, 2015</span>
+              <span>Programiranje, Zanimljivosti</span>
+              <span>2 min read</span>
+            </div>
+            <div>
+              <h3>Šta je GitHub Student developer pack?</h3>
+              <p>Nedavno sam saznao za jednu super akciju na Github-u za studente pa sam želio da je podjelim sa drugima i ukažem na to za šta sve može biti korisna. GitHub student developer pack je skup servisa koji će vam omogućiti da nesmetano…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/edukacija-na-internetu-gdje-zasto-i-kako/">
+            <div class="archive-date">
+              <span>Dec 30, 2013</span>
+              <span>Internet</span>
+              <span>3 min read</span>
+            </div>
+            <div>
+              <h3>Edukacija na internetu: Gdje, zašto i kako ?</h3>
+              <p>Edukacija i način obrazovanja doživljavaju preporod širenjem interneta. Fakulteti nude distance learning sisteme, profesori počinju objavljivati lekcije na internetu besplatno, pojavljuje se mnoštvo online kurseva, elektronske…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/drugi-crnogorski-hakaton/">
+            <div class="archive-date">
+              <span>Nov 29, 2013</span>
+              <span>Obavjestenja</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Drugi crnogorski hakaton</h3>
+              <p>Evo jedna lijepa vijest za sve programere, dizajnere i ljude sa idejom. Upravo je najavljen drugi crnogorski hakaton. Organizatori su softverska kompanija – Logate i digitalna zajednica Crne Gore – Digitalizuj.Me. Drugi Hakaton…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/677/">
+            <div class="archive-date">
+              <span>Oct 01, 2013</span>
+              <span>Некатегоризовано, Zanimljivosti</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Ja ne volim da sam sam</h3>
+              <p>Prošle nedjelje sjetio sam se pjesme Ja ne volim da sam sam od Dragana Radulovića koja se uči u osnovnoj školi. Čudno mi je bilo kako sam je jedva našao na internetu i to sasvim slučajno na jednom forumu. Ovdje ću objaviti čitav…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/zdravo-posle-skoro-godinu-dana/">
+            <div class="archive-date">
+              <span>Sep 26, 2013</span>
+              <span>Obavjestenja</span>
+              <span>2 min read</span>
+            </div>
+            <div>
+              <h3>Zdravo posle skoro godinu dana</h3>
+              <p>Zdravo, prošlo je skoro godinu dana od poslednje objave. Ulijenio sam se i prestao da pišem na blogu. U medjuvremenu vratio sam se na wordpress domen i hosting. Desile su se razne stvari http://otvoreneideje.me/…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/prvi-crnogorski-hakaton/">
+            <div class="archive-date">
+              <span>Nov 12, 2012</span>
+              <span>Zanimljivosti</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Prvi crnogorski hakaton</h3>
+              <p>U vikendu koji je već za nama bio je prvi hakaton održan u Crnoj Gori. Organizacija je bila odlična kao i društvo. Veliki broj ideja sa početne prezentacije je realizovan. Ja sam bio u ekipi sa Aleksom Doderovićem, Rajkom…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/razna-desavanja/">
+            <div class="archive-date">
+              <span>Aug 04, 2012</span>
+              <span>Obavjestenja, Zanimljivosti</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Razna dešavanja</h3>
+              <p>Nisam pisao na blogu dugo vremena a bilo je dosta meni važnih dogadjaja 🙂 Evo o svemu pomalo. Dobio sam nagradu na konkursu “Prvi izazov” HTC telefon Desire Z koji trenutno koristim i odličan je. Čitav konkurs je bio jako lijepo…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/lista-aplikacija-prijavljenih-na-android-konkursu-prvi-izazov/">
+            <div class="archive-date">
+              <span>Jun 22, 2012</span>
+              <span>Android</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Lista aplikacija prijavljenih na android konkursu Prvi izazov</h3>
+              <p>Ovo je lista svih aplikacija koje su prijavljene na konkurs, većina njih je prezentovana danas ali za nekoliko se takmičari nisu pojavili. Moja aplikacija je 26 na listi. Objava nagradjenih učesnika se očekuje do kraja nedjelje.…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/novi-domen-i-hosting/">
+            <div class="archive-date">
+              <span>Jun 18, 2012</span>
+              <span>Internet</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Novi domen i hosting</h3>
+              <p>Od danas čitatje moj blog na novom domenu http://stevan.bogosavljevic.me Stari tekstovi su tu uglavnom ali još nije sve kompletno vraćeno. Na sajtu će biti dosta izmjena sledećih nekoliko dana pa ne zamjerite. Možda ste i…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/za-koliko-zvoni/">
+            <div class="archive-date">
+              <span>Mar 25, 2012</span>
+              <span>Android, Programiranje</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Za koliko zvoni ?</h3>
+              <p>Kako nisam duže vremena ništa programirao za android, napravio sam za poslednja dva dana jednu jednostavnu ali korisnu aplikaciju za nas što još idemo u školu a često zaboravljamo kad zvoni čas. App radi i za prvu i za drugu…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/godinu-dana-stevy-iz-rs/">
+            <div class="archive-date">
+              <span>Mar 20, 2012</span>
+              <span>Internet</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Godinu dana stevy.iz.rs</h3>
+              <p>Danas je tačno godinu dana od kad sam osnovao blog na stevy.iz.rs domenu 🙂 Nadam se da sam napisao dosta korisnih stvari ovdje a za tih godinu dana Google analitika pokazuje preko 12 hiljada posjeta. Trenutno učestvujem na…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/game-of-thrones/">
+            <div class="archive-date">
+              <span>Feb 28, 2012</span>
+              <span>Internet, Zanimljivosti</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Game of Thrones</h3>
+              <p>Game of Thrones je jedna od najoriginalnijih serija koje sam ja dosad gledao. 2011 je objavljena prva sezona sa deset epizoda po sat vremena a početak emitovanja druge sezone je najavljen za prvi April ove godine. Radnja prve…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/facebook-i-vasa-privatnost/">
+            <div class="archive-date">
+              <span>Feb 10, 2012</span>
+              <span>Internet</span>
+              <span>2 min read</span>
+            </div>
+            <div>
+              <h3>Facebook i privatnost</h3>
+              <p>Do nedavno apsolutno se nisam nimalo brinuo za svoju privatnost na facebook-u čak sam i omalovažavao takve vijesti. Tek sam nedavno shvatio kako se Facebook promjenio u zadnje dvije godine od kad ga koristim. Svakodnevno nas…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/kako-psi-vide-boje/">
+            <div class="archive-date">
+              <span>Jan 09, 2012</span>
+              <span>Zanimljivosti</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Kako psi vide boje ?</h3>
+              <p>Jeste li se ikad zapitali kako vide psi? Vjerovatno mislite da vide samo u nijansama crne i bijele? To je netačno! Psi mogu da vide boje, ali ne isto kao i ljudi, tačnije vide drugačiji spektar boja, bez crvene, zelene i…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/10-najpopularnijih-gnulinux-distribucija-u-2011-godini/">
+            <div class="archive-date">
+              <span>Jan 01, 2012</span>
+              <span>Linuks, Zanimljivosti</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>10 najpopularnijih GNU/Linux distribucija u 2011 godini*</h3>
+              <p>1. Mint Popularni Ubuntu derivat koji ga je uspio nadmašiti. 2. Ubuntu Jedna od najpoznatijih a i najboljih GNU/Linux distribucija. 3. Fedora Bleeding-edge distro sa uvjek najnovijim verzijama programa. 4. Debian Ubuntuov “tata”…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/kako-aktivirati-timeline-na-fb/">
+            <div class="archive-date">
+              <span>Dec 16, 2011</span>
+              <span>Internet</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Kako aktivirati Timeline na FB ?</h3>
+              <p>Facebook-ov famozni Timeline je sad moguće dobiti jednostavnim klikom na “Get” na sledećem linku http://www.facebook.com/about/timeline Vaš profil neće biti odmah prebačen na novi izgled, već tek kad odaberete Publish now ili tek…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/kako-izbrisati-linux/">
+            <div class="archive-date">
+              <span>Dec 03, 2011</span>
+              <span>Linuks</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Kako izbrisati Linux ?</h3>
+              <p>Pre neki dan sam instalirao Linux Mint 12 i pošto nisam bio zadovoljan, hteo sam da ga obrišem. Malo sam potražio po internetu i došao do uputstava. Da bi izbrisali Linux dovoljno je da pokrenete neki program za particionisanje…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/5-najzanimljivijh-android-igrica/">
+            <div class="archive-date">
+              <span>Nov 05, 2011</span>
+              <span>Android, Igrice</span>
+              <span>2 min read</span>
+            </div>
+            <div>
+              <h3>5 najzanimljivijih android igrica</h3>
+              <p>Igrice za telefone su napravile ogroman napredak zadnjih nekoliko godina. Vreme igranja Snake-a na crno bijelom ekranu Nokije je davno prošlo. Razvoj operativnih sistema i popularizacija smarfona dovela je do pojave 3D igrica,…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/telenor-onetouch/">
+            <div class="archive-date">
+              <span>Oct 26, 2011</span>
+              <span>Android, Hardver</span>
+              <span>2 min read</span>
+            </div>
+            <div>
+              <h3>Telenor OneTouch</h3>
+              <p>Kako sam nedavno dobio prvi android telefon i malo ga isprobao, odlučio sam da napišem kraći review telefona sa korisnim linkovima, uputstvima za instaliranje drajvera, rutovanjem i povezivanjem sa kompjuterom. Takodje na raznim…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/novi-forum/">
+            <div class="archive-date">
+              <span>Oct 16, 2011</span>
+              <span>Android, Internet</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Novi forum</h3>
+              <p>Prije nekoliko dana sam u saradnji sa Milanom Kragujevićem otvorio forum za android programiranje. Podjeljen je na 3 dijela. Programiranje, Telefoni i Ostalo. Na forumu možete saznati kako napraviti android aplikaciju, kako i…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/android-programiranje/">
+            <div class="archive-date">
+              <span>Oct 05, 2011</span>
+              <span>Android, Programiranje</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Android programiranje</h3>
+              <p>Nedavno sam počeo posebno interesovati za programiranje u androidu i mogu reći da sam našao dosta korisnih sajtova. Zato sam odlučio da ih objedinim u jednom članku. Sadržaja na našem jeziku nema mnogo što se tiče programiranja…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/internet-zezalice/">
+            <div class="archive-date">
+              <span>Sep 29, 2011</span>
+              <span>Internet, Zanimljivosti</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Internet zezalice</h3>
+              <p>Zadnjih nekoliko dana sam vidio nekoliko stvarno zabavnih i krajnje neobičnih sajtova, pa sam odlučio da napravim članak o internet zezalicama. Neke ste vjerovatno već i vidjeli ali sigurno da će vam ponovo biti smiješne 😉…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/laptop-savjeti/">
+            <div class="archive-date">
+              <span>Sep 14, 2011</span>
+              <span>Hardver</span>
+              <span>2 min read</span>
+            </div>
+            <div>
+              <h3>Laptop savjeti</h3>
+              <p>Pošto imam laptop već nekolika mjeseca mogu da kažem i neke stvari koje su korisne za uštedu energije baterije, pregrijavanje laptopa i slično. 1. NE Igricama Laptop je prenovsiv PC i samim tim što je sve stalo u tako mali…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/kako-napraviti-remix-pjesme/">
+            <div class="archive-date">
+              <span>Sep 08, 2011</span>
+              <span>Internet</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Kako napraviti remix pjesme ?</h3>
+              <p>Da bi napravili remix neke pjesme morate imate program za obradu zvuka. Ja vam preporučujem VirtualDJ jer je lijepo dizajniran i lako se snaći a ima i mnoštvo efekata. Program možete skinuti na http://virtualdj.com . Program ima…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/jedinstvena-prica-o-upornosti/">
+            <div class="archive-date">
+              <span>Sep 04, 2011</span>
+              <span>Zanimljivosti</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Jedinstvena priča o upornosti</h3>
+              <p>Film o upornosti i volji jednog čoveka da promeni svet oko sebe. Oskar za najbolji animirani film 1987.</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/ubuntu-11-10-beta-1-ukratko/">
+            <div class="archive-date">
+              <span>Sep 02, 2011</span>
+              <span>Linuks</span>
+              <span>2 min read</span>
+            </div>
+            <div>
+              <h3>Ubuntu 11.10 Beta 1- Ukratko</h3>
+              <p>Ovo su samo prvi utisci ali moguće i poslednji jer mi se ova verzija nimalo ne dopada. Sad ću vam reći promjene koje sam uočio i zašto su ovo zadnji put da koristim ovu verziju. Software center je malo izmijenjen i ljepše izgleda…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/twitter-klijenti-tweetz/">
+            <div class="archive-date">
+              <span>Sep 01, 2011</span>
+              <span>Internet</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Twitter Klijenti – Tweetz</h3>
+              <p>Korisnici Twittera znaju kako je dosadno i ne efikasno kad moraju da ulaze na sajt twitter.com da bi nešto objavili ili bolje reći tweetnuli. Zbog toga postoji veliki broj programa(klijenata) koji vam omogućavaju da pristupite…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/5-najboljih-strategija/">
+            <div class="archive-date">
+              <span>Aug 18, 2011</span>
+              <span>Igrice</span>
+              <span>2 min read</span>
+            </div>
+            <div>
+              <h3>5 najboljih strategija</h3>
+              <p>Iako ne volim mnogo igrice, postoji jedan žanr koji mi se jako sviđa RTS( Real-Time-Strategy). Zbog toga želim da podjelim sa vama, najbolje strategije koje sam igrao, to možda neće biti baš najobjektivnija lista jer nisam igrao…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/zanimljivi-testovi/">
+            <div class="archive-date">
+              <span>Aug 13, 2011</span>
+              <span>Zanimljivosti</span>
+              <span>2 min read</span>
+            </div>
+            <div>
+              <h3>Zanimljivi testovi</h3>
+              <p>1. TEST Za sledeci zadatak NIKAKO se nesme upotrebljavati digitron ili papir i olovka: Imas 1000, dodaj 40. Dodaj jos 1000. Dodaj 30 i opet 1000 Dodaj 20. Dodaj jos 1000 i onda jos 10. Koji je zbir? Odgovor sledi: Tvoj rezultat…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/moja-windows-7-tema/">
+            <div class="archive-date">
+              <span>Aug 11, 2011</span>
+              <span>Internet</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Moja Windows 7 tema</h3>
+              <p>Juče sam gledao razne slike i crteže na deviantART , pa sam odabrao nekoliko zanimljivih slika i napravio temu za Windows 7. Tema je poveća jer sadrži nekoliko slika visoke rezolucije ali ipak 13 MB nije previše 🙂 Možete je…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/prica-o-stvarima-story-of-stuff/">
+            <div class="archive-date">
+              <span>Aug 10, 2011</span>
+              <span>Internet</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Priča o stvarima-Story of stuff</h3>
+              <p>Ovo je video o globalnim problemima otpada, recikliranja i nedostatka resursa. Urađen je na jedan veoma zanimljiv način i kad ga pogledate sigurno će vam mnoge stvari postati jasnije. Neverovatni Hrčak- Impossible Hamster Ovaj…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/neki-dobri-filmovi/">
+            <div class="archive-date">
+              <span>Aug 08, 2011</span>
+              <span>Internet</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Neki dobri filmovi</h3>
+              <p>Zadnje vreme sam pogledao dosta zanimljivih filmova i zato bih želio to da podelim sa vama. The Last Airbender: Rebellion(2011) Iako kritičari nisu baš blagonakloni prema filmu meni se jako dopao. Ima mnogo fantazije a glavni lik…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/gimp/">
+            <div class="archive-date">
+              <span>Aug 06, 2011</span>
+              <span>Linuks, Zanimljivosti</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>GIMP</h3>
+              <p>GIMP je program za obrađivanje slika, fotomontažu, animacije itd. To je skraćenica od Gnu Image Manipulation Program ali da vas ne zamaram dalje sa istorijatom programa. To je kao Photoshop samo što je besplatan i prvobitno je…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/statistika-sajta/">
+            <div class="archive-date">
+              <span>Aug 04, 2011</span>
+              <span>Internet, Zanimljivosti</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Statistika sajta</h3>
+              <p>Evo malo statistike mog bloga : Ukupan broj posjeta: 1590 Ukupan broj pregleda stranica : 3582 Ukupan broj pregleda stranica po posjeti : 2.25 Ukupan broj jedinstvenih posjetilaca: 838 Posjete po zemljama : Podaci su sa Google…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/obavjestenje-2/">
+            <div class="archive-date">
+              <span>Jul 23, 2011</span>
+              <span>Obavjestenja</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Obavještenje</h3>
+              <p>Sajt je bio offline zadnjih desetak dana zbog toga što su mi izbrisali sve fajlove sa hostinga. Potrudiću se da stare članke i komentare vratim ali mislim da neću uspjeti jer nisam pravio redovan back-up.…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/adsense-reklame/">
+            <div class="archive-date">
+              <span>Jun 07, 2011</span>
+              <span>Internet, Obavjestenja</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>AdSense reklame</h3>
+              <p>Odlučio sam da probam da stavim AdSense reklame na blog da vidim kako će to izgledati i hoće li biti “ikakve” zarade od toga . Ne zamjerite ako bude bilo i previše reklama , jer još sve isprobavam . Registrovao sam se prije dva…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/ubuntu-11-04-unity/">
+            <div class="archive-date">
+              <span>Jun 05, 2011</span>
+              <span>Linuks</span>
+              <span>2 min read</span>
+            </div>
+            <div>
+              <h3>Ubuntu 11.04 &amp; Unity</h3>
+              <p>Evo kako sam i obećao moja ocjena nove verzije Ubuntua sa Unity interfejsom : Na prvi pogled sve izgleda veoma zanimljivo i lijepo , Launcher je bio popunjen raznim programima tako da je prvo bilo neophodno izbrisati one koji se…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/ubuntu-11-04-ubrzoo/">
+            <div class="archive-date">
+              <span>Jun 02, 2011</span>
+              <span>Linuks</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Ubuntu Natty Narwhal</h3>
+              <p>Danas sam apdejtovao ubuntu na novu verziju 11.04 koja umjesto GNOME donosi novo Unity okruženje . Sad malo sve isprobavam i testiram , ali za koji dan ću napisati moje utiske 😀 Evo brzog screenshot-a :</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/google-docs/">
+            <div class="archive-date">
+              <span>May 22, 2011</span>
+              <span>Internet</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Google Docs</h3>
+              <p>Google Docs je poznati Google-ov servis za pisanje dokumenata online . Ja sam prekjuče počeo da ga koristim i oduševljen sam , ima sve funkcije koje su mi potrebne , zašta će mi Micro$oft Word kad Docs može da pravi .doc, .odt a…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/linux-je-cool-d/">
+            <div class="archive-date">
+              <span>May 13, 2011</span>
+              <span>Linuks</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Linux je cool :D</h3>
+              <p></p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/java-programiranje/">
+            <div class="archive-date">
+              <span>Apr 25, 2011</span>
+              <span>Programiranje</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Java programiranje</h3>
+              <p>Počeo sam da se interesujem za Javu zadnjih mesec dana i malo gledao video tutorijale , čitao neke daunloadovane knjige ali sam koncept OOP (objekto orjentisanog programiranja ) nije mi bio jasan , zato sam odlučio da kupim neku…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/napravio-sam-forum/">
+            <div class="archive-date">
+              <span>Apr 10, 2011</span>
+              <span>Internet</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Napravio sam forum !!!</h3>
+              <p>Napravio sam forum pomocu Simple Machines Forum aplikacije (SMF). Mozete ga posetiti na adresi http://forum.stevy.iz.rs , Komentare i Sugestije napisite ili na forumu ili u komentarima . Registrujte se i postanite član naše…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/macpup-520/">
+            <div class="archive-date">
+              <span>Mar 27, 2011</span>
+              <span>Linuks</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Macpup 520</h3>
+              <p>Pre neki dan sam slucajno naisao na ovaj linuks distro na sajtu http://www.distrowatch.com . Macpup je modifikovana i uljepšana verzija Puppy Linux-a koji je napravljen prvenstveno za starije konfiguracije .Jos jedna stvar kod…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/updejt/">
+            <div class="archive-date">
+              <span>Mar 21, 2011</span>
+              <span>Obavjestenja</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Updejt</h3>
+              <p>Ponovo sam registrovao domen i nasao novi hosting koji je uzgred receno besplatan.Blog je ponovo on-line na stevy.iz.rs</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/compiz/">
+            <div class="archive-date">
+              <span>Mar 14, 2011</span>
+              <span>Linuks</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Compiz</h3>
+              <p>Compiz efekti na mom desktopu</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/obavjestenje/">
+            <div class="archive-date">
+              <span>Mar 10, 2011</span>
+              <span>Obavjestenja</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Obavjestenje</h3>
+              <p>Blog je BIO premesten na novi domen i hosting. Novi sajt se MOGAO posjetiti na stevy.iz.rs Ali je domen ukinut . stevyhacker.wordpress.com je privremeno resenje .</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/iskustva-sa-kompajliranjem-softvera/">
+            <div class="archive-date">
+              <span>Mar 08, 2011</span>
+              <span>Linuks, Programiranje</span>
+              <span>2 min read</span>
+            </div>
+            <div>
+              <h3>Iskustva sa kompajliranjem softvera</h3>
+              <p>Razmisljam ja nesto kako se kompajlira softver za linuks . I tako … Otvorim temu na ES forum i ubrzo dobijem odgovore http://www.elitesecurity.org/t424225-Kompajliranje-source-koda-nekog-programa-za-ubuntu Nisam imao nikakve…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/python-i-programiranje/">
+            <div class="archive-date">
+              <span>Feb 25, 2011</span>
+              <span>Programiranje</span>
+              <span>2 min read</span>
+            </div>
+            <div>
+              <h3>Python i programiranje</h3>
+              <p>Sve pocinje sa kucanjem ‘programiranje’ u google search i ostalo je istorija … 😀 Zezam se malo,ali da pomognem i ja svima koji zele da nauce programirati bez ikakvog predznanja (moj slucaj) Programirati nije jednostavno treba…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/twitter/">
+            <div class="archive-date">
+              <span>Feb 23, 2011</span>
+              <span>Internet</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Twitter</h3>
+              <p>follow me on twtitter http://twitter.com/#!/stevyhacker</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/najbolji-telefon-iphone-4-proizvodac-htc/">
+            <div class="archive-date">
+              <span>Feb 17, 2011</span>
+              <span>Hardver, Internet</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Najbolji telefon iPhone 4, proizvođač HTC</h3>
+              <p>Iako Apple nije prisutan na Mobile World Congressu koji danas završava u Barseloni, njegov iPhone 4 proglašen je na završnoj ceremoniji za najbolji mobilni uređaj.iPhone 4, koji su sudije nahvalile zbog odličnog ekrana, dizajna i…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/nova-drustvena-mreza/">
+            <div class="archive-date">
+              <span>Feb 14, 2011</span>
+              <span>Obavjestenja</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Nove drustvene mreze</h3>
+              <p>http://golub.socialgo.com/ http://ganp.socialgo.com/</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/digital-vs-analog/">
+            <div class="archive-date">
+              <span>Feb 13, 2011</span>
+              <span>Hardver</span>
+              <span>2 min read</span>
+            </div>
+            <div>
+              <h3>Digital VS Analog</h3>
+              <p>Sve informacije su ili analogne ili digitalne – ljudi vide, čuju, mogu opipati i iskusiti analognu informaciju, ali savremeni kompjuteri rade iskljucivo sa digitalnim informacijama. Ljude često zbunjuje u čemu je razlika, ali…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/internet-za-robote/">
+            <div class="archive-date">
+              <span>Feb 13, 2011</span>
+              <span>Internet, Zanimljivosti</span>
+              <span>3 min read</span>
+            </div>
+            <div>
+              <h3>Internet za robote</h3>
+              <p>Radi se o projektu pod nazivom RoboEarth, koji treba da dovede do razvoja džinovske mreže i baze podataka u kojoj roboti mogu da razmenjuju informacije i uce jedni od drugih principe ponašanja u sopstvenom okruženju. Nažalost,…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/internet-u-2010/">
+            <div class="archive-date">
+              <span>Feb 10, 2011</span>
+              <span>Internet</span>
+              <span>2 min read</span>
+            </div>
+            <div>
+              <h3>Internet u 2O10.</h3>
+              <p>E-mail 107 biliona – broj e-poruka poslata na Internetu u 2010. 294 milijardi – prosecan broj e-mail poruka dnevno. 1,88 milijardi – broj korisnika e-pošte širom sveta. 480 miliona – novih korisnika u odnosu na prošlu godinu.…</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/pocinjem/">
+            <div class="archive-date">
+              <span>Feb 08, 2011</span>
+              <span>Obavjestenja, Uncategorized</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Pocinjem … !</h3>
+              <p>Do sledece nedelje cu podesiti konacan izgled mog bloga i pocecu sa postovanjem !</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="archive-card" href="posts/hello-world/">
+            <div class="archive-date">
+              <span>Feb 07, 2011</span>
+              <span>Uncategorized</span>
+              <span>1 min read</span>
+            </div>
+            <div>
+              <h3>Hi !</h3>
+              <p>Nije los ovaj wordpress ,svidja mi se.</p>
+            </div>
+            <span class="archive-arrow" aria-hidden="true">→</span>
+          </a>
+          </div>
         </div>
       </section>
 
       <section class="section manifesto" aria-labelledby="manifesto-title">
         <div class="container">
-          <h2 id="manifesto-title" class="section-title">
-            No theory without a transaction hash. No automation without verification.
-          </h2>
-          <p class="lead">
-            The blog is a place for concrete field notes: what broke, what shipped, what measured well,
-            and what can become a reusable system for serious builders.
-          </p>
-        </div>
-      </section>
-
-      <section class="section" aria-labelledby="queue-title">
-        <div class="container queue-grid">
-          <div>
-            <p class="tiny-label">Publishing queue</p>
-            <h2 id="queue-title" class="section-title">Notes worth making permanent</h2>
-          </div>
-          <div class="queue-card">
-            <ul class="queue-list">
-              <li>
-                <p class="tiny-label">Searcher readiness</p>
-                <h3>From opportunity scan to private execution</h3>
-                <p>A practical structure for ranking liquidation opportunities, proving profitability, and avoiding public-mempool leakage.</p>
-              </li>
-              <li>
-                <p class="tiny-label">Solidity standards</p>
-                <h3>What composable NFT standards taught me</h3>
-                <p>Lessons from ERC-5773, ERC-6059, ERC-6220, ERC-6381, and ERC-6454 about product pressure and protocol design.</p>
-              </li>
-              <li>
-                <p class="tiny-label">AI workflows</p>
-                <h3>The agent as a research-to-product loop</h3>
-                <p>Turning protocol monitoring, reports, and engineering notes into a compounding content and product system.</p>
-              </li>
-            </ul>
-            <div class="button-row">
-              <a class="button" href="mailto:stevan.bogosavljevic@gmail.com">Suggest a topic</a>
-              <a class="button button-square" href="https://twitter.com/stevyhacker" aria-label="Open Stevan on X">↗</a>
-            </div>
-          </div>
+          <h2 id="manifesto-title" class="section-title">Old posts, same instinct: learn in public, build the thing, write down what actually happened.</h2>
+          <p class="lead">The archive stays intentionally historical. Typos, old links, and early-career context are preserved as source material, with a modern reading layer around them.</p>
         </div>
       </section>
     </main>
-
     <footer class="footer">
       <div class="footer-inner">
         <p class="mono">© 2026 Stevan Bogosavljević</p>
         <nav class="footer-links" aria-label="Footer">
           <a href="../">Home</a>
+          <a href="../blog/">Blog</a>
           <a href="https://github.com/stevyhacker">GitHub</a>
           <a href="https://twitter.com/stevyhacker">X</a>
           <a href="mailto:stevan.bogosavljevic@gmail.com">Email</a>
         </nav>
       </div>
     </footer>
+
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Blog", "name": "Stevan Bogosavljević Field Notes", "url": "https://stevyhacker.github.io/blog/", "author": {"@type": "Person", "name": "Stevan Bogosavljević"}, "blogPost": [{"@type": "BlogPosting", "headline": "Epska fantastika 123", "datePublished": "2021-01-09T22:02:48+01:00", "url": "https://stevyhacker.github.io/blog/posts/epska-fantastika-123/"}, {"@type": "BlogPosting", "headline": "Nedostaci i problemi rada od “kuće”", "datePublished": "2019-01-18T17:37:14+01:00", "url": "https://stevyhacker.github.io/blog/posts/nedostaci-i-problemi-rada-od-kuce/"}, {"@type": "BlogPosting", "headline": "Novac preko interneta", "datePublished": "2018-04-08T21:45:38+02:00", "url": "https://stevyhacker.github.io/blog/posts/novac-preko-interneta/"}, {"@type": "BlogPosting", "headline": "Rudarenje(mining) kriptovaluta Bitcoin i Ethereum", "datePublished": "2017-12-26T23:22:50+01:00", "url": "https://stevyhacker.github.io/blog/posts/rudarenjemining-kriptovaluta-bitcoin-i-ethereum/"}, {"@type": "BlogPosting", "headline": "Kupovina Bitkoina i drugih kriptovaluta kreditnom karticom", "datePublished": "2017-10-30T10:23:48+01:00", "url": "https://stevyhacker.github.io/blog/posts/kupovina-bitkoina-i-drugih-kriptovaluta-kreditnom-karticom/"}, {"@type": "BlogPosting", "headline": "Web dev kurs i moj portfolio", "datePublished": "2016-03-03T14:32:33+01:00", "url": "https://stevyhacker.github.io/blog/posts/web-dev-kurs-i-moj-portfolio/"}, {"@type": "BlogPosting", "headline": "Šta je GitHub Student developer pack?", "datePublished": "2015-10-17T11:00:07+02:00", "url": "https://stevyhacker.github.io/blog/posts/githubdevpack/"}, {"@type": "BlogPosting", "headline": "Edukacija na internetu: Gdje, zašto i kako ?", "datePublished": "2013-12-30T22:40:38+01:00", "url": "https://stevyhacker.github.io/blog/posts/edukacija-na-internetu-gdje-zasto-i-kako/"}, {"@type": "BlogPosting", "headline": "Drugi crnogorski hakaton", "datePublished": "2013-11-29T16:09:16+01:00", "url": "https://stevyhacker.github.io/blog/posts/drugi-crnogorski-hakaton/"}, {"@type": "BlogPosting", "headline": "Ja ne volim da sam sam", "datePublished": "2013-10-01T22:05:09+02:00", "url": "https://stevyhacker.github.io/blog/posts/677/"}, {"@type": "BlogPosting", "headline": "Zdravo posle skoro godinu dana", "datePublished": "2013-09-26T19:16:21+02:00", "url": "https://stevyhacker.github.io/blog/posts/zdravo-posle-skoro-godinu-dana/"}, {"@type": "BlogPosting", "headline": "Prvi crnogorski hakaton", "datePublished": "2012-11-12T14:12:38+02:00", "url": "https://stevyhacker.github.io/blog/posts/prvi-crnogorski-hakaton/"}, {"@type": "BlogPosting", "headline": "Razna dešavanja", "datePublished": "2012-08-04T20:57:34+02:00", "url": "https://stevyhacker.github.io/blog/posts/razna-desavanja/"}, {"@type": "BlogPosting", "headline": "Lista aplikacija prijavljenih na android konkursu Prvi izazov", "datePublished": "2012-06-22T18:29:45+02:00", "url": "https://stevyhacker.github.io/blog/posts/lista-aplikacija-prijavljenih-na-android-konkursu-prvi-izazov/"}, {"@type": "BlogPosting", "headline": "Novi domen i hosting", "datePublished": "2012-06-18T23:05:16+02:00", "url": "https://stevyhacker.github.io/blog/posts/novi-domen-i-hosting/"}, {"@type": "BlogPosting", "headline": "Za koliko zvoni ?", "datePublished": "2012-03-25T08:12:41+02:00", "url": "https://stevyhacker.github.io/blog/posts/za-koliko-zvoni/"}, {"@type": "BlogPosting", "headline": "Godinu dana stevy.iz.rs", "datePublished": "2012-03-20T08:51:55+01:00", "url": "https://stevyhacker.github.io/blog/posts/godinu-dana-stevy-iz-rs/"}, {"@type": "BlogPosting", "headline": "Game of Thrones", "datePublished": "2012-02-28T17:35:27+01:00", "url": "https://stevyhacker.github.io/blog/posts/game-of-thrones/"}, {"@type": "BlogPosting", "headline": "Facebook i privatnost", "datePublished": "2012-02-10T21:29:22+01:00", "url": "https://stevyhacker.github.io/blog/posts/facebook-i-vasa-privatnost/"}, {"@type": "BlogPosting", "headline": "Kako psi vide boje ?", "datePublished": "2012-01-09T15:48:31+01:00", "url": "https://stevyhacker.github.io/blog/posts/kako-psi-vide-boje/"}, {"@type": "BlogPosting", "headline": "10 najpopularnijih GNU/Linux distribucija u 2011 godini*", "datePublished": "2012-01-01T18:53:42+01:00", "url": "https://stevyhacker.github.io/blog/posts/10-najpopularnijih-gnulinux-distribucija-u-2011-godini/"}, {"@type": "BlogPosting", "headline": "Kako aktivirati Timeline na FB ?", "datePublished": "2011-12-16T08:32:05+01:00", "url": "https://stevyhacker.github.io/blog/posts/kako-aktivirati-timeline-na-fb/"}, {"@type": "BlogPosting", "headline": "Kako izbrisati Linux ?", "datePublished": "2011-12-03T15:17:21+01:00", "url": "https://stevyhacker.github.io/blog/posts/kako-izbrisati-linux/"}, {"@type": "BlogPosting", "headline": "5 najzanimljivijih android igrica", "datePublished": "2011-11-05T08:59:56+01:00", "url": "https://stevyhacker.github.io/blog/posts/5-najzanimljivijh-android-igrica/"}, {"@type": "BlogPosting", "headline": "Telenor OneTouch", "datePublished": "2011-10-26T09:00:22+02:00", "url": "https://stevyhacker.github.io/blog/posts/telenor-onetouch/"}, {"@type": "BlogPosting", "headline": "Novi forum", "datePublished": "2011-10-16T17:18:46+02:00", "url": "https://stevyhacker.github.io/blog/posts/novi-forum/"}, {"@type": "BlogPosting", "headline": "Android programiranje", "datePublished": "2011-10-05T10:08:35+02:00", "url": "https://stevyhacker.github.io/blog/posts/android-programiranje/"}, {"@type": "BlogPosting", "headline": "Internet zezalice", "datePublished": "2011-09-29T19:24:56+02:00", "url": "https://stevyhacker.github.io/blog/posts/internet-zezalice/"}, {"@type": "BlogPosting", "headline": "Laptop savjeti", "datePublished": "2011-09-14T15:25:59+02:00", "url": "https://stevyhacker.github.io/blog/posts/laptop-savjeti/"}, {"@type": "BlogPosting", "headline": "Kako napraviti remix pjesme ?", "datePublished": "2011-09-08T14:45:56+02:00", "url": "https://stevyhacker.github.io/blog/posts/kako-napraviti-remix-pjesme/"}, {"@type": "BlogPosting", "headline": "Jedinstvena priča o upornosti", "datePublished": "2011-09-04T13:09:51+02:00", "url": "https://stevyhacker.github.io/blog/posts/jedinstvena-prica-o-upornosti/"}, {"@type": "BlogPosting", "headline": "Ubuntu 11.10 Beta 1- Ukratko", "datePublished": "2011-09-02T16:06:12+02:00", "url": "https://stevyhacker.github.io/blog/posts/ubuntu-11-10-beta-1-ukratko/"}, {"@type": "BlogPosting", "headline": "Twitter Klijenti – Tweetz", "datePublished": "2011-09-01T14:53:15+02:00", "url": "https://stevyhacker.github.io/blog/posts/twitter-klijenti-tweetz/"}, {"@type": "BlogPosting", "headline": "5 najboljih strategija", "datePublished": "2011-08-18T11:10:02+02:00", "url": "https://stevyhacker.github.io/blog/posts/5-najboljih-strategija/"}, {"@type": "BlogPosting", "headline": "Zanimljivi testovi", "datePublished": "2011-08-13T12:37:21+02:00", "url": "https://stevyhacker.github.io/blog/posts/zanimljivi-testovi/"}, {"@type": "BlogPosting", "headline": "Moja Windows 7 tema", "datePublished": "2011-08-11T16:31:03+02:00", "url": "https://stevyhacker.github.io/blog/posts/moja-windows-7-tema/"}, {"@type": "BlogPosting", "headline": "Priča o stvarima-Story of stuff", "datePublished": "2011-08-10T09:00:30+02:00", "url": "https://stevyhacker.github.io/blog/posts/prica-o-stvarima-story-of-stuff/"}, {"@type": "BlogPosting", "headline": "Neki dobri filmovi", "datePublished": "2011-08-08T21:01:17+02:00", "url": "https://stevyhacker.github.io/blog/posts/neki-dobri-filmovi/"}, {"@type": "BlogPosting", "headline": "GIMP", "datePublished": "2011-08-06T11:49:55+02:00", "url": "https://stevyhacker.github.io/blog/posts/gimp/"}, {"@type": "BlogPosting", "headline": "Statistika sajta", "datePublished": "2011-08-04T15:28:10+02:00", "url": "https://stevyhacker.github.io/blog/posts/statistika-sajta/"}, {"@type": "BlogPosting", "headline": "Obavještenje", "datePublished": "2011-07-23T09:43:51+00:00", "url": "https://stevyhacker.github.io/blog/posts/obavjestenje-2/"}, {"@type": "BlogPosting", "headline": "AdSense reklame", "datePublished": "2011-06-07T07:25:23+01:00", "url": "https://stevyhacker.github.io/blog/posts/adsense-reklame/"}, {"@type": "BlogPosting", "headline": "Ubuntu 11.04 & Unity", "datePublished": "2011-06-05T17:51:51+01:00", "url": "https://stevyhacker.github.io/blog/posts/ubuntu-11-04-unity/"}, {"@type": "BlogPosting", "headline": "Ubuntu Natty Narwhal", "datePublished": "2011-06-02T19:59:39+02:00", "url": "https://stevyhacker.github.io/blog/posts/ubuntu-11-04-ubrzoo/"}, {"@type": "BlogPosting", "headline": "Google Docs", "datePublished": "2011-05-22T16:46:00+02:00", "url": "https://stevyhacker.github.io/blog/posts/google-docs/"}, {"@type": "BlogPosting", "headline": "Linux je cool :D", "datePublished": "2011-05-13T19:15:13+02:00", "url": "https://stevyhacker.github.io/blog/posts/linux-je-cool-d/"}, {"@type": "BlogPosting", "headline": "Java programiranje", "datePublished": "2011-04-25T06:43:32+02:00", "url": "https://stevyhacker.github.io/blog/posts/java-programiranje/"}, {"@type": "BlogPosting", "headline": "Napravio sam forum !!!", "datePublished": "2011-04-10T14:08:17+02:00", "url": "https://stevyhacker.github.io/blog/posts/napravio-sam-forum/"}, {"@type": "BlogPosting", "headline": "Macpup 520", "datePublished": "2011-03-27T20:39:20+02:00", "url": "https://stevyhacker.github.io/blog/posts/macpup-520/"}, {"@type": "BlogPosting", "headline": "Updejt", "datePublished": "2011-03-21T18:32:08+01:00", "url": "https://stevyhacker.github.io/blog/posts/updejt/"}, {"@type": "BlogPosting", "headline": "Compiz", "datePublished": "2011-03-14T18:59:52+01:00", "url": "https://stevyhacker.github.io/blog/posts/compiz/"}, {"@type": "BlogPosting", "headline": "Obavjestenje", "datePublished": "2011-03-10T14:08:31+01:00", "url": "https://stevyhacker.github.io/blog/posts/obavjestenje/"}, {"@type": "BlogPosting", "headline": "Iskustva sa kompajliranjem softvera", "datePublished": "2011-03-08T20:39:48+01:00", "url": "https://stevyhacker.github.io/blog/posts/iskustva-sa-kompajliranjem-softvera/"}, {"@type": "BlogPosting", "headline": "Python i programiranje", "datePublished": "2011-02-25T18:21:21+01:00", "url": "https://stevyhacker.github.io/blog/posts/python-i-programiranje/"}, {"@type": "BlogPosting", "headline": "Twitter", "datePublished": "2011-02-23T17:25:50+01:00", "url": "https://stevyhacker.github.io/blog/posts/twitter/"}, {"@type": "BlogPosting", "headline": "Najbolji telefon iPhone 4, proizvođač HTC", "datePublished": "2011-02-17T17:58:42+01:00", "url": "https://stevyhacker.github.io/blog/posts/najbolji-telefon-iphone-4-proizvodac-htc/"}, {"@type": "BlogPosting", "headline": "Nove drustvene mreze", "datePublished": "2011-02-14T07:09:57+01:00", "url": "https://stevyhacker.github.io/blog/posts/nova-drustvena-mreza/"}, {"@type": "BlogPosting", "headline": "Digital VS Analog", "datePublished": "2011-02-13T15:07:18+01:00", "url": "https://stevyhacker.github.io/blog/posts/digital-vs-analog/"}, {"@type": "BlogPosting", "headline": "Internet za robote", "datePublished": "2011-02-13T15:01:59+01:00", "url": "https://stevyhacker.github.io/blog/posts/internet-za-robote/"}, {"@type": "BlogPosting", "headline": "Internet u 2O10.", "datePublished": "2011-02-10T15:55:35+01:00", "url": "https://stevyhacker.github.io/blog/posts/internet-u-2010/"}, {"@type": "BlogPosting", "headline": "Pocinjem … !", "datePublished": "2011-02-08T17:38:23+01:00", "url": "https://stevyhacker.github.io/blog/posts/pocinjem/"}, {"@type": "BlogPosting", "headline": "Hi !", "datePublished": "2011-02-07T20:19:19+00:00", "url": "https://stevyhacker.github.io/blog/posts/hello-world/"}]}</script>
   </body>
 </html>

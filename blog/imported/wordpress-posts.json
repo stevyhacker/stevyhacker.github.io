@@ -1,0 +1,1241 @@
+[
+  {
+    "id": 800,
+    "title": "Epska fantastika 123",
+    "slug": "epska-fantastika-123",
+    "date": "2021-01-09T22:02:48+01:00",
+    "modified": "2021-01-09T22:02:48+01:00",
+    "pretty_date": "Jan 09, 2021",
+    "month_year": "January 2021",
+    "original_url": "https://stevyhacker.wordpress.com/2021/01/09/epska-fantastika-123/",
+    "short_url": "https://wp.me/p1lfVQ-cU",
+    "categories": [
+      "Knjizevnost"
+    ],
+    "tags": [],
+    "excerpt": "Veliki sam ljubitelj ovog žanra, pa sam poželio da izdvojim par omiljenih serijala. Ako vam se sviđaju Gospodar prstenova i Igra prestola, onda će vam sigurno i neki od ovih biti zanimljivi. 3. Točak vremena – Robert Jordan (The…",
+    "read_minutes": 3
+  },
+  {
+    "id": 793,
+    "title": "Nedostaci i problemi rada od “kuće”",
+    "slug": "nedostaci-i-problemi-rada-od-kuce",
+    "date": "2019-01-18T17:37:14+01:00",
+    "modified": "2019-01-18T18:41:42+01:00",
+    "pretty_date": "Jan 18, 2019",
+    "month_year": "January 2019",
+    "original_url": "https://stevyhacker.wordpress.com/2019/01/18/nedostaci-i-problemi-rada-od-kuce/",
+    "short_url": "https://wp.me/p1lfVQ-cN",
+    "categories": [
+      "Internet",
+      "Programiranje"
+    ],
+    "tags": [],
+    "excerpt": "Od kad sam počeo da se profesionalno bavim programiranjem ima već nekih 4 godine otprilike. Za to vrijeme sam uglavnom radio od “kuće”, a poslednjih 2 i po godine isključivo tako. Od “kuće” stavljam u navodnike zato što je lakše…",
+    "read_minutes": 6
+  },
+  {
+    "id": 788,
+    "title": "Novac preko interneta",
+    "slug": "novac-preko-interneta",
+    "date": "2018-04-08T21:45:38+02:00",
+    "modified": "2018-04-08T22:00:52+02:00",
+    "pretty_date": "Apr 08, 2018",
+    "month_year": "April 2018",
+    "original_url": "https://stevyhacker.wordpress.com/2018/04/08/novac-preko-interneta/",
+    "short_url": "https://wp.me/p1lfVQ-cI",
+    "categories": [
+      "Internet"
+    ],
+    "tags": [
+      "freelance posao",
+      "internet zarada",
+      "online zarada",
+      "posao online",
+      "programiranje poslovi",
+      "remote poslovi"
+    ],
+    "excerpt": "Već dugo vremena radim online, uglavnom kao Andriod developer uz manje izlete u druge oblasti. Ono što sam htio podjeliti ovdje je dosta raznih načina koje sam otkrio usput o tome kako se novac može zaraditi online. Za sve…",
+    "read_minutes": 4
+  },
+  {
+    "id": 784,
+    "title": "Rudarenje(mining) kriptovaluta Bitcoin i Ethereum",
+    "slug": "rudarenjemining-kriptovaluta-bitcoin-i-ethereum",
+    "date": "2017-12-26T23:22:50+01:00",
+    "modified": "2017-12-26T23:49:44+01:00",
+    "pretty_date": "Dec 26, 2017",
+    "month_year": "December 2017",
+    "original_url": "https://stevyhacker.wordpress.com/2017/12/26/rudarenjemining-kriptovaluta-bitcoin-i-ethereum/",
+    "short_url": "https://wp.me/p1lfVQ-cE",
+    "categories": [
+      "Obavjestenja"
+    ],
+    "tags": [],
+    "excerpt": "Skoro se raspisah o ovoj temi na jednom forumu pa evo i ovdje neke informacije. Majnovati možete preko procesora, grafičke ili ASICa. ASIC su specijalni uredjaji namjenjeni isključivo miningu i to najviše za Bitcoin i Litecoin.…",
+    "read_minutes": 3
+  },
+  {
+    "id": 732,
+    "title": "Kupovina Bitkoina i drugih kriptovaluta kreditnom karticom",
+    "slug": "kupovina-bitkoina-i-drugih-kriptovaluta-kreditnom-karticom",
+    "date": "2017-10-30T10:23:48+01:00",
+    "modified": "2021-02-13T19:06:41+01:00",
+    "pretty_date": "Oct 30, 2017",
+    "month_year": "October 2017",
+    "original_url": "https://stevyhacker.wordpress.com/2017/10/30/kupovina-bitkoina-i-drugih-kriptovaluta-kreditnom-karticom/",
+    "short_url": "https://wp.me/p1lfVQ-bO",
+    "categories": [
+      "Internet"
+    ],
+    "tags": [],
+    "excerpt": "Skoro sam počeo da se zanimam za kriptovalute i želio sam da probam kako funkcioniše čitav sistem, kreirao sam wallet za Bitcoin i Ethereum preko Exodus aplikacije. Tu dobijate adresu koju koristite za primanje i iz te aplikacije…",
+    "read_minutes": 2
+  },
+  {
+    "id": 730,
+    "title": "Web dev kurs i moj portfolio",
+    "slug": "web-dev-kurs-i-moj-portfolio",
+    "date": "2016-03-03T14:32:33+01:00",
+    "modified": "2016-03-03T14:32:33+01:00",
+    "pretty_date": "Mar 03, 2016",
+    "month_year": "March 2016",
+    "original_url": "https://stevyhacker.wordpress.com/2016/03/03/web-dev-kurs-i-moj-portfolio/",
+    "short_url": "https://wp.me/p1lfVQ-bM",
+    "categories": [
+      "Obavjestenja"
+    ],
+    "tags": [],
+    "excerpt": "Pošto sam počeo prije par mjeseci da učim razvoj web aplikacija pomoću FreeCodeCamp kursa, želio sam i ovdje da podijelim jedan od projekata koji sam napravio u dosadašnjem toku kursa, a to je moja portfolio stranica. Evo ga…",
+    "read_minutes": 1
+  },
+  {
+    "id": 725,
+    "title": "Šta je GitHub Student developer pack?",
+    "slug": "githubdevpack",
+    "date": "2015-10-17T11:00:07+02:00",
+    "modified": "2015-10-17T11:07:20+02:00",
+    "pretty_date": "Oct 17, 2015",
+    "month_year": "October 2015",
+    "original_url": "https://stevyhacker.wordpress.com/2015/10/17/githubdevpack/",
+    "short_url": "https://wp.me/p1lfVQ-bH",
+    "categories": [
+      "Programiranje",
+      "Zanimljivosti"
+    ],
+    "tags": [
+      "besplatni domen",
+      "besplatni git hosting",
+      "besplatni hosting",
+      "domen",
+      "github student developer pack",
+      "programiranje"
+    ],
+    "excerpt": "Nedavno sam saznao za jednu super akciju na Github-u za studente pa sam želio da je podjelim sa drugima i ukažem na to za šta sve može biti korisna. GitHub student developer pack je skup servisa koji će vam omogućiti da nesmetano…",
+    "read_minutes": 2
+  },
+  {
+    "id": 706,
+    "title": "Edukacija na internetu: Gdje, zašto i kako ?",
+    "slug": "edukacija-na-internetu-gdje-zasto-i-kako",
+    "date": "2013-12-30T22:40:38+01:00",
+    "modified": "2014-01-06T20:54:11+01:00",
+    "pretty_date": "Dec 30, 2013",
+    "month_year": "December 2013",
+    "original_url": "https://stevyhacker.wordpress.com/2013/12/30/edukacija-na-internetu-gdje-zasto-i-kako/",
+    "short_url": "https://wp.me/p1lfVQ-bo",
+    "categories": [
+      "Internet"
+    ],
+    "tags": [
+      "besplatni kursevi",
+      "edukacija",
+      "internet kursevi",
+      "kurs programiranja",
+      "obrazovanje",
+      "online kursevi",
+      "učenje na internetu",
+      "video tutorijali"
+    ],
+    "excerpt": "Edukacija i način obrazovanja doživljavaju preporod širenjem interneta. Fakulteti nude distance learning sisteme, profesori počinju objavljivati lekcije na internetu besplatno, pojavljuje se mnoštvo online kurseva, elektronske…",
+    "read_minutes": 3
+  },
+  {
+    "id": 686,
+    "title": "Drugi crnogorski hakaton",
+    "slug": "drugi-crnogorski-hakaton",
+    "date": "2013-11-29T16:09:16+01:00",
+    "modified": "2013-11-29T16:09:16+01:00",
+    "pretty_date": "Nov 29, 2013",
+    "month_year": "November 2013",
+    "original_url": "https://stevyhacker.wordpress.com/2013/11/29/drugi-crnogorski-hakaton/",
+    "short_url": "https://wp.me/p1lfVQ-b4",
+    "categories": [
+      "Obavjestenja"
+    ],
+    "tags": [
+      "crna gora",
+      "digitalizujme",
+      "extra tv",
+      "hakaton",
+      "iptv",
+      "logate",
+      "programiranje"
+    ],
+    "excerpt": "Evo jedna lijepa vijest za sve programere, dizajnere i ljude sa idejom. Upravo je najavljen drugi crnogorski hakaton. Organizatori su softverska kompanija – Logate i digitalna zajednica Crne Gore – Digitalizuj.Me. Drugi Hakaton…",
+    "read_minutes": 1
+  },
+  {
+    "id": 677,
+    "title": "Ja ne volim da sam sam",
+    "slug": "677",
+    "date": "2013-10-01T22:05:09+02:00",
+    "modified": "2013-10-13T17:55:43+02:00",
+    "pretty_date": "Oct 01, 2013",
+    "month_year": "October 2013",
+    "original_url": "https://stevyhacker.wordpress.com/2013/10/01/677/",
+    "short_url": "https://wp.me/p1lfVQ-aV",
+    "categories": [
+      "Некатегоризовано",
+      "Zanimljivosti"
+    ],
+    "tags": [
+      "dragan radulovic",
+      "gledam jednu samu lastu",
+      "ja ne volim da sam sam"
+    ],
+    "excerpt": "Prošle nedjelje sjetio sam se pjesme Ja ne volim da sam sam od Dragana Radulovića koja se uči u osnovnoj školi. Čudno mi je bilo kako sam je jedva našao na internetu i to sasvim slučajno na jednom forumu. Ovdje ću objaviti čitav…",
+    "read_minutes": 1
+  },
+  {
+    "id": 652,
+    "title": "Zdravo posle skoro godinu dana",
+    "slug": "zdravo-posle-skoro-godinu-dana",
+    "date": "2013-09-26T19:16:21+02:00",
+    "modified": "2013-09-26T19:16:21+02:00",
+    "pretty_date": "Sep 26, 2013",
+    "month_year": "September 2013",
+    "original_url": "https://stevyhacker.wordpress.com/2013/09/26/zdravo-posle-skoro-godinu-dana/",
+    "short_url": "https://wp.me/p1lfVQ-aw",
+    "categories": [
+      "Obavjestenja"
+    ],
+    "tags": [
+      "dani nauke",
+      "Fabrika znanja",
+      "firefox os",
+      "kurs c#",
+      "otvorene ideje",
+      "pripreme iz programiranja",
+      "programiranje"
+    ],
+    "excerpt": "Zdravo, prošlo je skoro godinu dana od poslednje objave. Ulijenio sam se i prestao da pišem na blogu. U medjuvremenu vratio sam se na wordpress domen i hosting. Desile su se razne stvari http://otvoreneideje.me/…",
+    "read_minutes": 2
+  },
+  {
+    "id": 644,
+    "title": "Prvi crnogorski hakaton",
+    "slug": "prvi-crnogorski-hakaton",
+    "date": "2012-11-12T14:12:38+02:00",
+    "modified": "2012-11-12T14:12:38+02:00",
+    "pretty_date": "Nov 12, 2012",
+    "month_year": "November 2012",
+    "original_url": "https://stevyhacker.wordpress.com/2012/11/12/prvi-crnogorski-hakaton/",
+    "short_url": "https://wp.me/p1lfVQ-ao",
+    "categories": [
+      "Zanimljivosti"
+    ],
+    "tags": [],
+    "excerpt": "U vikendu koji je već za nama bio je prvi hakaton održan u Crnoj Gori. Organizacija je bila odlična kao i društvo. Veliki broj ideja sa početne prezentacije je realizovan. Ja sam bio u ekipi sa Aleksom Doderovićem, Rajkom…",
+    "read_minutes": 1
+  },
+  {
+    "id": 615,
+    "title": "Razna dešavanja",
+    "slug": "razna-desavanja",
+    "date": "2012-08-04T20:57:34+02:00",
+    "modified": "2012-08-04T20:57:34+02:00",
+    "pretty_date": "Aug 04, 2012",
+    "month_year": "August 2012",
+    "original_url": "https://stevyhacker.wordpress.com/2012/08/04/razna-desavanja/",
+    "short_url": "https://wp.me/p1lfVQ-9V",
+    "categories": [
+      "Obavjestenja",
+      "Zanimljivosti"
+    ],
+    "tags": [],
+    "excerpt": "Nisam pisao na blogu dugo vremena a bilo je dosta meni važnih dogadjaja 🙂 Evo o svemu pomalo. Dobio sam nagradu na konkursu “Prvi izazov” HTC telefon Desire Z koji trenutno koristim i odličan je. Čitav konkurs je bio jako lijepo…",
+    "read_minutes": 1
+  },
+  {
+    "id": 611,
+    "title": "Lista aplikacija prijavljenih na android konkursu Prvi izazov",
+    "slug": "lista-aplikacija-prijavljenih-na-android-konkursu-prvi-izazov",
+    "date": "2012-06-22T18:29:45+02:00",
+    "modified": "2012-06-22T18:29:45+02:00",
+    "pretty_date": "Jun 22, 2012",
+    "month_year": "June 2012",
+    "original_url": "https://stevyhacker.wordpress.com/2012/06/22/lista-aplikacija-prijavljenih-na-android-konkursu-prvi-izazov/",
+    "short_url": "https://wp.me/p1lfVQ-9R",
+    "categories": [
+      "Android"
+    ],
+    "tags": [
+      "android konkurs",
+      "midt",
+      "prezentacija android konkurs",
+      "prezentacija prvi izazov",
+      "prvi izazov"
+    ],
+    "excerpt": "Ovo je lista svih aplikacija koje su prijavljene na konkurs, većina njih je prezentovana danas ali za nekoliko se takmičari nisu pojavili. Moja aplikacija je 26 na listi. Objava nagradjenih učesnika se očekuje do kraja nedjelje.…",
+    "read_minutes": 1
+  },
+  {
+    "id": 639,
+    "title": "Novi domen i hosting",
+    "slug": "novi-domen-i-hosting",
+    "date": "2012-06-18T23:05:16+02:00",
+    "modified": "2012-06-18T23:05:16+02:00",
+    "pretty_date": "Jun 18, 2012",
+    "month_year": "June 2012",
+    "original_url": "https://stevyhacker.wordpress.com/2012/06/18/novi-domen-i-hosting/",
+    "short_url": "https://wp.me/p1lfVQ-aj",
+    "categories": [
+      "Internet"
+    ],
+    "tags": [],
+    "excerpt": "Od danas čitatje moj blog na novom domenu http://stevan.bogosavljevic.me Stari tekstovi su tu uglavnom ali još nije sve kompletno vraćeno. Na sajtu će biti dosta izmjena sledećih nekoliko dana pa ne zamjerite. Možda ste i…",
+    "read_minutes": 1
+  },
+  {
+    "id": 591,
+    "title": "Za koliko zvoni ?",
+    "slug": "za-koliko-zvoni",
+    "date": "2012-03-25T08:12:41+02:00",
+    "modified": "2013-12-28T13:45:45+01:00",
+    "pretty_date": "Mar 25, 2012",
+    "month_year": "March 2012",
+    "original_url": "https://stevyhacker.wordpress.com/2012/03/25/za-koliko-zvoni/",
+    "short_url": "https://wp.me/p1lfVQ-9x",
+    "categories": [
+      "Android",
+      "Programiranje"
+    ],
+    "tags": [],
+    "excerpt": "Kako nisam duže vremena ništa programirao za android, napravio sam za poslednja dva dana jednu jednostavnu ali korisnu aplikaciju za nas što još idemo u školu a često zaboravljamo kad zvoni čas. App radi i za prvu i za drugu…",
+    "read_minutes": 1
+  },
+  {
+    "id": 583,
+    "title": "Godinu dana stevy.iz.rs",
+    "slug": "godinu-dana-stevy-iz-rs",
+    "date": "2012-03-20T08:51:55+01:00",
+    "modified": "2012-03-20T08:51:55+01:00",
+    "pretty_date": "Mar 20, 2012",
+    "month_year": "March 2012",
+    "original_url": "https://stevyhacker.wordpress.com/2012/03/20/godinu-dana-stevy-iz-rs/",
+    "short_url": "https://wp.me/p1lfVQ-9p",
+    "categories": [
+      "Internet"
+    ],
+    "tags": [
+      "stevy.iz.rs"
+    ],
+    "excerpt": "Danas je tačno godinu dana od kad sam osnovao blog na stevy.iz.rs domenu 🙂 Nadam se da sam napisao dosta korisnih stvari ovdje a za tih godinu dana Google analitika pokazuje preko 12 hiljada posjeta. Trenutno učestvujem na…",
+    "read_minutes": 1
+  },
+  {
+    "id": 570,
+    "title": "Game of Thrones",
+    "slug": "game-of-thrones",
+    "date": "2012-02-28T17:35:27+01:00",
+    "modified": "2012-02-28T17:35:27+01:00",
+    "pretty_date": "Feb 28, 2012",
+    "month_year": "February 2012",
+    "original_url": "https://stevyhacker.wordpress.com/2012/02/28/game-of-thrones/",
+    "short_url": "https://wp.me/p1lfVQ-9c",
+    "categories": [
+      "Internet",
+      "Zanimljivosti"
+    ],
+    "tags": [
+      "game of thrones",
+      "igra prestola",
+      "igra prestola novi trejler",
+      "igra prestola trejler",
+      "igra prijestolja",
+      "ned stark",
+      "pjesme leda i vatre"
+    ],
+    "excerpt": "Game of Thrones je jedna od najoriginalnijih serija koje sam ja dosad gledao. 2011 je objavljena prva sezona sa deset epizoda po sat vremena a početak emitovanja druge sezone je najavljen za prvi April ove godine. Radnja prve…",
+    "read_minutes": 1
+  },
+  {
+    "id": 550,
+    "title": "Facebook i privatnost",
+    "slug": "facebook-i-vasa-privatnost",
+    "date": "2012-02-10T21:29:22+01:00",
+    "modified": "2012-02-10T21:29:22+01:00",
+    "pretty_date": "Feb 10, 2012",
+    "month_year": "February 2012",
+    "original_url": "https://stevyhacker.wordpress.com/2012/02/10/facebook-i-vasa-privatnost/",
+    "short_url": "https://wp.me/p1lfVQ-8S",
+    "categories": [
+      "Internet"
+    ],
+    "tags": [
+      "fejsbuk",
+      "kako da registrujem profil na fejsbuk",
+      "kako da zaštitim profil",
+      "privatnost",
+      "privatnost na internetu",
+      "sigurnost na internetu",
+      "tajmlajn"
+    ],
+    "excerpt": "Do nedavno apsolutno se nisam nimalo brinuo za svoju privatnost na facebook-u čak sam i omalovažavao takve vijesti. Tek sam nedavno shvatio kako se Facebook promjenio u zadnje dvije godine od kad ga koristim. Svakodnevno nas…",
+    "read_minutes": 2
+  },
+  {
+    "id": 501,
+    "title": "Kako psi vide boje ?",
+    "slug": "kako-psi-vide-boje",
+    "date": "2012-01-09T15:48:31+01:00",
+    "modified": "2012-01-09T15:48:31+01:00",
+    "pretty_date": "Jan 09, 2012",
+    "month_year": "January 2012",
+    "original_url": "https://stevyhacker.wordpress.com/2012/01/09/kako-psi-vide-boje/",
+    "short_url": "https://wp.me/p1lfVQ-85",
+    "categories": [
+      "Zanimljivosti"
+    ],
+    "tags": [
+      "kako pas vidi",
+      "kako psi vide",
+      "kako psi vide boje",
+      "pas vid",
+      "pseći spektar boja",
+      "pseći vid",
+      "psi",
+      "psi vid",
+      "vide li psi samo crno belo"
+    ],
+    "excerpt": "Jeste li se ikad zapitali kako vide psi? Vjerovatno mislite da vide samo u nijansama crne i bijele? To je netačno! Psi mogu da vide boje, ali ne isto kao i ljudi, tačnije vide drugačiji spektar boja, bez crvene, zelene i…",
+    "read_minutes": 1
+  },
+  {
+    "id": 486,
+    "title": "10 najpopularnijih GNU/Linux distribucija u 2011 godini*",
+    "slug": "10-najpopularnijih-gnulinux-distribucija-u-2011-godini",
+    "date": "2012-01-01T18:53:42+01:00",
+    "modified": "2012-01-01T18:53:42+01:00",
+    "pretty_date": "Jan 01, 2012",
+    "month_year": "January 2012",
+    "original_url": "https://stevyhacker.wordpress.com/2012/01/01/10-najpopularnijih-gnulinux-distribucija-u-2011-godini/",
+    "short_url": "https://wp.me/p1lfVQ-7Q",
+    "categories": [
+      "Linuks",
+      "Zanimljivosti"
+    ],
+    "tags": [
+      "linuks mint",
+      "linuks operativni sistem",
+      "linux",
+      "najbolji linuks",
+      "najpopularnije linuks distribucije",
+      "operativni sistemi"
+    ],
+    "excerpt": "1. Mint Popularni Ubuntu derivat koji ga je uspio nadmašiti. 2. Ubuntu Jedna od najpoznatijih a i najboljih GNU/Linux distribucija. 3. Fedora Bleeding-edge distro sa uvjek najnovijim verzijama programa. 4. Debian Ubuntuov “tata”…",
+    "read_minutes": 1
+  },
+  {
+    "id": 479,
+    "title": "Kako aktivirati Timeline na FB ?",
+    "slug": "kako-aktivirati-timeline-na-fb",
+    "date": "2011-12-16T08:32:05+01:00",
+    "modified": "2011-12-16T08:32:05+01:00",
+    "pretty_date": "Dec 16, 2011",
+    "month_year": "December 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/12/16/kako-aktivirati-timeline-na-fb/",
+    "short_url": "https://wp.me/p1lfVQ-7J",
+    "categories": [
+      "Internet"
+    ],
+    "tags": [
+      "kako aktivirati timeline na fb",
+      "kako da instaliram timeline",
+      "novi izgled fb profila",
+      "novi izgled fejsbuk profila"
+    ],
+    "excerpt": "Facebook-ov famozni Timeline je sad moguće dobiti jednostavnim klikom na “Get” na sledećem linku http://www.facebook.com/about/timeline Vaš profil neće biti odmah prebačen na novi izgled, već tek kad odaberete Publish now ili tek…",
+    "read_minutes": 1
+  },
+  {
+    "id": 469,
+    "title": "Kako izbrisati Linux ?",
+    "slug": "kako-izbrisati-linux",
+    "date": "2011-12-03T15:17:21+01:00",
+    "modified": "2011-12-03T15:17:21+01:00",
+    "pretty_date": "Dec 03, 2011",
+    "month_year": "December 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/12/03/kako-izbrisati-linux/",
+    "short_url": "https://wp.me/p1lfVQ-7z",
+    "categories": [
+      "Linuks"
+    ],
+    "tags": [
+      "brisanje linuksa",
+      "kako da izbrišem mint",
+      "kako da izbrišem ubuntu",
+      "kako da popravim mbr",
+      "kako izbrisati linuks",
+      "kako izbrisati linux",
+      "linuks"
+    ],
+    "excerpt": "Pre neki dan sam instalirao Linux Mint 12 i pošto nisam bio zadovoljan, hteo sam da ga obrišem. Malo sam potražio po internetu i došao do uputstava. Da bi izbrisali Linux dovoljno je da pokrenete neki program za particionisanje…",
+    "read_minutes": 1
+  },
+  {
+    "id": 446,
+    "title": "5 najzanimljivijih android igrica",
+    "slug": "5-najzanimljivijh-android-igrica",
+    "date": "2011-11-05T08:59:56+01:00",
+    "modified": "2011-11-05T08:59:56+01:00",
+    "pretty_date": "Nov 05, 2011",
+    "month_year": "November 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/11/05/5-najzanimljivijh-android-igrica/",
+    "short_url": "https://wp.me/p1lfVQ-7c",
+    "categories": [
+      "Android",
+      "Igrice"
+    ],
+    "tags": [
+      "5 najboljih android igrica",
+      "5 najzanimljivijih android igrica",
+      "igre za telenor one touch",
+      "igrice za android",
+      "igrice za telefon",
+      "najbolje android igre",
+      "zanimljive android igrice"
+    ],
+    "excerpt": "Igrice za telefone su napravile ogroman napredak zadnjih nekoliko godina. Vreme igranja Snake-a na crno bijelom ekranu Nokije je davno prošlo. Razvoj operativnih sistema i popularizacija smarfona dovela je do pojave 3D igrica,…",
+    "read_minutes": 2
+  },
+  {
+    "id": 436,
+    "title": "Telenor OneTouch",
+    "slug": "telenor-onetouch",
+    "date": "2011-10-26T09:00:22+02:00",
+    "modified": "2011-10-26T09:00:22+02:00",
+    "pretty_date": "Oct 26, 2011",
+    "month_year": "October 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/10/26/telenor-onetouch/",
+    "short_url": "https://wp.me/p1lfVQ-72",
+    "categories": [
+      "Android",
+      "Hardver"
+    ],
+    "tags": [
+      "alcatel ot 990",
+      "android smartfoni",
+      "best buy telefoni",
+      "jeftini android telefoni",
+      "Povoljni android telefoni",
+      "rutovanje alcatel ot-990",
+      "rutovanje telenor one touch",
+      "telenor one touch",
+      "telenor one touch review",
+      "Telenor OneTouch",
+      "video test telenor onetocuh"
+    ],
+    "excerpt": "Kako sam nedavno dobio prvi android telefon i malo ga isprobao, odlučio sam da napišem kraći review telefona sa korisnim linkovima, uputstvima za instaliranje drajvera, rutovanjem i povezivanjem sa kompjuterom. Takodje na raznim…",
+    "read_minutes": 2
+  },
+  {
+    "id": 427,
+    "title": "Novi forum",
+    "slug": "novi-forum",
+    "date": "2011-10-16T17:18:46+02:00",
+    "modified": "2011-10-16T17:18:46+02:00",
+    "pretty_date": "Oct 16, 2011",
+    "month_year": "October 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/10/16/novi-forum/",
+    "short_url": "https://wp.me/p1lfVQ-6T",
+    "categories": [
+      "Android",
+      "Internet"
+    ],
+    "tags": [
+      "Android",
+      "android programiranje",
+      "kako da napravim igricu za telefon telefoni",
+      "kako da napravim program za android"
+    ],
+    "excerpt": "Prije nekoliko dana sam u saradnji sa Milanom Kragujevićem otvorio forum za android programiranje. Podjeljen je na 3 dijela. Programiranje, Telefoni i Ostalo. Na forumu možete saznati kako napraviti android aplikaciju, kako i…",
+    "read_minutes": 1
+  },
+  {
+    "id": 418,
+    "title": "Android programiranje",
+    "slug": "android-programiranje",
+    "date": "2011-10-05T10:08:35+02:00",
+    "modified": "2011-10-05T10:08:35+02:00",
+    "pretty_date": "Oct 05, 2011",
+    "month_year": "October 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/10/05/android-programiranje/",
+    "short_url": "https://wp.me/p1lfVQ-6K",
+    "categories": [
+      "Android",
+      "Programiranje"
+    ],
+    "tags": [
+      "android aplikacije",
+      "android programiranje",
+      "aplikacije za smartfon",
+      "kako da napravim android igricu",
+      "kako da napravim program za android",
+      "programiranje za telefon"
+    ],
+    "excerpt": "Nedavno sam počeo posebno interesovati za programiranje u androidu i mogu reći da sam našao dosta korisnih sajtova. Zato sam odlučio da ih objedinim u jednom članku. Sadržaja na našem jeziku nema mnogo što se tiče programiranja…",
+    "read_minutes": 1
+  },
+  {
+    "id": 394,
+    "title": "Internet zezalice",
+    "slug": "internet-zezalice",
+    "date": "2011-09-29T19:24:56+02:00",
+    "modified": "2011-09-29T19:24:56+02:00",
+    "pretty_date": "Sep 29, 2011",
+    "month_year": "September 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/09/29/internet-zezalice/",
+    "short_url": "https://wp.me/p1lfVQ-6m",
+    "categories": [
+      "Internet",
+      "Zanimljivosti"
+    ],
+    "tags": [
+      "google gravity",
+      "ie6 error",
+      "internet zezalice",
+      "selfcontrolfreak",
+      "vukajlija",
+      "zanimljivi sajtovi"
+    ],
+    "excerpt": "Zadnjih nekoliko dana sam vidio nekoliko stvarno zabavnih i krajnje neobičnih sajtova, pa sam odlučio da napravim članak o internet zezalicama. Neke ste vjerovatno već i vidjeli ali sigurno da će vam ponovo biti smiješne 😉…",
+    "read_minutes": 1
+  },
+  {
+    "id": 371,
+    "title": "Laptop savjeti",
+    "slug": "laptop-savjeti",
+    "date": "2011-09-14T15:25:59+02:00",
+    "modified": "2011-09-14T15:25:59+02:00",
+    "pretty_date": "Sep 14, 2011",
+    "month_year": "September 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/09/14/laptop-savjeti/",
+    "short_url": "https://wp.me/p1lfVQ-5Z",
+    "categories": [
+      "Hardver"
+    ],
+    "tags": [
+      "cooling pad za laptop",
+      "gejming laptopovi",
+      "laptopovi",
+      "pregrevanje laptopa",
+      "wireless na laptop",
+      "štednja baterije"
+    ],
+    "excerpt": "Pošto imam laptop već nekolika mjeseca mogu da kažem i neke stvari koje su korisne za uštedu energije baterije, pregrijavanje laptopa i slično. 1. NE Igricama Laptop je prenovsiv PC i samim tim što je sve stalo u tako mali…",
+    "read_minutes": 2
+  },
+  {
+    "id": 378,
+    "title": "Kako napraviti remix pjesme ?",
+    "slug": "kako-napraviti-remix-pjesme",
+    "date": "2011-09-08T14:45:56+02:00",
+    "modified": "2011-09-08T14:45:56+02:00",
+    "pretty_date": "Sep 08, 2011",
+    "month_year": "September 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/09/08/kako-napraviti-remix-pjesme/",
+    "short_url": "https://wp.me/p1lfVQ-66",
+    "categories": [
+      "Internet"
+    ],
+    "tags": [
+      "kako napraviti remix",
+      "kako snimiti remiks",
+      "remiks",
+      "stevy remix",
+      "VirtualDJ"
+    ],
+    "excerpt": "Da bi napravili remix neke pjesme morate imate program za obradu zvuka. Ja vam preporučujem VirtualDJ jer je lijepo dizajniran i lako se snaći a ima i mnoštvo efekata. Program možete skinuti na http://virtualdj.com . Program ima…",
+    "read_minutes": 1
+  },
+  {
+    "id": 362,
+    "title": "Jedinstvena priča o upornosti",
+    "slug": "jedinstvena-prica-o-upornosti",
+    "date": "2011-09-04T13:09:51+02:00",
+    "modified": "2011-09-04T13:09:51+02:00",
+    "pretty_date": "Sep 04, 2011",
+    "month_year": "September 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/09/04/jedinstvena-prica-o-upornosti/",
+    "short_url": "https://wp.me/p1lfVQ-5Q",
+    "categories": [
+      "Zanimljivosti"
+    ],
+    "tags": [
+      "priča",
+      "upornost",
+      "čovek koji je sadio drveće"
+    ],
+    "excerpt": "Film o upornosti i volji jednog čoveka da promeni svet oko sebe. Oskar za najbolji animirani film 1987.",
+    "read_minutes": 1
+  },
+  {
+    "id": 356,
+    "title": "Ubuntu 11.10 Beta 1- Ukratko",
+    "slug": "ubuntu-11-10-beta-1-ukratko",
+    "date": "2011-09-02T16:06:12+02:00",
+    "modified": "2011-09-02T16:06:12+02:00",
+    "pretty_date": "Sep 02, 2011",
+    "month_year": "September 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/09/02/ubuntu-11-10-beta-1-ukratko/",
+    "short_url": "https://wp.me/p1lfVQ-5K",
+    "categories": [
+      "Linuks"
+    ],
+    "tags": [],
+    "excerpt": "Ovo su samo prvi utisci ali moguće i poslednji jer mi se ova verzija nimalo ne dopada. Sad ću vam reći promjene koje sam uočio i zašto su ovo zadnji put da koristim ovu verziju. Software center je malo izmijenjen i ljepše izgleda…",
+    "read_minutes": 2
+  },
+  {
+    "id": 349,
+    "title": "Twitter Klijenti – Tweetz",
+    "slug": "twitter-klijenti-tweetz",
+    "date": "2011-09-01T14:53:15+02:00",
+    "modified": "2011-09-01T14:53:15+02:00",
+    "pretty_date": "Sep 01, 2011",
+    "month_year": "September 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/09/01/twitter-klijenti-tweetz/",
+    "short_url": "https://wp.me/p1lfVQ-5D",
+    "categories": [
+      "Internet"
+    ],
+    "tags": [
+      "tweetz",
+      "tweetz review",
+      "twitter klijenti",
+      "twitter programi"
+    ],
+    "excerpt": "Korisnici Twittera znaju kako je dosadno i ne efikasno kad moraju da ulaze na sajt twitter.com da bi nešto objavili ili bolje reći tweetnuli. Zbog toga postoji veliki broj programa(klijenata) koji vam omogućavaju da pristupite…",
+    "read_minutes": 1
+  },
+  {
+    "id": 335,
+    "title": "5 najboljih strategija",
+    "slug": "5-najboljih-strategija",
+    "date": "2011-08-18T11:10:02+02:00",
+    "modified": "2011-08-18T11:10:02+02:00",
+    "pretty_date": "Aug 18, 2011",
+    "month_year": "August 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/08/18/5-najboljih-strategija/",
+    "short_url": "https://wp.me/p1lfVQ-5p",
+    "categories": [
+      "Igrice"
+    ],
+    "tags": [],
+    "excerpt": "Iako ne volim mnogo igrice, postoji jedan žanr koji mi se jako sviđa RTS( Real-Time-Strategy). Zbog toga želim da podjelim sa vama, najbolje strategije koje sam igrao, to možda neće biti baš najobjektivnija lista jer nisam igrao…",
+    "read_minutes": 2
+  },
+  {
+    "id": 326,
+    "title": "Zanimljivi testovi",
+    "slug": "zanimljivi-testovi",
+    "date": "2011-08-13T12:37:21+02:00",
+    "modified": "2011-08-13T12:37:21+02:00",
+    "pretty_date": "Aug 13, 2011",
+    "month_year": "August 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/08/13/zanimljivi-testovi/",
+    "short_url": "https://wp.me/p1lfVQ-5g",
+    "categories": [
+      "Zanimljivosti"
+    ],
+    "tags": [],
+    "excerpt": "1. TEST Za sledeci zadatak NIKAKO se nesme upotrebljavati digitron ili papir i olovka: Imas 1000, dodaj 40. Dodaj jos 1000. Dodaj 30 i opet 1000 Dodaj 20. Dodaj jos 1000 i onda jos 10. Koji je zbir? Odgovor sledi: Tvoj rezultat…",
+    "read_minutes": 2
+  },
+  {
+    "id": 315,
+    "title": "Moja Windows 7 tema",
+    "slug": "moja-windows-7-tema",
+    "date": "2011-08-11T16:31:03+02:00",
+    "modified": "2011-08-11T16:31:03+02:00",
+    "pretty_date": "Aug 11, 2011",
+    "month_year": "August 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/08/11/moja-windows-7-tema/",
+    "short_url": "https://wp.me/p1lfVQ-55",
+    "categories": [
+      "Internet"
+    ],
+    "tags": [],
+    "excerpt": "Juče sam gledao razne slike i crteže na deviantART , pa sam odabrao nekoliko zanimljivih slika i napravio temu za Windows 7. Tema je poveća jer sadrži nekoliko slika visoke rezolucije ali ipak 13 MB nije previše 🙂 Možete je…",
+    "read_minutes": 1
+  },
+  {
+    "id": 310,
+    "title": "Priča o stvarima-Story of stuff",
+    "slug": "prica-o-stvarima-story-of-stuff",
+    "date": "2011-08-10T09:00:30+02:00",
+    "modified": "2011-08-10T09:00:30+02:00",
+    "pretty_date": "Aug 10, 2011",
+    "month_year": "August 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/08/10/prica-o-stvarima-story-of-stuff/",
+    "short_url": "https://wp.me/p1lfVQ-50",
+    "categories": [
+      "Internet"
+    ],
+    "tags": [],
+    "excerpt": "Ovo je video o globalnim problemima otpada, recikliranja i nedostatka resursa. Urađen je na jedan veoma zanimljiv način i kad ga pogledate sigurno će vam mnoge stvari postati jasnije. Neverovatni Hrčak- Impossible Hamster Ovaj…",
+    "read_minutes": 1
+  },
+  {
+    "id": 301,
+    "title": "Neki dobri filmovi",
+    "slug": "neki-dobri-filmovi",
+    "date": "2011-08-08T21:01:17+02:00",
+    "modified": "2011-08-08T21:01:17+02:00",
+    "pretty_date": "Aug 08, 2011",
+    "month_year": "August 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/08/08/neki-dobri-filmovi/",
+    "short_url": "https://wp.me/p1lfVQ-4R",
+    "categories": [
+      "Internet"
+    ],
+    "tags": [],
+    "excerpt": "Zadnje vreme sam pogledao dosta zanimljivih filmova i zato bih želio to da podelim sa vama. The Last Airbender: Rebellion(2011) Iako kritičari nisu baš blagonakloni prema filmu meni se jako dopao. Ima mnogo fantazije a glavni lik…",
+    "read_minutes": 1
+  },
+  {
+    "id": 289,
+    "title": "GIMP",
+    "slug": "gimp",
+    "date": "2011-08-06T11:49:55+02:00",
+    "modified": "2011-08-06T11:49:55+02:00",
+    "pretty_date": "Aug 06, 2011",
+    "month_year": "August 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/08/06/gimp/",
+    "short_url": "https://wp.me/s1lfVQ-gimp",
+    "categories": [
+      "Linuks",
+      "Zanimljivosti"
+    ],
+    "tags": [],
+    "excerpt": "GIMP je program za obrađivanje slika, fotomontažu, animacije itd. To je skraćenica od Gnu Image Manipulation Program ali da vas ne zamaram dalje sa istorijatom programa. To je kao Photoshop samo što je besplatan i prvobitno je…",
+    "read_minutes": 1
+  },
+  {
+    "id": 277,
+    "title": "Statistika sajta",
+    "slug": "statistika-sajta",
+    "date": "2011-08-04T15:28:10+02:00",
+    "modified": "2011-08-04T15:28:10+02:00",
+    "pretty_date": "Aug 04, 2011",
+    "month_year": "August 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/08/04/statistika-sajta/",
+    "short_url": "https://wp.me/p1lfVQ-4t",
+    "categories": [
+      "Internet",
+      "Zanimljivosti"
+    ],
+    "tags": [],
+    "excerpt": "Evo malo statistike mog bloga : Ukupan broj posjeta: 1590 Ukupan broj pregleda stranica : 3582 Ukupan broj pregleda stranica po posjeti : 2.25 Ukupan broj jedinstvenih posjetilaca: 838 Posjete po zemljama : Podaci su sa Google…",
+    "read_minutes": 1
+  },
+  {
+    "id": 549,
+    "title": "Obavještenje",
+    "slug": "obavjestenje-2",
+    "date": "2011-07-23T09:43:51+00:00",
+    "modified": "2011-07-23T09:43:51+00:00",
+    "pretty_date": "Jul 23, 2011",
+    "month_year": "July 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/07/23/obavjestenje-2/",
+    "short_url": "https://wp.me/p1lfVQ-8R",
+    "categories": [
+      "Obavjestenja"
+    ],
+    "tags": [],
+    "excerpt": "Sajt je bio offline zadnjih desetak dana zbog toga što su mi izbrisali sve fajlove sa hostinga. Potrudiću se da stare članke i komentare vratim ali mislim da neću uspjeti jer nisam pravio redovan back-up.…",
+    "read_minutes": 1
+  },
+  {
+    "id": 261,
+    "title": "AdSense reklame",
+    "slug": "adsense-reklame",
+    "date": "2011-06-07T07:25:23+01:00",
+    "modified": "2011-06-07T07:25:23+01:00",
+    "pretty_date": "Jun 07, 2011",
+    "month_year": "June 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/06/07/adsense-reklame/",
+    "short_url": "https://wp.me/p1lfVQ-4d",
+    "categories": [
+      "Internet",
+      "Obavjestenja"
+    ],
+    "tags": [],
+    "excerpt": "Odlučio sam da probam da stavim AdSense reklame na blog da vidim kako će to izgledati i hoće li biti “ikakve” zarade od toga . Ne zamjerite ako bude bilo i previše reklama , jer još sve isprobavam . Registrovao sam se prije dva…",
+    "read_minutes": 1
+  },
+  {
+    "id": 248,
+    "title": "Ubuntu 11.04 & Unity",
+    "slug": "ubuntu-11-04-unity",
+    "date": "2011-06-05T17:51:51+01:00",
+    "modified": "2011-06-05T17:51:51+01:00",
+    "pretty_date": "Jun 05, 2011",
+    "month_year": "June 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/06/05/ubuntu-11-04-unity/",
+    "short_url": "https://wp.me/p1lfVQ-40",
+    "categories": [
+      "Linuks"
+    ],
+    "tags": [
+      "linux",
+      "natty narwhal",
+      "open source",
+      "operating system",
+      "ubuntu",
+      "ubuntu 11.04",
+      "unity"
+    ],
+    "excerpt": "Evo kako sam i obećao moja ocjena nove verzije Ubuntua sa Unity interfejsom : Na prvi pogled sve izgleda veoma zanimljivo i lijepo , Launcher je bio popunjen raznim programima tako da je prvo bilo neophodno izbrisati one koji se…",
+    "read_minutes": 2
+  },
+  {
+    "id": 241,
+    "title": "Ubuntu Natty Narwhal",
+    "slug": "ubuntu-11-04-ubrzoo",
+    "date": "2011-06-02T19:59:39+02:00",
+    "modified": "2011-06-02T19:59:39+02:00",
+    "pretty_date": "Jun 02, 2011",
+    "month_year": "June 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/06/02/ubuntu-11-04-ubrzoo/",
+    "short_url": "https://wp.me/p1lfVQ-3T",
+    "categories": [
+      "Linuks"
+    ],
+    "tags": [],
+    "excerpt": "Danas sam apdejtovao ubuntu na novu verziju 11.04 koja umjesto GNOME donosi novo Unity okruženje . Sad malo sve isprobavam i testiram , ali za koji dan ću napisati moje utiske 😀 Evo brzog screenshot-a :",
+    "read_minutes": 1
+  },
+  {
+    "id": 231,
+    "title": "Google Docs",
+    "slug": "google-docs",
+    "date": "2011-05-22T16:46:00+02:00",
+    "modified": "2011-05-22T16:46:00+02:00",
+    "pretty_date": "May 22, 2011",
+    "month_year": "May 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/05/22/google-docs/",
+    "short_url": "https://wp.me/p1lfVQ-3J",
+    "categories": [
+      "Internet"
+    ],
+    "tags": [],
+    "excerpt": "Google Docs je poznati Google-ov servis za pisanje dokumenata online . Ja sam prekjuče počeo da ga koristim i oduševljen sam , ima sve funkcije koje su mi potrebne , zašta će mi Micro$oft Word kad Docs može da pravi .doc, .odt a…",
+    "read_minutes": 1
+  },
+  {
+    "id": 223,
+    "title": "Linux je cool :D",
+    "slug": "linux-je-cool-d",
+    "date": "2011-05-13T19:15:13+02:00",
+    "modified": "2011-05-13T19:15:13+02:00",
+    "pretty_date": "May 13, 2011",
+    "month_year": "May 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/05/13/linux-je-cool-d/",
+    "short_url": "https://wp.me/p1lfVQ-3B",
+    "categories": [
+      "Linuks"
+    ],
+    "tags": [],
+    "excerpt": "",
+    "read_minutes": 1
+  },
+  {
+    "id": 213,
+    "title": "Java programiranje",
+    "slug": "java-programiranje",
+    "date": "2011-04-25T06:43:32+02:00",
+    "modified": "2011-04-25T06:43:32+02:00",
+    "pretty_date": "Apr 25, 2011",
+    "month_year": "April 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/04/25/java-programiranje/",
+    "short_url": "https://wp.me/p1lfVQ-3r",
+    "categories": [
+      "Programiranje"
+    ],
+    "tags": [],
+    "excerpt": "Počeo sam da se interesujem za Javu zadnjih mesec dana i malo gledao video tutorijale , čitao neke daunloadovane knjige ali sam koncept OOP (objekto orjentisanog programiranja ) nije mi bio jasan , zato sam odlučio da kupim neku…",
+    "read_minutes": 1
+  },
+  {
+    "id": 186,
+    "title": "Napravio sam forum !!!",
+    "slug": "napravio-sam-forum",
+    "date": "2011-04-10T14:08:17+02:00",
+    "modified": "2011-04-10T14:08:17+02:00",
+    "pretty_date": "Apr 10, 2011",
+    "month_year": "April 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/04/10/napravio-sam-forum/",
+    "short_url": "https://wp.me/p1lfVQ-30",
+    "categories": [
+      "Internet"
+    ],
+    "tags": [],
+    "excerpt": "Napravio sam forum pomocu Simple Machines Forum aplikacije (SMF). Mozete ga posetiti na adresi http://forum.stevy.iz.rs , Komentare i Sugestije napisite ili na forumu ili u komentarima . Registrujte se i postanite član naše…",
+    "read_minutes": 1
+  },
+  {
+    "id": 163,
+    "title": "Macpup 520",
+    "slug": "macpup-520",
+    "date": "2011-03-27T20:39:20+02:00",
+    "modified": "2011-03-27T20:39:20+02:00",
+    "pretty_date": "Mar 27, 2011",
+    "month_year": "March 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/03/27/macpup-520/",
+    "short_url": "https://wp.me/p1lfVQ-2D",
+    "categories": [
+      "Linuks"
+    ],
+    "tags": [],
+    "excerpt": "Pre neki dan sam slucajno naisao na ovaj linuks distro na sajtu http://www.distrowatch.com . Macpup je modifikovana i uljepšana verzija Puppy Linux-a koji je napravljen prvenstveno za starije konfiguracije .Jos jedna stvar kod…",
+    "read_minutes": 1
+  },
+  {
+    "id": 128,
+    "title": "Updejt",
+    "slug": "updejt",
+    "date": "2011-03-21T18:32:08+01:00",
+    "modified": "2011-03-21T18:33:35+01:00",
+    "pretty_date": "Mar 21, 2011",
+    "month_year": "March 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/03/21/updejt/",
+    "short_url": "https://wp.me/s1lfVQ-updejt",
+    "categories": [
+      "Obavjestenja"
+    ],
+    "tags": [],
+    "excerpt": "Ponovo sam registrovao domen i nasao novi hosting koji je uzgred receno besplatan.Blog je ponovo on-line na stevy.iz.rs",
+    "read_minutes": 1
+  },
+  {
+    "id": 119,
+    "title": "Compiz",
+    "slug": "compiz",
+    "date": "2011-03-14T18:59:52+01:00",
+    "modified": "2011-03-14T18:59:52+01:00",
+    "pretty_date": "Mar 14, 2011",
+    "month_year": "March 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/03/14/compiz/",
+    "short_url": "https://wp.me/s1lfVQ-compiz",
+    "categories": [
+      "Linuks"
+    ],
+    "tags": [],
+    "excerpt": "Compiz efekti na mom desktopu",
+    "read_minutes": 1
+  },
+  {
+    "id": 94,
+    "title": "Obavjestenje",
+    "slug": "obavjestenje",
+    "date": "2011-03-10T14:08:31+01:00",
+    "modified": "2011-03-17T19:20:55+01:00",
+    "pretty_date": "Mar 10, 2011",
+    "month_year": "March 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/03/10/obavjestenje/",
+    "short_url": "https://wp.me/p1lfVQ-1w",
+    "categories": [
+      "Obavjestenja"
+    ],
+    "tags": [],
+    "excerpt": "Blog je BIO premesten na novi domen i hosting. Novi sajt se MOGAO posjetiti na stevy.iz.rs Ali je domen ukinut . stevyhacker.wordpress.com je privremeno resenje .",
+    "read_minutes": 1
+  },
+  {
+    "id": 92,
+    "title": "Iskustva sa kompajliranjem softvera",
+    "slug": "iskustva-sa-kompajliranjem-softvera",
+    "date": "2011-03-08T20:39:48+01:00",
+    "modified": "2011-03-08T20:39:48+01:00",
+    "pretty_date": "Mar 08, 2011",
+    "month_year": "March 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/03/08/iskustva-sa-kompajliranjem-softvera/",
+    "short_url": "https://wp.me/p1lfVQ-1u",
+    "categories": [
+      "Linuks",
+      "Programiranje"
+    ],
+    "tags": [],
+    "excerpt": "Razmisljam ja nesto kako se kompajlira softver za linuks . I tako … Otvorim temu na ES forum i ubrzo dobijem odgovore http://www.elitesecurity.org/t424225-Kompajliranje-source-koda-nekog-programa-za-ubuntu Nisam imao nikakve…",
+    "read_minutes": 2
+  },
+  {
+    "id": 76,
+    "title": "Python i programiranje",
+    "slug": "python-i-programiranje",
+    "date": "2011-02-25T18:21:21+01:00",
+    "modified": "2011-02-25T18:22:43+01:00",
+    "pretty_date": "Feb 25, 2011",
+    "month_year": "February 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/02/25/python-i-programiranje/",
+    "short_url": "https://wp.me/p1lfVQ-1e",
+    "categories": [
+      "Programiranje"
+    ],
+    "tags": [],
+    "excerpt": "Sve pocinje sa kucanjem ‘programiranje’ u google search i ostalo je istorija … 😀 Zezam se malo,ali da pomognem i ja svima koji zele da nauce programirati bez ikakvog predznanja (moj slucaj) Programirati nije jednostavno treba…",
+    "read_minutes": 2
+  },
+  {
+    "id": 59,
+    "title": "Twitter",
+    "slug": "twitter",
+    "date": "2011-02-23T17:25:50+01:00",
+    "modified": "2011-02-23T17:31:13+01:00",
+    "pretty_date": "Feb 23, 2011",
+    "month_year": "February 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/02/23/twitter/",
+    "short_url": "https://wp.me/s1lfVQ-twitter",
+    "categories": [
+      "Internet"
+    ],
+    "tags": [],
+    "excerpt": "follow me on twtitter http://twitter.com/#!/stevyhacker",
+    "read_minutes": 1
+  },
+  {
+    "id": 54,
+    "title": "Najbolji telefon iPhone 4, proizvođač HTC",
+    "slug": "najbolji-telefon-iphone-4-proizvodac-htc",
+    "date": "2011-02-17T17:58:42+01:00",
+    "modified": "2011-02-17T17:58:42+01:00",
+    "pretty_date": "Feb 17, 2011",
+    "month_year": "February 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/02/17/najbolji-telefon-iphone-4-proizvodac-htc/",
+    "short_url": "https://wp.me/p1lfVQ-S",
+    "categories": [
+      "Hardver",
+      "Internet"
+    ],
+    "tags": [],
+    "excerpt": "Iako Apple nije prisutan na Mobile World Congressu koji danas završava u Barseloni, njegov iPhone 4 proglašen je na završnoj ceremoniji za najbolji mobilni uređaj.iPhone 4, koji su sudije nahvalile zbog odličnog ekrana, dizajna i…",
+    "read_minutes": 1
+  },
+  {
+    "id": 48,
+    "title": "Nove drustvene mreze",
+    "slug": "nova-drustvena-mreza",
+    "date": "2011-02-14T07:09:57+01:00",
+    "modified": "2011-02-15T17:25:52+01:00",
+    "pretty_date": "Feb 14, 2011",
+    "month_year": "February 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/02/14/nova-drustvena-mreza/",
+    "short_url": "https://wp.me/p1lfVQ-M",
+    "categories": [
+      "Obavjestenja"
+    ],
+    "tags": [],
+    "excerpt": "http://golub.socialgo.com/ http://ganp.socialgo.com/",
+    "read_minutes": 1
+  },
+  {
+    "id": 41,
+    "title": "Digital VS Analog",
+    "slug": "digital-vs-analog",
+    "date": "2011-02-13T15:07:18+01:00",
+    "modified": "2011-02-13T15:38:25+01:00",
+    "pretty_date": "Feb 13, 2011",
+    "month_year": "February 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/02/13/digital-vs-analog/",
+    "short_url": "https://wp.me/p1lfVQ-F",
+    "categories": [
+      "Hardver"
+    ],
+    "tags": [],
+    "excerpt": "Sve informacije su ili analogne ili digitalne – ljudi vide, čuju, mogu opipati i iskusiti analognu informaciju, ali savremeni kompjuteri rade iskljucivo sa digitalnim informacijama. Ljude često zbunjuje u čemu je razlika, ali…",
+    "read_minutes": 2
+  },
+  {
+    "id": 30,
+    "title": "Internet za robote",
+    "slug": "internet-za-robote",
+    "date": "2011-02-13T15:01:59+01:00",
+    "modified": "2011-02-13T15:02:59+01:00",
+    "pretty_date": "Feb 13, 2011",
+    "month_year": "February 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/02/13/internet-za-robote/",
+    "short_url": "https://wp.me/p1lfVQ-u",
+    "categories": [
+      "Internet",
+      "Zanimljivosti"
+    ],
+    "tags": [],
+    "excerpt": "Radi se o projektu pod nazivom RoboEarth, koji treba da dovede do razvoja džinovske mreže i baze podataka u kojoj roboti mogu da razmenjuju informacije i uce jedni od drugih principe ponašanja u sopstvenom okruženju. Nažalost,…",
+    "read_minutes": 3
+  },
+  {
+    "id": 14,
+    "title": "Internet u 2O10.",
+    "slug": "internet-u-2010",
+    "date": "2011-02-10T15:55:35+01:00",
+    "modified": "2011-02-13T15:03:15+01:00",
+    "pretty_date": "Feb 10, 2011",
+    "month_year": "February 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/02/10/internet-u-2010/",
+    "short_url": "https://wp.me/p1lfVQ-e",
+    "categories": [
+      "Internet"
+    ],
+    "tags": [],
+    "excerpt": "E-mail 107 biliona – broj e-poruka poslata na Internetu u 2010. 294 milijardi – prosecan broj e-mail poruka dnevno. 1,88 milijardi – broj korisnika e-pošte širom sveta. 480 miliona – novih korisnika u odnosu na prošlu godinu.…",
+    "read_minutes": 2
+  },
+  {
+    "id": 7,
+    "title": "Pocinjem … !",
+    "slug": "pocinjem",
+    "date": "2011-02-08T17:38:23+01:00",
+    "modified": "2011-02-08T17:38:23+01:00",
+    "pretty_date": "Feb 08, 2011",
+    "month_year": "February 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/02/08/pocinjem/",
+    "short_url": "https://wp.me/s1lfVQ-pocinjem",
+    "categories": [
+      "Obavjestenja",
+      "Uncategorized"
+    ],
+    "tags": [],
+    "excerpt": "Do sledece nedelje cu podesiti konacan izgled mog bloga i pocecu sa postovanjem !",
+    "read_minutes": 1
+  },
+  {
+    "id": 1,
+    "title": "Hi !",
+    "slug": "hello-world",
+    "date": "2011-02-07T20:19:19+00:00",
+    "modified": "2011-02-07T20:30:29+00:00",
+    "pretty_date": "Feb 07, 2011",
+    "month_year": "February 2011",
+    "original_url": "https://stevyhacker.wordpress.com/2011/02/07/hello-world/",
+    "short_url": "https://wp.me/p1lfVQ-1",
+    "categories": [
+      "Uncategorized"
+    ],
+    "tags": [],
+    "excerpt": "Nije los ovaj wordpress ,svidja mi se.",
+    "read_minutes": 1
+  }
+]
