@@ -1,0 +1,476 @@
+{
+  "source": "https://public-api.wordpress.com/rest/v1.1/sites/stevyhacker.wordpress.com/posts/?number=100",
+  "original_found": 62,
+  "original_returned": 62,
+  "short_word_threshold": 100,
+  "unique_links_checked": 148,
+  "kept_count": 24,
+  "removed_count": 38,
+  "removed_posts": [
+    {
+      "slug": "kupovina-bitkoina-i-drugih-kriptovaluta-kreditnom-karticom",
+      "title": "Kupovina Bitkoina i drugih kriptovaluta kreditnom karticom",
+      "date": "2017-10-30",
+      "word_count": 317,
+      "remove_reasons": [
+        "dead_links=1"
+      ],
+      "dead_links": [
+        "https://go.coinmama.com/visit/?bta=40311&nci=5360"
+      ]
+    },
+    {
+      "slug": "web-dev-kurs-i-moj-portfolio",
+      "title": "Web dev kurs i moj portfolio",
+      "date": "2016-03-03",
+      "word_count": 69,
+      "remove_reasons": [
+        "short<100w"
+      ],
+      "dead_links": []
+    },
+    {
+      "slug": "zdravo-posle-skoro-godinu-dana",
+      "title": "Zdravo posle skoro godinu dana",
+      "date": "2013-09-26",
+      "word_count": 196,
+      "remove_reasons": [
+        "dead_links=6"
+      ],
+      "dead_links": [
+        "http://otvoreneideje.me/",
+        "http://portalanalitika.me/drustvo/vijesti/103963-telenor-uspjean-qdevelopers-dayq-za-operativni-sistem-firefox.html",
+        "http://www.vijesti.me/vijesti/iv-ljetnja-skola-programiranja-algoritmi-rekreacija-ivanovim-koritima-clanak-136310",
+        "http://www.vijesti.me/vijesti/otvoreni-dani-nauke-kako-nauka-moze-postati-popularna-clanak-151069",
+        "https://www.coursera.org/course/gameprogramming",
+        "http://filmzadanas.wordpress.com/"
+      ]
+    },
+    {
+      "slug": "razna-desavanja",
+      "title": "Razna dešavanja",
+      "date": "2012-08-04",
+      "word_count": 180,
+      "remove_reasons": [
+        "dead_links=2"
+      ],
+      "dead_links": [
+        "http://www.vijesti.me/vijesti/milan-filip-markovic-autori-najbolje-android-aplikacije-clanak-80263",
+        "http://www.vijesti.me/vijesti/pripreme-informaticku-olimpijadu-polaznici-bolji-nego-ikad-clanak-83308"
+      ]
+    },
+    {
+      "slug": "novi-domen-i-hosting",
+      "title": "Novi domen i hosting",
+      "date": "2012-06-18",
+      "word_count": 70,
+      "remove_reasons": [
+        "short<100w"
+      ],
+      "dead_links": []
+    },
+    {
+      "slug": "godinu-dana-stevy-iz-rs",
+      "title": "Godinu dana stevy.iz.rs",
+      "date": "2012-03-20",
+      "word_count": 123,
+      "remove_reasons": [
+        "dead_links=1"
+      ],
+      "dead_links": [
+        "http://www.vijesti.me/vijesti/objavljen-prvi-konkurs-izradu-android-aplikacija-clanak-65454"
+      ]
+    },
+    {
+      "slug": "facebook-i-vasa-privatnost",
+      "title": "Facebook i privatnost",
+      "date": "2012-02-10",
+      "word_count": 401,
+      "remove_reasons": [
+        "dead_links=3"
+      ],
+      "dead_links": [
+        "http://software.benchmark.rs/softver_internet_vesti/facebook_ne_brishe_vashe_slike",
+        "http://business.benchmark.rs/biznis_vesti/shta_to_facebook_prodaje",
+        "http://stevy.iz.rs/wp-content/uploads/2012/02/facebook.jpg"
+      ]
+    },
+    {
+      "slug": "kako-psi-vide-boje",
+      "title": "Kako psi vide boje ?",
+      "date": "2012-01-09",
+      "word_count": 132,
+      "remove_reasons": [
+        "dead_links=7"
+      ],
+      "dead_links": [
+        "http://stevy.iz.rs/wp-content/uploads/2012/01/ljudski1.png",
+        "http://stevy.iz.rs/wp-content/uploads/2012/01/pseći1.png",
+        "http://stevy.iz.rs/wp-content/uploads/2012/01/vidno_polje.png",
+        "http://stevy.iz.rs/wp-content/uploads/2012/01/Nature_Mountains.jpg",
+        "http://stevy.iz.rs/wp-content/uploads/2012/01/mountains_protanopia.png",
+        "http://stevy.iz.rs/wp-content/uploads/2012/01/golden-retriever-puppies.jpg",
+        "http://stevy.iz.rs/wp-content/uploads/2012/01/štenad_protanopia.png"
+      ]
+    },
+    {
+      "slug": "10-najpopularnijih-gnulinux-distribucija-u-2011-godini",
+      "title": "10 najpopularnijih GNU/Linux distribucija u 2011 godini*",
+      "date": "2012-01-01",
+      "word_count": 90,
+      "remove_reasons": [
+        "short<100w",
+        "dead_links=3"
+      ],
+      "dead_links": [
+        "http://stevy.iz.rs/wp-content/uploads/2012/01/1-1-2012-18-52-07.png",
+        "http://stevy.iz.rs/wp-content/uploads/2012/01/ubuntu_black-orange_hex_su.png",
+        "http://stevy.iz.rs/wp-content/uploads/2012/01/Fedora_Project_logo.png"
+      ]
+    },
+    {
+      "slug": "5-najzanimljivijh-android-igrica",
+      "title": "5 najzanimljivijih android igrica",
+      "date": "2011-11-05",
+      "word_count": 356,
+      "remove_reasons": [
+        "dead_links=3"
+      ],
+      "dead_links": [
+        "http://market.android.com/details?id=com.droidstudio.game.devil2",
+        "http://market.android.com/details?id=com.com2us.HG",
+        "http://market.android.com/details?id=com.polarbit.rthunder2lite"
+      ]
+    },
+    {
+      "slug": "telenor-onetouch",
+      "title": "Telenor OneTouch",
+      "date": "2011-10-26",
+      "word_count": 399,
+      "remove_reasons": [
+        "dead_links=3"
+      ],
+      "dead_links": [
+        "http://forum.androidsrbija.com/viewtopic.php?f=165&t=1846",
+        "http://forum.benchmark.rs/showthread.php?268011-Telenor-OneTouch-(Alcatel-OT-990)",
+        "http://forum.benchmark.rs/showthread.php?268011-Telenor-OneTouch-(Alcatel-OT-990)/page12"
+      ]
+    },
+    {
+      "slug": "novi-forum",
+      "title": "Novi forum",
+      "date": "2011-10-16",
+      "word_count": 61,
+      "remove_reasons": [
+        "short<100w",
+        "dead_links=1"
+      ],
+      "dead_links": [
+        "http://android-programiranje.iz.rs/"
+      ]
+    },
+    {
+      "slug": "android-programiranje",
+      "title": "Android programiranje",
+      "date": "2011-10-05",
+      "word_count": 194,
+      "remove_reasons": [
+        "dead_links=3"
+      ],
+      "dead_links": [
+        "http://android.vidilab.com/category/skola/",
+        "http://srbinoid.com/",
+        "http://http://goo.gl/4CVPx"
+      ]
+    },
+    {
+      "slug": "internet-zezalice",
+      "title": "Internet zezalice",
+      "date": "2011-09-29",
+      "word_count": 97,
+      "remove_reasons": [
+        "short<100w",
+        "dead_links=1"
+      ],
+      "dead_links": [
+        "http://mrdoob.com/128/IE6"
+      ]
+    },
+    {
+      "slug": "kako-napraviti-remix-pjesme",
+      "title": "Kako napraviti remix pjesme ?",
+      "date": "2011-09-08",
+      "word_count": 80,
+      "remove_reasons": [
+        "short<100w"
+      ],
+      "dead_links": []
+    },
+    {
+      "slug": "jedinstvena-prica-o-upornosti",
+      "title": "Jedinstvena priča o upornosti",
+      "date": "2011-09-04",
+      "word_count": 18,
+      "remove_reasons": [
+        "short<100w"
+      ],
+      "dead_links": []
+    },
+    {
+      "slug": "twitter-klijenti-tweetz",
+      "title": "Twitter Klijenti – Tweetz",
+      "date": "2011-09-01",
+      "word_count": 219,
+      "remove_reasons": [
+        "dead_links=1"
+      ],
+      "dead_links": [
+        "http://twitter.com/YourLink"
+      ]
+    },
+    {
+      "slug": "5-najboljih-strategija",
+      "title": "5 najboljih strategija",
+      "date": "2011-08-18",
+      "word_count": 292,
+      "remove_reasons": [
+        "dead_links=1"
+      ],
+      "dead_links": [
+        "http://stevy.iz.rs/wp-content/uploads/2011/08/Romebox.jpg"
+      ]
+    },
+    {
+      "slug": "moja-windows-7-tema",
+      "title": "Moja Windows 7 tema",
+      "date": "2011-08-11",
+      "word_count": 67,
+      "remove_reasons": [
+        "short<100w"
+      ],
+      "dead_links": []
+    },
+    {
+      "slug": "prica-o-stvarima-story-of-stuff",
+      "title": "Priča o stvarima-Story of stuff",
+      "date": "2011-08-10",
+      "word_count": 55,
+      "remove_reasons": [
+        "short<100w"
+      ],
+      "dead_links": []
+    },
+    {
+      "slug": "gimp",
+      "title": "GIMP",
+      "date": "2011-08-06",
+      "word_count": 79,
+      "remove_reasons": [
+        "short<100w"
+      ],
+      "dead_links": []
+    },
+    {
+      "slug": "statistika-sajta",
+      "title": "Statistika sajta",
+      "date": "2011-08-04",
+      "word_count": 45,
+      "remove_reasons": [
+        "short<100w",
+        "dead_links=3"
+      ],
+      "dead_links": [
+        "http://stevy.iz.rs/wp-content/uploads/2011/08/za-tekst-države.png",
+        "http://stevy.iz.rs/wp-content/uploads/2011/08/za-tekst-sajtovi.png",
+        "http://stevy.iz.rs/wp-content/uploads/2011/08/za-tekst-OS.png"
+      ]
+    },
+    {
+      "slug": "obavjestenje-2",
+      "title": "Obavještenje",
+      "date": "2011-07-23",
+      "word_count": 49,
+      "remove_reasons": [
+        "short<100w"
+      ],
+      "dead_links": []
+    },
+    {
+      "slug": "adsense-reklame",
+      "title": "AdSense reklame",
+      "date": "2011-06-07",
+      "word_count": 71,
+      "remove_reasons": [
+        "short<100w"
+      ],
+      "dead_links": []
+    },
+    {
+      "slug": "ubuntu-11-04-unity",
+      "title": "Ubuntu 11.04 & Unity",
+      "date": "2011-06-05",
+      "word_count": 329,
+      "remove_reasons": [
+        "dead_links=2"
+      ],
+      "dead_links": [
+        "https://one.ubuntu.com/plans/plan/subscribe_basic/",
+        "http://stevy.iz.rs/wp-content/uploads/2011/06/UbuntuLogo1.png"
+      ]
+    },
+    {
+      "slug": "ubuntu-11-04-ubrzoo",
+      "title": "Ubuntu Natty Narwhal",
+      "date": "2011-06-02",
+      "word_count": 33,
+      "remove_reasons": [
+        "short<100w"
+      ],
+      "dead_links": []
+    },
+    {
+      "slug": "linux-je-cool-d",
+      "title": "Linux je cool :D",
+      "date": "2011-05-13",
+      "word_count": 0,
+      "remove_reasons": [
+        "short<100w"
+      ],
+      "dead_links": []
+    },
+    {
+      "slug": "java-programiranje",
+      "title": "Java programiranje",
+      "date": "2011-04-25",
+      "word_count": 114,
+      "remove_reasons": [
+        "dead_links=2"
+      ],
+      "dead_links": [
+        "http://stevy.iz.rs/wp-content/uploads/2011/04/Uči-Javu-.gif",
+        "http://http://www.mikroknjiga.rs/store/prikaz.php?ref=978-86-7555-308-3"
+      ]
+    },
+    {
+      "slug": "napravio-sam-forum",
+      "title": "Napravio sam forum !!!",
+      "date": "2011-04-10",
+      "word_count": 38,
+      "remove_reasons": [
+        "short<100w",
+        "dead_links=1"
+      ],
+      "dead_links": [
+        "http://forum.stevy.iz.rs/"
+      ]
+    },
+    {
+      "slug": "macpup-520",
+      "title": "Macpup 520",
+      "date": "2011-03-27",
+      "word_count": 81,
+      "remove_reasons": [
+        "short<100w",
+        "dead_links=1"
+      ],
+      "dead_links": [
+        "https://www.distrowatch.com/"
+      ]
+    },
+    {
+      "slug": "updejt",
+      "title": "Updejt",
+      "date": "2011-03-21",
+      "word_count": 21,
+      "remove_reasons": [
+        "short<100w",
+        "dead_links=1"
+      ],
+      "dead_links": [
+        "http://stevy.iz.rs/"
+      ]
+    },
+    {
+      "slug": "compiz",
+      "title": "Compiz",
+      "date": "2011-03-14",
+      "word_count": 5,
+      "remove_reasons": [
+        "short<100w"
+      ],
+      "dead_links": []
+    },
+    {
+      "slug": "obavjestenje",
+      "title": "Obavjestenje",
+      "date": "2011-03-10",
+      "word_count": 28,
+      "remove_reasons": [
+        "short<100w",
+        "dead_links=1"
+      ],
+      "dead_links": [
+        "http://stevy.iz.rs/"
+      ]
+    },
+    {
+      "slug": "python-i-programiranje",
+      "title": "Python i programiranje",
+      "date": "2011-02-25",
+      "word_count": 287,
+      "remove_reasons": [
+        "dead_links=1"
+      ],
+      "dead_links": [
+        "http://tutoriali.org/python"
+      ]
+    },
+    {
+      "slug": "twitter",
+      "title": "Twitter",
+      "date": "2011-02-23",
+      "word_count": 8,
+      "remove_reasons": [
+        "short<100w",
+        "dead_links=1"
+      ],
+      "dead_links": [
+        "http://twitter.com/"
+      ]
+    },
+    {
+      "slug": "nova-drustvena-mreza",
+      "title": "Nove drustvene mreze",
+      "date": "2011-02-14",
+      "word_count": 8,
+      "remove_reasons": [
+        "short<100w",
+        "dead_links=2"
+      ],
+      "dead_links": [
+        "http://golub.socialgo.com/",
+        "http://ganp.socialgo.com/"
+      ]
+    },
+    {
+      "slug": "pocinjem",
+      "title": "Pocinjem … !",
+      "date": "2011-02-08",
+      "word_count": 13,
+      "remove_reasons": [
+        "short<100w"
+      ],
+      "dead_links": []
+    },
+    {
+      "slug": "hello-world",
+      "title": "Hi !",
+      "date": "2011-02-07",
+      "word_count": 7,
+      "remove_reasons": [
+        "short<100w"
+      ],
+      "dead_links": []
+    }
+  ]
+}

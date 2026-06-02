@@ -31,16 +31,6 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://stevyhacker.github.io/blog/posts/kupovina-bitkoina-i-drugih-kriptovaluta-kreditnom-karticom/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/web-dev-kurs-i-moj-portfolio/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://stevyhacker.github.io/blog/posts/githubdevpack/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
@@ -61,17 +51,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://stevyhacker.github.io/blog/posts/zdravo-posle-skoro-godinu-dana/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://stevyhacker.github.io/blog/posts/prvi-crnogorski-hakaton/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/razna-desavanja/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -81,37 +61,12 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://stevyhacker.github.io/blog/posts/novi-domen-i-hosting/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://stevyhacker.github.io/blog/posts/za-koliko-zvoni/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://stevyhacker.github.io/blog/posts/godinu-dana-stevy-iz-rs/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://stevyhacker.github.io/blog/posts/game-of-thrones/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/facebook-i-vasa-privatnost/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/kako-psi-vide-boje/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/10-najpopularnijih-gnulinux-distribucija-u-2011-godini/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -126,42 +81,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://stevyhacker.github.io/blog/posts/5-najzanimljivijh-android-igrica/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/telenor-onetouch/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/novi-forum/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/android-programiranje/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/internet-zezalice/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://stevyhacker.github.io/blog/posts/laptop-savjeti/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/kako-napraviti-remix-pjesme/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/jedinstvena-prica-o-upornosti/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -171,27 +91,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://stevyhacker.github.io/blog/posts/twitter-klijenti-tweetz/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/5-najboljih-strategija/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://stevyhacker.github.io/blog/posts/zanimljivi-testovi/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/moja-windows-7-tema/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/prica-o-stvarima-story-of-stuff/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -201,72 +101,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://stevyhacker.github.io/blog/posts/gimp/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/statistika-sajta/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/obavjestenje-2/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/adsense-reklame/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/ubuntu-11-04-unity/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/ubuntu-11-04-ubrzoo/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://stevyhacker.github.io/blog/posts/google-docs/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/linux-je-cool-d/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/java-programiranje/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/napravio-sam-forum/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/macpup-520/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/updejt/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/compiz/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/obavjestenje/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -276,22 +111,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://stevyhacker.github.io/blog/posts/python-i-programiranje/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/twitter/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://stevyhacker.github.io/blog/posts/najbolji-telefon-iphone-4-proizvodac-htc/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/nova-drustvena-mreza/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -307,16 +127,6 @@
   </url>
   <url>
     <loc>https://stevyhacker.github.io/blog/posts/internet-u-2010/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/pocinjem/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://stevyhacker.github.io/blog/posts/hello-world/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
