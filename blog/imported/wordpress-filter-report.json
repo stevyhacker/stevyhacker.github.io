@@ -4,8 +4,8 @@
   "original_returned": 62,
   "short_word_threshold": 100,
   "unique_links_checked": 148,
-  "kept_count": 23,
-  "removed_count": 39,
+  "kept_count": 22,
+  "removed_count": 40,
   "removed_posts": [
     {
       "slug": "kupovina-bitkoina-i-drugih-kriptovaluta-kreditnom-karticom",
@@ -463,6 +463,16 @@
       ]
     },
     {
+      "slug": "internet-za-robote",
+      "title": "Internet za robote",
+      "date": "2011-02-13",
+      "word_count": 539,
+      "remove_reasons": [
+        "manual_remove_user_request"
+      ],
+      "dead_links": []
+    },
+    {
       "slug": "pocinjem",
       "title": "Pocinjem … !",
       "date": "2011-02-08",
@@ -483,8 +493,9 @@
       "dead_links": []
     }
   ],
-  "manual_removed_count": 1,
+  "manual_removed_count": 2,
   "manual_removed_slugs": [
+    "internet-za-robote",
     "zanimljivi-testovi"
   ]
 }

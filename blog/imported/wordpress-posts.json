@@ -433,24 +433,6 @@
     "read_minutes": 2
   },
   {
-    "id": 30,
-    "title": "Internet za robote",
-    "slug": "internet-za-robote",
-    "date": "2011-02-13T15:01:59+01:00",
-    "modified": "2011-02-13T15:02:59+01:00",
-    "pretty_date": "Feb 13, 2011",
-    "month_year": "February 2011",
-    "original_url": "https://stevyhacker.wordpress.com/2011/02/13/internet-za-robote/",
-    "short_url": "https://wp.me/p1lfVQ-u",
-    "categories": [
-      "Internet",
-      "Zanimljivosti"
-    ],
-    "tags": [],
-    "excerpt": "Radi se o projektu pod nazivom RoboEarth, koji treba da dovede do razvoja džinovske mreže i baze podataka u kojoj roboti mogu da razmenjuju informacije i uce jedni od drugih principe ponašanja u sopstvenom okruženju. Nažalost,…",
-    "read_minutes": 3
-  },
-  {
     "id": 14,
     "title": "Internet u 2O10.",
     "slug": "internet-u-2010",
