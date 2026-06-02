@@ -91,11 +91,6 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://stevyhacker.github.io/blog/posts/zanimljivi-testovi/</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://stevyhacker.github.io/blog/posts/neki-dobri-filmovi/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>

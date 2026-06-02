@@ -4,8 +4,8 @@
   "original_returned": 62,
   "short_word_threshold": 100,
   "unique_links_checked": 148,
-  "kept_count": 24,
-  "removed_count": 38,
+  "kept_count": 23,
+  "removed_count": 39,
   "removed_posts": [
     {
       "slug": "kupovina-bitkoina-i-drugih-kriptovaluta-kreditnom-karticom",
@@ -241,6 +241,16 @@
       ]
     },
     {
+      "slug": "zanimljivi-testovi",
+      "title": "Zanimljivi testovi",
+      "date": "2011-08-13",
+      "word_count": 406,
+      "remove_reasons": [
+        "manual_remove_user_request"
+      ],
+      "dead_links": []
+    },
+    {
       "slug": "moja-windows-7-tema",
       "title": "Moja Windows 7 tema",
       "date": "2011-08-11",
@@ -472,5 +482,9 @@
       ],
       "dead_links": []
     }
+  ],
+  "manual_removed_count": 1,
+  "manual_removed_slugs": [
+    "zanimljivi-testovi"
   ]
 }
