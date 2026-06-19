@@ -12,10 +12,27 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..72,400..800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <link rel="preload" as="font" href="/fonts/JetBrainsMono.woff2" type="font/woff2" crossorigin />
     <link rel="preload" as="image" href="/img/pro.jpg" />
+    <style>
+      @font-face {
+        font-family: 'JetBrains Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('/fonts/JetBrainsMono.woff2') format('woff2');
+      }
+      @font-face {
+        font-family: 'JetBrains Mono';
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url('/fonts/JetBrainsMono-Medium.woff2') format('woff2');
+      }
+    </style>
 
     <meta property="og:title" content="Stevan Bogosavljević – Senior Software Engineer" />
     <meta
@@ -52,18 +69,20 @@
         width: auto;
         height: auto;
         padding: 0.5rem 1rem;
-        background: #fff;
-        color: #2f4858;
+        background: #f7f5f0;
+        color: #17171a;
         border-radius: 0.5rem;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 6px rgba(23, 23, 26, 0.2);
       }
       #root:empty::before {
         content: 'Loading…';
         display: block;
         padding: 2rem;
         text-align: center;
-        color: #2f4858;
-        font-family: system-ui, sans-serif;
+        color: #17171a;
+        font-family: 'JetBrains Mono', ui-monospace, monospace;
+        font-size: 0.8rem;
+        letter-spacing: 0.05em;
       }
     </style>
   </head>

@@ -19,7 +19,9 @@ export function SectionHeader({
     <header className={`${alignClass} ${className}`}>
       <span className="section-eyebrow">{eyebrow}</span>
       <h2 className="section-title">{title}</h2>
-      {lead ? <p className={`section-lead ${align === 'left' ? 'mx-0' : ''}`}>{lead}</p> : null}
+      {lead ? (
+        <p className={`section-lead ${align === 'left' ? 'mx-0' : 'mx-auto'}`}>{lead}</p>
+      ) : null}
     </header>
   );
 }
