@@ -35,6 +35,13 @@ export function Footer() {
 
         <SocialLinks links={SOCIAL} size={20} variant="footer" className="mt-10" />
 
+        <a
+          href="/blog/"
+          className="mt-8 inline-flex items-center border-b border-cream/35 pb-1 text-sm font-semibold text-cream/85 transition hover:border-cream hover:text-cream"
+        >
+          Read Field Notes
+        </a>
+
         <p className="mt-16 text-xs tracking-wide text-cream/50">
           © {new Date().getFullYear()} {SITE.name}
         </p>

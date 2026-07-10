@@ -53,6 +53,10 @@
     font-family: 'Google Sans Flex', system-ui, sans-serif;
   }
 
+  .font-editorial {
+    font-family: 'Newsreader', Georgia, serif;
+  }
+
   .section-padding {
     @apply py-24 sm:py-28 md:py-32;
   }

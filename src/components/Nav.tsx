@@ -1,6 +1,8 @@
 import { FileText } from 'lucide-react';
 import { NAV, SITE } from '../data/site';
 
+const MOBILE_NAV = NAV.filter(({ label }) => label === 'Work' || label === 'Blog');
+
 export function Nav() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/30 bg-sand/80 shadow-[0_4px_20px_rgba(47,72,88,0.1),0_1px_0_rgba(255,255,255,0.5)_inset] backdrop-blur-xl">
@@ -28,7 +30,7 @@ export function Nav() {
 
         <div className="flex items-center gap-2 sm:gap-3">
           <ul className="flex items-center gap-4 sm:hidden">
-            {NAV.map(({ href, label }) => (
+            {MOBILE_NAV.map(({ href, label }) => (
               <li key={href}>
                 <a
                   href={href}
