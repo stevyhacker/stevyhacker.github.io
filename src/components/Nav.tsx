@@ -1,11 +1,11 @@
-import { FileText } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { NAV, SITE } from '../data/site';
 
-const MOBILE_NAV = NAV.filter(({ label }) => label === 'Work' || label === 'Blog');
+const MOBILE_NAV = NAV.filter(({ label }) => label === 'Work' || label === 'Field Notes');
 
 export function Nav() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/30 bg-sand/80 shadow-[0_4px_20px_rgba(47,72,88,0.1),0_1px_0_rgba(255,255,255,0.5)_inset] backdrop-blur-xl">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-ink/10 bg-[#f8efdf]/90 backdrop-blur-xl">
       <nav
         className="mx-auto flex h-[3.75rem] max-w-6xl items-center justify-between gap-4 px-4 sm:h-16 sm:px-6"
         aria-label="Primary"
@@ -18,7 +18,7 @@ export function Nav() {
           <span className="text-sage">.</span>
         </a>
 
-        <ul className="hidden items-center gap-8 sm:flex">
+        <ul className="hidden items-center gap-9 md:flex">
           {NAV.map(({ href, label }) => (
             <li key={href}>
               <a href={href} className="nav-link">
@@ -28,8 +28,8 @@ export function Nav() {
           ))}
         </ul>
 
-        <div className="flex items-center gap-2 sm:gap-3">
-          <ul className="flex items-center gap-4 sm:hidden">
+        <div className="flex items-center gap-3 sm:gap-5">
+          <ul className="flex items-center gap-4 md:hidden">
             {MOBILE_NAV.map(({ href, label }) => (
               <li key={href}>
                 <a
@@ -45,10 +45,16 @@ export function Nav() {
             href={SITE.cvUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-secondary !min-w-0 !px-3.5 !py-2 text-xs sm:!px-4 sm:text-sm"
+            className="hidden text-sm font-medium text-ink-muted transition hover:text-ink sm:inline-flex"
           >
-            <FileText size={15} aria-hidden />
             CV
+          </a>
+          <a
+            href={`mailto:${SITE.email}?subject=Project%20conversation`}
+            className="btn-primary !px-4 !py-2 text-xs sm:!px-5 sm:text-sm"
+          >
+            Let&apos;s talk
+            <ArrowRight size={15} aria-hidden />
           </a>
         </div>
       </nav>

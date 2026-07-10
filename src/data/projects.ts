@@ -6,6 +6,10 @@ export type Project = {
   tech: string[];
   url: string;
   featured?: boolean;
+  eyebrow?: string;
+  problem?: string;
+  role?: string;
+  outcome?: string;
 };
 
 export const PROJECTS: Project[] = [
@@ -21,6 +25,12 @@ export const PROJECTS: Project[] = [
     tech: ['Swift', 'macOS', 'Core ML', 'Local AI'],
     url: 'https://lokalbot.com',
     featured: true,
+    eyebrow: 'Private AI · macOS',
+    problem:
+      'Teams want faster note-taking and better recall, but cloud tools trade privacy for convenience.',
+    role: 'Founder / product engineer',
+    outcome:
+      'Local meeting notes, dictation, autocomplete, and work memory — without accounts, API keys, or cloud processing.',
   },
   {
     title: 'BizStats',
@@ -34,6 +44,12 @@ export const PROJECTS: Project[] = [
     tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Data Engineering', 'AI'],
     url: 'https://bizstats.me',
     featured: true,
+    eyebrow: 'Public data · AI',
+    problem:
+      'Company and government data is scattered, slow to aggregate, and difficult to trust.',
+    role: 'Product / data engineering',
+    outcome:
+      'Intelligence for 33,000+ companies with source-backed search and discovery across public data.',
   },
   {
     title: 'IT Stats',
