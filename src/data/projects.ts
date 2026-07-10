@@ -10,6 +10,32 @@ export type Project = {
 
 export const PROJECTS: Project[] = [
   {
+    title: 'LokalBot',
+    description:
+      'A private AI workspace for Mac — meeting notes, dictation, autocomplete, and work memory, all on-device.',
+    highlights: [
+      'Records, transcribes, and summarizes both sides of meetings locally',
+      'Open-source macOS product with no accounts, API keys, or cloud processing',
+    ],
+    image: '/img/lokalbot.png',
+    tech: ['Swift', 'macOS', 'Core ML', 'Local AI'],
+    url: 'https://lokalbot.com',
+    featured: true,
+  },
+  {
+    title: 'BizStats',
+    description:
+      'Company intelligence for Montenegro, combining official financial, employment, procurement, project, and civic data.',
+    highlights: [
+      '33,000+ companies with year-by-year financial and workforce analysis',
+      'Search, rankings, tenders, government data, and source-backed AI discovery',
+    ],
+    image: '/img/bizstats.png',
+    tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Data Engineering', 'AI'],
+    url: 'https://bizstats.me',
+    featured: true,
+  },
+  {
     title: 'IT Stats',
     description: 'Salary and job-market analytics for the IT industry.',
     highlights: [
@@ -19,7 +45,6 @@ export const PROJECTS: Project[] = [
     image: '/img/it_stats.png',
     tech: ['React', 'TypeScript', 'TailwindCSS', 'Chart.js'],
     url: 'https://itstats.me',
-    featured: true,
   },
   {
     title: "Toddler's Toons",

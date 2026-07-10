@@ -1,4 +1,5 @@
 import { About } from './components/About';
+import { FieldNotes } from './components/FieldNotes';
 import { Footer } from './components/Footer';
 import { Hero } from './components/Hero';
 import { Nav } from './components/Nav';
@@ -18,6 +19,7 @@ function App() {
           <TrustStrip />
           <Projects />
           <About />
+          <FieldNotes />
         </main>
         <Footer />
       </div>
