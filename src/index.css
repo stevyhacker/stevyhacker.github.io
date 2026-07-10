@@ -26,7 +26,7 @@
   }
 
   body {
-    @apply bg-sand text-ink antialiased;
+    @apply bg-[#f8efdf] text-ink antialiased;
   }
 
   ::selection {
@@ -37,7 +37,10 @@
 
 @layer components {
   .page-shell {
-    @apply relative min-h-screen overflow-x-hidden bg-gradient-to-br from-sand via-sand-mid to-sand-deep bg-page-mesh;
+    @apply relative min-h-screen overflow-x-hidden bg-[#f8efdf];
+    background-image:
+      radial-gradient(circle at 76% 8%, rgba(163, 187, 165, 0.2), transparent 22%),
+      radial-gradient(circle at 8% 14%, rgba(242, 211, 173, 0.5), transparent 26%);
   }
 
   .page-grain {
@@ -62,7 +65,7 @@
   }
 
   .section-eyebrow {
-    @apply mb-3 inline-block rounded-full border border-white/40 bg-white/30 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.22em] text-sage shadow-pill backdrop-blur-sm;
+    @apply mb-3 inline-block text-xs font-semibold uppercase tracking-[0.22em] text-sage;
   }
 
   .section-title {
@@ -82,11 +85,11 @@
   }
 
   .btn-primary {
-    @apply relative inline-flex items-center justify-center overflow-hidden rounded-full bg-ink px-8 py-3.5 text-sm font-semibold text-cream shadow-btn-primary transition duration-300 hover:bg-[#3a5a6d] hover:shadow-btn-primary-hover hover:-translate-y-0.5 active:translate-y-0 active:shadow-btn-primary;
+    @apply relative inline-flex items-center justify-center overflow-hidden rounded-full bg-ink px-7 py-3.5 text-sm font-semibold text-cream shadow-btn-primary transition duration-300 hover:bg-[#3a5a6d] hover:shadow-btn-primary-hover hover:-translate-y-0.5 active:translate-y-0 active:shadow-btn-primary;
   }
 
   .btn-secondary {
-    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border border-ink/15 bg-white/45 px-8 py-3.5 text-sm font-semibold text-ink shadow-btn backdrop-blur-md transition duration-300 hover:border-ink/25 hover:bg-white/60 hover:shadow-btn-hover hover:-translate-y-0.5 active:translate-y-0;
+    @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full border border-ink/15 bg-white/55 px-7 py-3.5 text-sm font-semibold text-ink shadow-btn backdrop-blur-md transition duration-300 hover:border-ink/25 hover:bg-white/75 hover:shadow-btn-hover hover:-translate-y-0.5 active:translate-y-0;
   }
 
   .pill {

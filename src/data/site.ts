@@ -2,7 +2,7 @@ export const SITE = {
   name: 'Stevan Bogosavljević',
   title: 'Senior Software Engineer',
   tagline:
-    'Smart contracts, DeFi, and full-stack products — from Solidity on EVM to React interfaces.',
+    'Smart contracts, private AI, data products, and the interfaces that make them useful.',
   proof: '5+ years Solidity · DeFi & NFT protocols · React / TypeScript full-stack',
   email: 'stevan.bogosavljevic@gmail.com',
   cvUrl: '/Stevan_Bogosavljevic_Resume.pdf',
@@ -78,6 +78,5 @@ export const ABOUT = [
 export const NAV = [
   { href: '#work', label: 'Work' },
   { href: '#about', label: 'About' },
-  { href: '/blog/', label: 'Blog' },
-  { href: '#contact', label: 'Contact' },
+  { href: '/blog/', label: 'Field Notes' },
 ] as const;

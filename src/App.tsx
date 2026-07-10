@@ -1,5 +1,4 @@
-import { About } from './components/About';
-import { FieldNotes } from './components/FieldNotes';
+import { ClosingSection } from './components/ClosingSection';
 import { Footer } from './components/Footer';
 import { Hero } from './components/Hero';
 import { Nav } from './components/Nav';
@@ -18,8 +17,7 @@ function App() {
           <Hero />
           <TrustStrip />
           <Projects />
-          <About />
-          <FieldNotes />
+          <ClosingSection />
         </main>
         <Footer />
       </div>
