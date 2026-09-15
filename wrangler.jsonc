@@ -7,5 +7,23 @@
     "directory": "./dist",
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
-  }
+  },
+  "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "www.bogosavljevic.me",
+      "custom_domain": true,
+      "zone_name": "bogosavljevic.me"
+    },
+    {
+      "pattern": "bogosavljevic.me",
+      "custom_domain": true,
+      "zone_name": "bogosavljevic.me"
+    },
+    {
+      "pattern": "stevan.bogosavljevic.me",
+      "custom_domain": true,
+      "zone_name": "bogosavljevic.me"
+    }
+  ]
 }

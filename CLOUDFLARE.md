@@ -10,5 +10,12 @@ static assets using `wrangler.jsonc`.
 - Domains: `bogosavljevic.me`, `www.bogosavljevic.me`, `stevan.bogosavljevic.me`.
 - No runtime secrets are required.
 
+The custom domains are declared in Wrangler. The Cloudflare zone Redirect Rule
+in `cloudflare/redirect-rules.json` preserves the apex-to-www redirect using HTTP
+308 with the original path and query string. `stevan.bogosavljevic.me` continues
+serving the site directly. Zone rules are managed separately from Wrangler.
+Back up and remove only conflicting website A/CNAME records before attaching the
+Worker domains, then enable the canonical rule after DNS is proxied.
+
 Verify the homepage, archived article paths and assets at the Workers URL
 before switching DNS. Preserve existing Cloudflare mail and verification records.
