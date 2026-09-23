@@ -1,0 +1,134 @@
+@config '../../tailwind.concept.config.js';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Concept palette: slate ink and verdigris, evolved from the site's #2f4858 / #58857c.
+   Stored as RGB channels so Tailwind's `c-*` colors can apply alpha. */
+@layer base {
+  :root {
+    color-scheme: light;
+    --c-paper: 243 245 244;
+    --c-surface: 250 251 251;
+    --c-ink: 22 37 45;
+    --c-ink2: 72 88 96;
+    --c-muted: 99 114 121;
+    --c-rule: 211 219 218;
+    --c-accent: 44 106 94;
+    --c-accent-soft: 219 233 228;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: dark;
+      --c-paper: 13 20 24;
+      --c-surface: 18 28 33;
+      --c-ink: 228 236 234;
+      --c-ink2: 172 187 185;
+      --c-muted: 132 149 150;
+      --c-rule: 38 52 59;
+      --c-accent: 116 188 170;
+      --c-accent-soft: 22 49 44;
+    }
+  }
+
+  html {
+    font-family: 'Google Sans Flex', system-ui, sans-serif;
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    @apply bg-c-paper text-c-ink;
+  }
+
+  ::selection {
+    background: rgb(var(--c-accent) / 0.22);
+  }
+
+  section[id] {
+    scroll-margin-top: 4.5rem;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--c-accent));
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-delay: 0ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .c-wrap {
+    @apply mx-auto w-full max-w-[1180px] px-5 sm:px-8;
+  }
+
+  .c-eyebrow {
+    @apply font-c-mono text-[0.72rem] font-medium uppercase tracking-[0.14em] text-c-accent;
+  }
+
+  .c-h2 {
+    @apply font-serif text-[2.2rem] font-medium leading-[1.04] tracking-[-0.02em] text-c-ink sm:text-5xl;
+    text-wrap: balance;
+  }
+
+  .c-lead {
+    @apply text-base leading-relaxed text-c-ink2 sm:text-lg;
+    max-width: 60ch;
+    text-wrap: pretty;
+  }
+
+  .c-meta {
+    @apply font-c-mono text-[0.74rem] leading-relaxed text-c-muted;
+  }
+
+  .c-link {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    transition: background-size 250ms ease;
+  }
+
+  .c-link:hover {
+    background-size: 100% 1px;
+  }
+
+  .c-btn {
+    @apply inline-flex items-center gap-2 rounded-full bg-c-ink px-5 py-3 text-sm font-semibold text-c-paper transition duration-200 hover:bg-c-accent;
+  }
+
+  .c-btn-ghost {
+    @apply inline-flex items-center gap-2 rounded-full border border-c-rule px-5 py-3 text-sm font-semibold text-c-ink transition duration-200 hover:border-c-ink;
+  }
+
+  .c-chip {
+    @apply inline-flex items-center gap-1.5 rounded-full bg-c-accent-soft px-2.5 py-1 font-c-mono text-[0.68rem] font-medium uppercase tracking-[0.08em] text-c-accent;
+  }
+
+  .c-rise {
+    animation: c-rise 520ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+}
+
+@keyframes c-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}

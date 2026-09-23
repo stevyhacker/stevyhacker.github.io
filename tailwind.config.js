@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  // The /concept/ page has its own config (tailwind.concept.config.js).
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}', '!./src/concept/**'],
   safelist: [
     'shadow-pill',
     'shadow-pill-hover',
