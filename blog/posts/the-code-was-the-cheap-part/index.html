@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The code was the cheap part · Field Notes</title>
+    <meta name="description" content="Porting a 150,000-line Swift Mac app to Linux and Windows with coding agents, and where the time actually went." />
+    <link rel="canonical" href="https://stevan.bogosavljevic.me/blog/posts/the-code-was-the-cheap-part/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght%406..72,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Red+Hat+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../assets/blog.css" />
+    <meta property="og:title" content="The code was the cheap part" />
+    <meta property="og:description" content="Porting a 150,000-line Swift Mac app to Linux and Windows with coding agents, and where the time actually went." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://stevan.bogosavljevic.me/blog/posts/the-code-was-the-cheap-part/" />
+    <meta property="og:image" content="https://stevan.bogosavljevic.me/blog/posts/the-code-was-the-cheap-part/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@stevyhacker" />
+    <style>
+      .post-body figure a { display: block; }
+      .post-body figure img { display: block; width: 100%; background: #fff; }
+      .post-body figcaption { font-size: 13.5px; line-height: 1.5; color: var(--mai-ink-muted); }
+      .post-body .table-wrap { overflow-x: auto; margin: 0 0 1.6em; }
+      .post-body td code, .post-body th code { font-size: 0.9em; }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="mai-nav" aria-label="Primary navigation">
+      <a class="brand" href="/">Stevan<span aria-hidden="true">.</span></a>
+      <ul class="nav-links" aria-label="Sections">
+        <li><a href="/#work">Work</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/blog/" aria-current="page">Blog</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+      <a class="nav-cta" href="/Stevan_Bogosavljevic_Resume.pdf" target="_blank" rel="noopener noreferrer">CV ↗</a>
+    </header>
+
+    <main id="content">
+      <section class="hero hero--post" aria-labelledby="post-title">
+        <div class="hero-inner">
+          <p class="eyebrow">Oct 20, 2026 · AI · Engineering · 16 min read</p>
+          <h1 id="post-title" class="post-hero-title">The code was the cheap part</h1>
+          <p class="hero-subtitle">Porting a 150,000-line Swift Mac app to Linux and Windows with coding agents, and where the time actually went.</p>
+        </div>
+      </section>
+
+      <article class="post-shell">
+        <div class="post-layout">
+          <aside class="post-meta-card" aria-label="Post metadata">
+            <div class="metadata">
+              <span>Published Oct 20, 2026</span>
+              <span>AI · Engineering</span>
+            </div>
+            <div class="post-actions">
+              <a class="button" href="/blog/">Back to blog</a>
+              <a class="button" href="https://github.com/stevyhacker/LokalBot/releases/tag/v0.11.0">LokalBot for Linux and Windows</a>
+              <span class="button button-square" aria-hidden="true">↘</span>
+            </div>
+          </aside>
+
+          <div class="post-body">
+<p>On Sunday, October 18, at about six in the morning, I sent a coding agent this message from my phone:</p>
+<blockquote>
+<p>Build a fresh take at implementation of LokalBot for Linux and Windows users with Rust and GPUI, matching the current experience on macOS where it makes sense, but it doesn't have to be completely identical as platforms differ. Build it all in a single PR and add screenshots of both apps running. Use sub agents to speed up and parallelize the work if it helps.</p>
+</blockquote>
+<p>The pull request merged on Monday afternoon: 365 files, 148,000 added lines, about 150 commits. On Tuesday at noon, LokalBot 0.11.0 shipped with a Windows installer, a portable zip, and <code>.tar.gz</code>, <code>.deb</code>, <code>.rpm</code> and Arch packages for Linux.</p>
+<p>That Sunday I sent the port session five messages: the prompt, two that said "Resume", one that said "Resuem in 12 30 today" when I hit my usage limit, and one asking for four more features. The session ran on my Mac, and I talked to it through Claude Code's Remote Control from my phone. My Mac recorded eleven minutes of use that whole day, almost all of it in a chat app.</p>
+<p>That makes for a good headline and a bad lesson. The bad lesson is "agents write code fast now". They do, and that's the least interesting thing that happened. What made the port work was everything around the code: a contract the agents could test against, a way for them to see a desktop they had no screen for, machines to build on, rules for agents sharing those machines, and a short list of decisions only I could make. This post is about those.</p>
+<figure><a href="hero.webp" title="Open full size"><img src="hero.webp" alt="The same demo meeting open in LokalBot on macOS, Linux and Windows" width="1000" height="640" loading="lazy" decoding="async" /></a><figcaption>The same demo meeting on all three platforms. The Mac app is Swift; the Linux and Windows app is Rust and GPUI, shown here on Omarchy and on a GitHub Windows runner. The port's demo library even swapped out Apple's vocabulary: FaceTime became Microsoft Teams, iPhone became phones, AirDrop became a shared drive.</figcaption></figure>
+<h2>What was being ported</h2>
+<p><a href="https://github.com/stevyhacker/LokalBot">LokalBot</a> is a private work memory for the Mac. It records meetings without a bot joining the call, transcribes them on device, writes notes with a local model, remembers what was on screen, completes text in other apps, and has an agent mode that can act on your files with approval. The Mac app is about 150,000 lines of Swift.</p>
+<p>Almost every one of those features touches the operating system: capturing system audio, reading the focused text field through accessibility APIs, global shortcuts, a tray icon, notifications, launch at login, screen capture with exclusions. A port means re-answering each of those questions on two platforms, three if you count Wayland separately from X11, which you have to.</p>
+<p>The Windows and Linux version is labelled alpha, and it is one.</p>
+<h2>Attempt one: the demo that became the architecture</h2>
+<p>This was not the first try. On October 2 I asked Codex, in three steps:</p>
+<ol>
+<li>"How could we make a version for Linux, Omarchy and Ubuntu and also make a Windows version too, what are my options… also is GPUI worth using"</li>
+<li>"Build me just a mock data GPUI/Rust version on this Ubuntu machine… and take screenshots"</li>
+<li>"It's pretty good, do a full conversion and open a PR"</li>
+</ol>
+<p>By lunchtime there was a working app: 19,500 lines of Rust, a native GPUI interface, CI on Linux and Windows. I had a second agent review the backend, and it found real problems. The worst: the app promised to keep screen history for 14 days, but its cleanup only looked at the newest 1,000 moments, so the promise broke after a few hours of use. I pasted the review back, and the first agent fixed everything on the list.</p>
+<p>Then the PR sat for 16 days and I closed it.</p>
+<p>Nothing on the review list explains why. The app was a lookalike, not a port. It lived in its own folder with its own data model and its own library on disk. It couldn't open a library recorded on a Mac, and nothing in it would tell you when it drifted from the Mac app's behavior. The mistake was in my second message: "mock data". The demo became the architecture, and everything after it was polish on the wrong foundation.</p>
+<figure><a href="attempts.webp" title="Open full size"><img src="attempts.webp" alt="Two diagrams side by side. Attempt one grew from a mock-data demo into an app with its own data model that can&#x27;t open a Mac library. Attempt two went from the Mac app through specs into crates, with tests that load a real Mac library." width="1000" height="540" loading="lazy" decoding="async" /></a><figcaption>Same goal, two foundations. The second attempt tied the port to the Mac's data format before any implementation agent started.</figcaption></figure>
+<h2>Attempt two: write the contract first</h2>
+<p>The second attempt ran in Claude Code with a different prompt. The tool wasn't the difference: Codex later wrote the port's 24 interface languages and its parity audit. The difference was that this attempt spent its first hour not writing Rust.</p>
+<figure><a href="contract-first.webp" title="Open full size"><img src="contract-first.webp" alt="A four-column flow: four read-only spec agents read the Swift app, the lead pins a contract of specs, core types and a real Mac library, writes a brief, then six implementation agents build and the lead merges at 08:00." width="1000" height="574" loading="lazy" decoding="async" /></a><figcaption>The first two hours. No implementation agent started until the specs, the core types and the brief existed.</figcaption></figure>
+<p><strong>It wrote specs from the source.</strong> Four read-only agents spent 20 minutes reading the Swift code and writing 280 KB of Markdown:</p>
+<ul>
+<li>the library format, SQLite schema and search;</li>
+<li>the processing pipeline, with every model prompt copied verbatim and every model pinned by URL and SHA-256;</li>
+<li>every screen's layout, states and exact UI strings;</li>
+<li>the CLI and MCP tool schemas, dictation, autocomplete and the privacy contract.</li>
+</ul>
+<p>Each spec quoted the Swift it came from, and the brief told the implementers to trust the code when the two disagreed.</p>
+<p><strong>It pinned the data format.</strong> Before starting any implementers, the lead wrote the core model types to match the Mac app's JSON field by field. It pointed every agent at a real library fixture already in the repo: meetings, transcripts, chats, a journal and a SQLite database recorded by Mac version 0.10.9. A test that loads a real Mac library can't drift quietly.</p>
+<p><strong>It wrote a brief.</strong> The brief is 9 KB, and it reads like onboarding docs for a contractor team, because that's what it is. Each crate has exactly one owner:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Crate</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lokalbot-core</code>, <code>lokalbot-cli</code></td>
+<td>core agent</td>
+</tr>
+<tr>
+<td><code>lokalbot-ai</code></td>
+<td>ai agent</td>
+</tr>
+<tr>
+<td><code>lokalbot-audio</code>, <code>lokalbot-speech</code></td>
+<td>speech agent</td>
+</tr>
+<tr>
+<td><code>lokalbot-platform</code></td>
+<td>platform agent</td>
+</tr>
+<tr>
+<td><code>lokalbot-engine</code></td>
+<td>lead</td>
+</tr>
+<tr>
+<td><code>lokalbot-app</code></td>
+<td>lead + two UI agents, split by page</td>
+</tr>
+</tbody>
+</table></div>
+<p>The rules are the ones you'd give people:</p>
+<ul>
+<li>edit only what you own;</li>
+<li>commit to your own branch in your own worktree, and don't push;</li>
+<li><code>Cargo.lock</code> will conflict, and the lead regenerates it;</li>
+<li>finish with a report: the public API others must call, how you tested it, and what's incomplete.</li>
+</ul>
+<p>One rule came straight from my global instructions: <strong>never build on this Mac.</strong> Builds and tests ran on an OVH server with 16 threads, and Windows builds on my gaming PC over SSH. The laptop edited files and stayed cool.</p>
+<p>The Windows PC section of the brief had its own hard rules, because that PC had coin-miner malware with SYSTEM rights until it was cleaned three days earlier:</p>
+<ul>
+<li>no scheduled tasks, services or startup entries;</li>
+<li>no changes to security settings;</li>
+<li>no secrets stored there;</li>
+<li>nothing installed beyond what a crate needs to build.</li>
+</ul>
+<figure><a href="harness.webp" title="Open full size"><img src="harness.webp" alt="A diagram of the machines: my phone talks to the MacBook through Remote Control; the MacBook reaches a rented Ubuntu server and my gaming PC over SSH and pushes to GitHub Actions." width="1000" height="540" loading="lazy" decoding="async" /></a><figcaption>Who did what. The laptop hosted the sessions and built nothing. Builds, tests and desktops lived on a rented server, my gaming PC and GitHub's runners.</figcaption></figure>
+<h2>Sunday</h2>
+<figure><a href="sunday-timeline.webp" title="Open full size"><img src="sunday-timeline.webp" alt="A timeline of Sunday from 06:00 to midnight. Rows show my five messages, eleven minutes of Mac use, the lead session&#x27;s commits and merges, four spec agents, six phase 1 agents and four phase 2 agents, with a hatched usage-limit gap from 08:42 to 12:25 and a commits-per-hour histogram." width="1000" height="708" loading="lazy" decoding="async" /></a><figcaption>Sunday, from the git log. Each dot is a commit on one agent's branch, and the orange dots are my messages. The hatched gap is the usage limit.</figcaption></figure>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Time</th>
+<th>What happened</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>06:07</td>
+<td>My prompt</td>
+</tr>
+<tr>
+<td>06:14</td>
+<td>Four spec agents start reading the Swift app</td>
+</tr>
+<tr>
+<td>06:51</td>
+<td>The brief is written; the first commit lands a minute earlier</td>
+</tr>
+<tr>
+<td>06:52</td>
+<td>Implementation agents start in parallel worktrees: core, AI, speech, platform and two UI agents</td>
+</tr>
+<tr>
+<td>07:21</td>
+<td>"Resume"</td>
+</tr>
+<tr>
+<td>08:00</td>
+<td>The lead merges the six agents' branches as they stand. CI seeds demo data and captures every page, light and dark, on both platforms</td>
+</tr>
+<tr>
+<td>08:42</td>
+<td>Usage limit. I reply "Resuem in 12 30 today", typo included</td>
+</tr>
+<tr>
+<td>12:25</td>
+<td>"Resume"</td>
+</tr>
+<tr>
+<td>19:02</td>
+<td>My last message of the day: "Port Agent Mode, autocomplete, screen capture and the live transcript", the four features the first pass had left as Mac-only</td>
+</tr>
+<tr>
+<td>19:09</td>
+<td>A phase 2 brief and four more agents: agent mode, the autocomplete engine, autocomplete's desktop side, and screen capture. The lead takes the live transcript</td>
+</tr>
+<tr>
+<td>23:23</td>
+<td>The lead's context fills up; it compacts and carries on</td>
+</tr>
+</tbody>
+</table></div>
+<p>On Monday morning I asked for a short demo video in the PR. That afternoon it merged.</p>
+<h2>Verification is the actual work</h2>
+<p>An agent can write a tray icon. Knowing the tray icon appears is a different problem, and most of the engineering in this port went into giving the agents eyes and ears on machines with no screen.</p>
+<p><strong>Linux desktops.</strong> CI starts Xvfb with xfwm4 and an xfce4-panel, runs the release build, and screenshots every page with the tray next to the clock. The capture script had to learn to wait for the window manager and the tray before shooting.</p>
+<figure><a href="linux-ci-desktop.webp" title="Open full size"><img src="linux-ci-desktop.webp" alt="LokalBot&#x27;s Meetings page on an Ubuntu desktop with an xfce4-panel at the bottom and the LokalBot tray icon next to the clock." width="1000" height="625" loading="lazy" decoding="async" /></a><figcaption>A CI capture. This desktop never appeared on a physical screen; it exists only inside Xvfb.</figcaption></figure>
+<p><strong>Audio without a microphone.</strong> To test the live transcript, the agent set up a private PipeWire with a virtual mic and virtual speakers and played a scripted two-speaker conversation into the app's normal capture path. That found two bugs no unit test would have:</p>
+<ul>
+<li>live sentences were cut off at the newest audio;</li>
+<li>the player kept a stale length after a recording ended.</li>
+</ul>
+<figure><a href="live-transcript.webp" title="Open full size"><img src="live-transcript.webp" alt="LokalBot recording on Linux, with the mic receiving audio and a live transcript alternating between &quot;Me&quot; and &quot;Remote speaker&quot;." width="1000" height="629" loading="lazy" decoding="async" /></a><figcaption>The live transcript on Linux, listening to a scripted conversation through a microphone that doesn't exist.</figcaption></figure>
+<p><strong>Windows without a mouse.</strong> GitHub's Windows Server runner has a real desktop at 1920×1080 but no mouse, so Windows hides the pointer. The demo recording shows an arrow anyway: it's a small window the script moves along with the real pointer. Autocomplete is checked in Notepad. The probe types, reads back the field, finds the ghost-text window and prints <code>PROBE PASS</code>.</p>
+<figure><a href="windows-runner.webp" title="Open full size"><img src="windows-runner.webp" alt="A frame from the Windows demo recording, with the arrow pointer magnified, above Notepad showing gray ghost text after the caret." width="1000" height="760" loading="lazy" decoding="async" /></a><figcaption>Top: a frame from the <a href="windows-demo.mp4">Windows demo recording</a>. Bottom: the autocomplete probe's Notepad, with LokalBot's suggestion in gray after the caret.</figcaption></figure>
+<p><strong>Mac libraries on Linux.</strong> A meeting recorded on the Mac first showed "No recording available" on Linux, because the Mac stores AAC <code>.m4a</code> and the port wrote WAV. The fix decodes AAC with Symphonia, but decoding alone isn't enough: AAC encoders add 2,112 frames of priming silence, and the Mac trims them using the <code>iTunSMPB</code> tag. Skip that and every transcript timestamp is about 130 ms off at 16 kHz. The test now checks the fixture's 140-second track comes out at exactly 2,240,000 frames.</p>
+<figure><a href="aac-priming.webp" title="Open full size"><img src="aac-priming.webp" alt="Two audio bars. The decoded AAC stream starts with 2,112 frames of priming silence and ends with 448 frames of padding; the trimmed track the Mac plays is exactly 2,240,000 frames. A word at 0.250 seconds lands at 0.382 seconds if the priming isn&#x27;t trimmed." width="1000" height="340" loading="lazy" decoding="async" /></a><figcaption>Decoding isn't enough. Only the <code>iTunSMPB</code> tag says how much silence to drop at each end.</figcaption></figure>
+<p><strong>Real models, end to end.</strong> Every run starts from an empty library and downloads the default models through the app's own download path. It then processes a 50-second, three-speaker recording and asks a question:</p>
+<ul>
+<li>On the Ubuntu box (CPU only), processing took 61.5 seconds and the cited answer 13.5 seconds.</li>
+<li>On the Windows PC, llama.cpp picked Vulkan on the Radeon GPU, and the answer took 3.4 seconds.</li>
+</ul>
+<p>That run caught the model citing its own internal source labels (<code>[M1]</code>) instead of transcript moments. Mocks would never have shown it.</p>
+<p><strong>The time something said no.</strong> The brief forbade scheduled tasks on the Windows PC. At one point an agent tried to register one anyway. It's the usual trick for getting a GUI process into a logged-in Windows session from SSH, and on that PC it's also exactly what the malware had done. Claude Code's auto-mode safety check blocked it as unauthorized persistence. The agent moved the interactive Windows checks to GitHub's runners instead and listed the refusal in its final report.</p>
+<h2>Monday night: five agents, one server</h2>
+<p>PR 290 shipped every page but not every feature. On Monday evening I had Codex compare the platforms feature by feature. I pasted its table into a new session with one line, "feature parity is still not there for windows and linux", and asked for a plan.</p>
+<p>The plan came back in batches of independent work, one session and one draft PR each:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>PR</th>
+<th>Work</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/stevyhacker/LokalBot/pull/304">304</a></td>
+<td>cloud providers, plus ChatGPT and Claude plan sign-in</td>
+</tr>
+<tr>
+<td><a href="https://github.com/stevyhacker/LokalBot/pull/305">305</a></td>
+<td>calendar</td>
+</tr>
+<tr>
+<td><a href="https://github.com/stevyhacker/LokalBot/pull/306">306</a></td>
+<td>automatic updates</td>
+</tr>
+<tr>
+<td><a href="https://github.com/stevyhacker/LokalBot/pull/307">307</a></td>
+<td>meeting import, merging and boundaries</td>
+</tr>
+<tr>
+<td><a href="https://github.com/stevyhacker/LokalBot/pull/310">310</a></td>
+<td>the Ask tool loop</td>
+</tr>
+</tbody>
+</table></div>
+<p>My part was a few decisions in the plan:</p>
+<ul>
+<li><strong>Calendar:</strong> a private ICS or CalDAV feed URL on both platforms, plus Evolution Data Server on Linux. No Outlook or Graph integration.</li>
+<li><strong>Updates:</strong> signed with the existing Sparkle key.</li>
+<li><strong>Audio:</strong> the port keeps WAV, and the Mac learns to read it.</li>
+</ul>
+<p>Four or five sessions then shared one 16-thread server, and they got in each other's way like a team on a shared dev box:</p>
+<ul>
+<li><strong>Cargo target directories.</strong> Cargo names workspace crates' build outputs by a hash relative to the workspace root. Two checkouts sharing a target directory overwrite each other's <code>lokalbot-*</code> libraries. The next build fails with errors like "could not find <code>merge</code> in <code>lokalbot_core</code>" that come from the <em>other</em> checkout's code.</li>
+<li><strong><code>pkill</code>.</strong> One session's <code>pkill -f "debug/lokalbot --page"</code> killed another session's app, twice, with nothing in the log.</li>
+<li><strong>Displays and sockets.</strong> Two sessions on Xvfb display <code>:93</code> saw each other's windows. The app's single-instance socket in <code>XDG_RUNTIME_DIR</code> handed one session's launch to another session's running app.</li>
+</ul>
+<p>Together they cost the sessions about half an hour. The fixes became a rules file pasted into every brief: one target directory per checkout, your own display number, your own runtime directory, kill only your own PIDs, and run a renamed copy of the binary so broad <code>pkill</code> patterns can't match it. People learn these through hallway complaints. Agents need them written down.</p>
+<figure><a href="shared-server.webp" title="Open full size"><img src="shared-server.webp" alt="A grid of five sessions. In the top half they share one Cargo target directory, one process table, X display :93 and one runtime directory, each with what broke. In the bottom half each session has its own of each." width="1000" height="530" loading="lazy" decoding="async" /></a><figcaption>Four things the sessions shared by accident, and the rules file that gave each session its own.</figcaption></figure>
+<h2>Bugs worth the price of admission</h2>
+<p><strong>rustc vs generated code.</strong> Meanwhile Codex, in another session, added 24 interface languages. The generator emitted one giant nested <code>match</code>, and rustc died compiling it, so master's Linux and Windows release build broke. The fix (<a href="https://github.com/stevyhacker/LokalBot/pull/308">PR 308</a>) generates sorted per-locale tables and adds <code>clippy -D warnings</code> to CI. And because Clippy's <code>invisible_characters</code> lint is deny-by-default, one zero-width character inside a translation would now stop the build, so the generator rejects them up front.</p>
+<p><strong>Feature unification changes your JSON.</strong> GPUI turns on serde_json's <code>preserve_order</code> feature. Cargo unifies features across the workspace, so <code>cargo test -p some-crate</code> serializes objects with sorted keys and <code>cargo test --workspace</code> keeps insertion order. A test that passes one way fails the other. Never assert on serialized key order. Write wire formats out by hand.</p>
+<p><strong>Tests that know what time it is.</strong> The self-hosted Windows runner is on local time, UTC+2, while GitHub's runners and the server use UTC. A demo-data test failed only on the PC, only early in the morning (<a href="https://github.com/stevyhacker/LokalBot/pull/316">PR 316</a>).</p>
+<p><strong>Windows parks your build on the slow cores.</strong> The PC has an i5-13400F: six hyperthreaded performance cores and four efficiency cores. Within about three seconds, Windows moves long-running work from any process without a foreground window onto the E-cores. That includes the CI runner service and everything started over SSH. Every rustc in a CI job ran on four slow cores while twelve fast threads sat idle. The obvious fix is the power-throttling opt-out, but child processes don't inherit it. An affinity mask (<code>0xFFF</code>) is inherited. With it and two smaller fixes, the Windows job went from 12.5 to 4.5 minutes. The smaller fixes alone got it to 12.1 (<a href="https://github.com/stevyhacker/LokalBot/pull/323">PR 323</a>).</p>
+<figure><a href="e-cores.webp" title="Open full size"><img src="e-cores.webp" alt="Sixteen CPU cells. By default the four E-cores are 98 to 100 percent busy and the twelve P-core threads idle; with affinity mask 0xFFF the P-cores do the work. Below, the Windows CI job takes 12.5 minutes before, 12.1 with the smaller fixes and 4.55 with the mask." width="1000" height="500" loading="lazy" decoding="async" /></a><figcaption>Per-core load on the PC during a CI build, and what the mask did to the job. Measurements from PR 323.</figcaption></figure>
+<p><strong>Omarchy in a VM.</strong> I asked for Omarchy support on Tuesday morning ("We should support Omarchy too"). The agent installed it in a QEMU VM on the server and hit a run of surprises:</p>
+<ul>
+<li>Hyprland's config and <code>hyprctl dispatch</code> take Lua now.</li>
+<li><code>grim</code> hangs in the guest, so screenshots come from QEMU's <code>screendump</code>.</li>
+<li>Typing through QEMU's control socket runs at half a second per key, so scripts are served over HTTP rather than typed in.</li>
+<li>The shell locks the session when idle, and then your keystrokes go to the lock screen.</li>
+</ul>
+<figure><a href="omarchy.webp" title="Open full size"><img src="omarchy.webp" alt="LokalBot on Omarchy&#x27;s dark desktop, with the Quick Recall search panel floating over the Today page and results for &quot;laptop&quot;." width="1000" height="625" loading="lazy" decoding="async" /></a><figcaption>LokalBot in the agent's Omarchy VM. Quick Recall had been tiled beside the main window, splitting the screen in half; it now floats.</figcaption></figure>
+<h2>CI on machines I already had</h2>
+<p>Hosted Windows CI took about half an hour per run. On Monday night the agents put GitHub Actions runners on the server and the PC (<a href="https://github.com/stevyhacker/LokalBot/pull/312">PR 312</a>):</p>
+<ul>
+<li>A first job checks which self-hosted runners are idle and sends work there, falling back to GitHub's runners otherwise.</li>
+<li>Pull requests from forks never run on my machines, and neither do releases or anything with secrets.</li>
+<li>The runners can't reach my Tailscale network.</li>
+<li>Windows desktop checks still run on GitHub's runners, never on my PC's desktop.</li>
+</ul>
+<p>Median whole run: 32.5 minutes on GitHub's runners, 16.8 on mine, and 8.8 after the E-core PR.</p>
+<figure><a href="ci-runners.webp" title="Open full size"><img src="ci-runners.webp" alt="A flowchart: pull requests from forks go to GitHub&#x27;s runners; otherwise an idle self-hosted runner gets the job, or GitHub&#x27;s runners if none is idle. Next to it, median whole-run times of 32.5, 16.8 and 8.8 minutes." width="1000" height="380" loading="lazy" decoding="async" /></a><figcaption>Which runner gets a job, and what my own machines did to the median CI run.</figcaption></figure>
+<h2>Tuesday: shipping</h2>
+<p>The release was mostly questions only I could answer:</p>
+<ul>
+<li><strong>Versioning.</strong> I asked whether Windows and Linux should start at 0.1.0. We kept one version across platforms: 0.11.0.</li>
+<li><strong>Naming.</strong> "Alpha", not "beta". I corrected that one.</li>
+<li><strong>Downloads.</strong> Versioned file names.</li>
+<li><strong>The Windows zip.</strong> "What about the windows .zip, is it a .exe or an installer or what?" That became a per-user installer.</li>
+</ul>
+<p>The release job builds six Linux and Windows packages. It install-checks the Linux packages in Ubuntu, Fedora and Arch containers and the Windows installer on a Windows runner. Version 0.11.0 was published at 12:22, about 53 hours after the first commit. My last two messages that day were "install it on my ubuntu box and windows box" and "merge it".</p>
+<h2>What I actually did</h2>
+<p>LokalBot records my coding-agent sessions and which app is in front, so I can count:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>My messages</th>
+<th>My time at the Mac</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Attempt one, Oct 2</td>
+<td>5</td>
+<td>can't separate it out: window titles expire after 7 days. The session ran 09:31–14:02</td>
+</tr>
+<tr>
+<td>PR 290, Oct 18–19</td>
+<td>6: five from my phone on Sunday, one on Monday</td>
+<td>11 minutes on Sunday, almost all of it in a chat app</td>
+</tr>
+<tr>
+<td>Parity, CI and release, Oct 19 evening to Oct 20 noon</td>
+<td>about 30, about 500 words</td>
+<td>about 2.8 hours</td>
+</tr>
+</tbody>
+</table></div>
+<p>The 2.8 hours is an estimate. It takes my Mac time on each day and credits the port with its share of that day's prompts. Phone time isn't in any of these numbers. I poked the agents from my phone a lot through Remote Control, mostly with short messages like "Resume" or "merge it".</p>
+<p>About 40 messages in all, about three hours at the Mac for the second attempt, plus phone time I didn't measure. The messages sorted into four kinds:</p>
+<ul>
+<li><strong>Scope:</strong> the first prompt, "port the four features", "we should support Omarchy too".</li>
+<li><strong>Unblocking:</strong> "Resume", setting a CI secret myself.</li>
+<li><strong>Decisions:</strong> calendar API, versioning, "alpha", installer format.</li>
+<li><strong>Release:</strong> "merge it".</li>
+</ul>
+<p>I didn't review the code. I judged the work by the screenshots, the demo videos and the CI runs. That's only defensible because the agents built those checks to show real behavior: captures of the release build on Linux and Windows desktops, audio fed through the app's normal capture path, real models answering from a real library. If the evidence had been mocks, I'd have had nothing to judge with.</p>
+<p>There was no API bill. All of it ran on my regular subscription's weekly usage allowance, and I used up nearly all of it two weeks running, along with the other projects I had going in those same weeks. The usage limit is a real constraint. It's why one of my Sunday messages was "Resuem in 12 30 today".</p>
+<h2>What isn't done</h2>
+<p>It's an alpha, and the README's per-platform table says so. Some of the gaps:</p>
+<ul>
+<li><strong>Windows code signing.</strong> The builds aren't signed yet.</li>
+<li><strong>Installer version.</strong> After an in-place update, Installed apps still shows the installer's version.</li>
+<li><strong>Wayland.</strong> Global shortcuts go through compositor bindings, because no global-shortcut API works on every compositor.</li>
+<li><strong>Accessibility in Qt and Chromium apps.</strong> It's patchier than on the Mac, so autocomplete and screen text are weaker there.</li>
+<li><strong>Windows Agent Mode.</strong> It hasn't been tested interactively, only on a CI desktop.</li>
+<li><strong>Remaining parity.</strong> The later batches of the parity plan are still open, including coding-agent session history in day memory, voice profiles and more speech models.</li>
+</ul>
+<p>The first attempt cost a morning and taught me where the real decision is. I hit my usage limit in the middle of the port, too.</p>
+<h2>What I'd tell another engineer</h2>
+<ol>
+<li><strong>Write the contract before the code.</strong> Have agents write specs from the source they're porting, with the strings, prompts and schemas copied word for word. Pin the data format with real fixtures. Skipping this is what sank the first attempt.</li>
+<li><strong>Organize agents like a team, because they collide like one.</strong> Give each one its own crate, worktree, branch, target directory, display and process namespace, and have every one finish with a written report.</li>
+<li><strong>Spend on eyes.</strong> Headless desktops, virtual audio devices, CI desktops and end-to-end runs with real models found the bugs that mattered. The unit tests found the rest.</li>
+<li><strong>Count the hardware as part of the harness.</strong> A rented server and a gaming PC did every build. The laptop hosted the sessions, and my phone was the interface.</li>
+<li><strong>Keep the decisions for yourself.</strong> Which APIs to depend on, what to call the release, how to version it. Many of my messages were nudges like "Resume" and "merge it". The ones that mattered were decisions.</li>
+<li><strong>Let the guardrails work.</strong> The most important thing an automated check did during the port was refuse something.</li>
+</ol>
+<p>LokalBot for Windows and Linux is <a href="https://github.com/stevyhacker/LokalBot/releases/tag/v0.11.0">on the releases page</a>. The port is in <a href="https://github.com/stevyhacker/LokalBot/tree/master/LinuxWindows"><code>LinuxWindows/</code></a>. The original PR, with its screenshots and test evidence, is <a href="https://github.com/stevyhacker/LokalBot/pull/290">#290</a>.</p>
+          </div>
+
+          <nav class="post-nav" aria-label="Adjacent posts"><span aria-hidden="true"></span><a href="../inference-bottom-up/"><span>Older note</span><strong>Inference, Bottom Up</strong></a></nav>
+        </div>
+      </article>
+    </main>
+    <footer class="footer">
+      <div class="footer-inner">
+        <p class="mono">© 2026 Stevan Bogosavljević</p>
+        <nav class="footer-links" aria-label="Footer">
+          <a href="/">Portfolio</a>
+          <a href="/blog/">Blog</a>
+          <a href="https://github.com/stevyhacker">GitHub</a>
+          <a href="https://twitter.com/stevyhacker">X</a>
+          <a href="mailto:stevan.bogosavljevic@gmail.com">Email</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "The code was the cheap part", "description": "Porting a 150,000-line Swift Mac app to Linux and Windows with coding agents, and where the time actually went.", "datePublished": "2026-10-20T16:30:00+02:00", "dateModified": "2026-10-20T16:30:00+02:00", "author": {"@type": "Person", "name": "Stevan Bogosavljević"}, "image": "https://stevan.bogosavljevic.me/blog/posts/the-code-was-the-cheap-part/og.jpg", "mainEntityOfPage": "https://stevan.bogosavljevic.me/blog/posts/the-code-was-the-cheap-part/", "url": "https://stevan.bogosavljevic.me/blog/posts/the-code-was-the-cheap-part/"}</script>
+  </body>
+</html>
