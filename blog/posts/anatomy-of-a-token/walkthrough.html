@@ -1,0 +1,935 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><meta name="robots" content="noindex"><script>if (window.self !== window.top) { document.documentElement.classList.add("embedded"); document.documentElement.setAttribute("data-theme", "light"); }</script></head><body>
+<title>Anatomy of a Token</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: one datasheet-style column (max 760px). Three role colours run through every figure:
+   teal = memory capacity (GB) · cobalt = bandwidth (GB/s, decode) · orange = compute (TFLOPS, prefill). */
+:root{
+  --bg:#F2F4F7; --surface:#FFFFFF; --sunken:#E6EAF0; --ink:#121A24; --muted:#536071; --line:#D2D8E0;
+  --cap:#0E7C67; --bw:#2A56DD; --fl:#CF4F16; --bad:#B3261E;
+  --cap-soft:rgba(14,124,103,.16); --bw-soft:rgba(42,86,221,.14); --fl-soft:rgba(207,79,22,.14);
+  --hatch:rgba(83,96,113,.30);
+  --f-display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0C1117; --surface:#141B24; --sunken:#1C2532; --ink:#E5EAF0; --muted:#94A1B3; --line:#293443;
+    --cap:#38C4A5; --bw:#7699FF; --fl:#FF8150; --bad:#FF6F61;
+    --cap-soft:rgba(56,196,165,.20); --bw-soft:rgba(118,153,255,.20); --fl-soft:rgba(255,129,80,.20);
+    --hatch:rgba(148,161,179,.30);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C1117; --surface:#141B24; --sunken:#1C2532; --ink:#E5EAF0; --muted:#94A1B3; --line:#293443;
+  --cap:#38C4A5; --bw:#7699FF; --fl:#FF8150; --bad:#FF6F61;
+  --cap-soft:rgba(56,196,165,.20); --bw-soft:rgba(118,153,255,.20); --fl-soft:rgba(255,129,80,.20);
+  --hatch:rgba(148,161,179,.30);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:var(--f-body); font-size:17px; line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+}
+main{max-width:760px; margin:0 auto; padding-block:44px 72px; display:grid; gap:76px}
+section, header{display:grid; gap:18px; min-width:0}
+p{margin:0; max-width:66ch}
+a{color:var(--bw); text-underline-offset:2px}
+b, strong{font-weight:600}
+
+h1,h2,h3,h4{font-family:var(--f-display); margin:0; text-wrap:balance; letter-spacing:-.01em}
+h1{font-size:clamp(2.6rem, 10vw, 4.4rem); font-weight:800; font-stretch:122%; line-height:.95}
+h2{font-size:clamp(1.55rem, 5.2vw, 2.1rem); font-weight:760; font-stretch:112%; line-height:1.08}
+h3{font-size:1.08rem; font-weight:720; font-stretch:106%; line-height:1.25}
+h4{font-size:.95rem; font-weight:700; font-stretch:104%}
+.eyebrow{font-family:var(--f-mono); font-size:.74rem; letter-spacing:.11em; text-transform:uppercase; color:var(--muted); margin:0}
+.lede{font-size:1.14rem; line-height:1.55; max-width:60ch}
+.note{font-size:.93rem; color:var(--muted)}
+.c-cap{color:var(--cap)} .c-bw{color:var(--bw)} .c-fl{color:var(--fl)}
+:focus-visible{outline:2px solid var(--bw); outline-offset:2px}
+
+/* Spec strip */
+.specs{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); border-top:1px solid var(--ink); border-bottom:1px solid var(--line); margin-top:10px}
+.spec{padding:18px 16px 22px 0; display:grid; gap:6px; align-content:start; min-width:0}
+.spec + .spec{border-left:1px solid var(--line); padding-left:16px}
+.spec .unit{font-family:var(--f-mono); font-weight:600; font-size:1.7rem; line-height:1}
+.spec.cap .unit{color:var(--cap)} .spec.bw .unit{color:var(--bw)} .spec.fl .unit{color:var(--fl)}
+.spec .what{font-family:var(--f-mono); font-size:.74rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+.spec .q{font-family:var(--f-display); font-stretch:110%; font-weight:720; font-size:1.18rem; line-height:1.2}
+.spec p{color:var(--muted); font-size:.93rem; line-height:1.5}
+@media (max-width:640px){
+  .specs{grid-template-columns:1fr}
+  .spec{padding-right:0}
+  .spec + .spec{border-left:0; border-top:1px solid var(--line); padding-left:0}
+}
+
+/* Mental-model check */
+.check{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:20px; display:grid; gap:12px}
+.check h2{font-size:1.15rem; font-stretch:108%}
+.check ul{list-style:none; margin:0; padding:0; display:grid; gap:10px}
+.check li{display:grid; grid-template-columns:3.6rem 1fr; gap:10px; align-items:baseline}
+.pill{font-family:var(--f-mono); font-size:.7rem; letter-spacing:.07em; text-transform:uppercase; padding:2px 0; text-align:center; border-radius:999px; border:1px solid var(--line)}
+.pill.ok{color:var(--cap); border-color:var(--cap)}
+.pill.add{color:var(--muted)}
+
+/* Phase figure */
+.phases{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px}
+@media (max-width:720px){ .phases{grid-template-columns:1fr} }
+.phase{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:16px; display:grid; gap:12px; align-content:start; min-width:0}
+.phase-head{display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap}
+.tag{font-family:var(--f-mono); font-size:.7rem; letter-spacing:.06em; text-transform:uppercase; padding:3px 8px; border-radius:999px; white-space:nowrap}
+.tag.fl{background:var(--fl-soft); color:var(--fl)}
+.tag.bw{background:var(--bw-soft); color:var(--bw)}
+.wlabel{font-family:var(--f-mono); font-size:.72rem; color:var(--muted); letter-spacing:.03em}
+.wlabel b{color:var(--ink)}
+.wbar{display:grid; grid-template-columns:repeat(24, 1fr); gap:2px; padding:3px; border:1px solid var(--line); border-radius:6px; background:var(--bg)}
+.wc{height:20px; border-radius:2px; background:var(--cap-soft); transition:background .12s}
+.wc.lit-fl{background:var(--fl)}
+.wc.lit-bw{background:var(--bw)}
+.toks{display:flex; flex-wrap:wrap; gap:5px; min-height:2rem; align-content:flex-start}
+.tok{font-family:var(--f-mono); font-size:.76rem; line-height:1.2; padding:4px 7px; border-radius:4px; border:1px solid var(--line); background:var(--sunken); color:var(--ink); transition:background .2s, color .2s, opacity .2s}
+.tok.on-fl{background:var(--fl); border-color:var(--fl); color:var(--bg)}
+.tok.cached{opacity:.5}
+.tok.out{border-color:var(--bw); background:var(--bw-soft); color:var(--bw)}
+.tok.out.on-bw{background:var(--bw); color:var(--bg)}
+.tok.pending{visibility:hidden}
+.meters{display:grid; gap:6px}
+.meter{display:grid; grid-template-columns:6.4rem 1fr 3.4rem; gap:8px; align-items:center; font-size:.8rem}
+.meter span:first-child{color:var(--muted)}
+.meter .track{height:8px; border-radius:2px; background:var(--sunken); overflow:hidden}
+.meter .track i{display:block; height:100%}
+.meter .track i.bw{background:var(--bw)} .meter .track i.fl{background:var(--fl)}
+.meter b{font-family:var(--f-mono); font-size:.72rem; font-weight:500; text-align:right}
+.phase .cap-note{font-size:.9rem; color:var(--muted)}
+
+/* Rules box */
+.rules{display:grid; gap:2px; border-radius:12px; overflow:hidden; border:1px solid var(--line)}
+.rule{display:grid; grid-template-columns:8.5rem 1fr; gap:12px; padding:12px 16px; background:var(--surface); align-items:baseline}
+.rule-k{font-family:var(--f-mono); font-size:.74rem; letter-spacing:.07em; text-transform:uppercase; font-weight:600}
+.rule-k.bw{color:var(--bw)} .rule-k.fl{color:var(--fl)} .rule-k.cap{color:var(--cap)}
+.rule code{font-family:var(--f-mono); font-size:.9rem; line-height:1.5}
+@media (max-width:560px){ .rule{grid-template-columns:1fr; gap:2px} }
+
+/* Charts */
+.chart-host{width:100%; min-width:0}
+.chart{display:block; max-width:100%}
+.chart .plotbg{fill:var(--surface)}
+.chart .grid{stroke:var(--line); stroke-width:1}
+.chart .tick{fill:var(--muted); font-family:var(--f-mono); font-size:11px}
+.chart .ratio{stroke:var(--muted); stroke-width:1; stroke-dasharray:4 4; opacity:.7}
+.chart .ratio-lab{fill:var(--muted); font-family:var(--f-mono); font-size:11px}
+.chart .bub{fill:var(--cap-soft); stroke:var(--cap); stroke-width:1.5}
+.chart .bub-lab{fill:var(--ink); font-family:var(--f-body); font-size:12px; font-weight:600}
+.chart .axis-t{font-family:var(--f-mono); font-size:11px; font-weight:500}
+.chart .axis-t.bw{fill:var(--bw)} .chart .axis-t.fl{fill:var(--fl)} .chart .axis-t.mu{fill:var(--muted)}
+.chart .ln-bw{stroke:var(--bw); stroke-width:2.5; stroke-linecap:round}
+.chart .ln-fl{stroke:var(--fl); stroke-width:2.5; stroke-linecap:round}
+.chart .knee{fill:var(--fl); stroke:var(--surface); stroke-width:2}
+.chart .endpt{fill:var(--bw); stroke:var(--surface); stroke-width:2}
+.chart .hatchfill{fill:var(--hatch)}
+.chart .oom-lab{fill:var(--muted); font-family:var(--f-mono); font-size:10.5px}
+.chart .frame{fill:none; stroke:var(--line)}
+.fig-cap{font-size:.86rem; color:var(--muted); max-width:66ch}
+
+.tbl-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch; border-top:1px solid var(--ink)}
+table{border-collapse:collapse; width:100%; min-width:560px; font-size:.9rem; font-variant-numeric:tabular-nums}
+th, td{padding:9px 10px 9px 0; text-align:right; border-bottom:1px solid var(--line); white-space:nowrap}
+th:first-child, td:first-child{text-align:left}
+th{font-family:var(--f-mono); font-weight:500; font-size:.7rem; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); vertical-align:bottom}
+td.k{font-weight:600}
+td .ratio-bar{display:inline-block; height:8px; border-radius:2px; background:var(--ink); vertical-align:middle; margin-left:8px; opacity:.75}
+
+/* Archetypes */
+.arch{display:grid; gap:0; border-top:1px solid var(--ink)}
+.arch-item{display:grid; gap:12px; padding:22px 0; border-bottom:1px solid var(--line)}
+.arch-item .ex{font-family:var(--f-mono); font-size:.76rem; color:var(--muted); letter-spacing:.03em}
+.fps{display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:14px 24px}
+.fp{display:grid; gap:5px; min-width:0}
+.fp-name{font-family:var(--f-mono); font-size:.74rem; color:var(--muted)}
+.fp-row{display:grid; grid-template-columns:5.2rem minmax(0,1fr) 7rem; gap:8px; align-items:center; font-size:.82rem}
+.fp-k{color:var(--muted)}
+.fp-track{height:8px; background:var(--sunken); border-radius:2px; overflow:hidden}
+.fp-track i{display:block; height:100%}
+.fp-track i.cap{background:var(--cap)} .fp-track i.bw{background:var(--bw)} .fp-track i.fl{background:var(--fl)}
+.fp-v{font-family:var(--f-mono); font-size:.76rem; text-align:right; font-variant-numeric:tabular-nums}
+
+/* Calculator */
+.controls{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px 20px; background:var(--sunken); border-radius:12px; padding:18px}
+@media (max-width:620px){ .controls{grid-template-columns:1fr} }
+.field{display:grid; gap:6px; min-width:0; align-content:start}
+.lab{font-family:var(--f-mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+.lab-row{display:flex; justify-content:space-between; align-items:baseline; gap:8px}
+.val{font-family:var(--f-mono); font-size:.9rem; font-weight:500}
+.hint{font-size:.84rem; color:var(--muted)}
+select{font:inherit; font-size:1rem; padding:9px 10px; border-radius:8px; border:1px solid var(--line); background:var(--surface); color:var(--ink); width:100%; min-width:0}
+.seg{display:grid; grid-template-columns:repeat(3, 1fr); border:1px solid var(--line); border-radius:8px; overflow:hidden; background:var(--surface); position:relative}
+.seg input{position:absolute; opacity:0; width:1px; height:1px; pointer-events:none}
+.seg label{padding:9px 6px; text-align:center; cursor:pointer; font-weight:500; font-size:.95rem; font-family:var(--f-mono)}
+.seg label + input + label{border-left:1px solid var(--line)}
+.seg input:checked + label{background:var(--ink); color:var(--bg)}
+.seg input:focus-visible + label{outline:2px solid var(--bw); outline-offset:-3px}
+input[type=range]{width:100%; accent-color:var(--ink); margin:4px 0}
+
+.legend{display:flex; flex-wrap:wrap; gap:6px 16px; font-size:.84rem; color:var(--muted); align-items:center}
+.legend i{display:inline-block; width:12px; height:12px; border-radius:2px; vertical-align:-1px; margin-right:6px}
+.legend i.pre{background:var(--fl)} .legend i.dec{background:var(--bw)}
+.legend i.no{background:repeating-linear-gradient(135deg, var(--hatch) 0 3px, transparent 3px 6px); border:1px solid var(--line)}
+.legend i.ln-bw{height:3px; width:16px; background:var(--bw); vertical-align:3px}
+.legend i.ln-fl{height:3px; width:16px; background:var(--fl); vertical-align:3px}
+
+.rows{display:grid; gap:2px}
+.row{all:unset; box-sizing:border-box; display:grid; gap:7px; padding:12px; border-radius:10px; cursor:pointer; border:1px solid transparent; width:100%}
+.row:hover{background:var(--sunken)}
+.row[aria-pressed="true"]{background:var(--surface); border-color:var(--ink)}
+.row:focus-visible{outline:2px solid var(--bw); outline-offset:1px}
+.row-head{display:flex; justify-content:space-between; gap:2px 10px; flex-wrap:wrap; align-items:baseline}
+.row-name{font-weight:600}
+.row-spec{font-family:var(--f-mono); font-size:.74rem; color:var(--muted)}
+.bar{display:flex; height:14px; background:var(--sunken); border-radius:3px; overflow:hidden}
+.bar .pre{display:block; height:100%; background:var(--fl)}
+.bar .dec{display:block; height:100%; background:var(--bw)}
+.bar.nofit{background:repeating-linear-gradient(135deg, var(--hatch) 0 5px, transparent 5px 10px)}
+.row-foot{display:flex; flex-wrap:wrap; gap:2px 16px; font-size:.86rem; color:var(--muted); font-variant-numeric:tabular-nums}
+.row-foot b{color:var(--ink); font-weight:600}
+.row-foot b.bad{color:var(--bad)}
+.summary{font-size:.95rem; max-width:66ch}
+
+.detail{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:18px; display:grid; gap:18px; min-width:0}
+.membar{position:relative; display:flex; height:22px; border-radius:4px; background:var(--sunken); overflow:visible}
+.membar span{display:block; height:100%}
+.membar span:first-child{border-radius:4px 0 0 4px}
+.membar .w{background:var(--cap)}
+.membar .kv{background:var(--cap-soft); box-shadow:inset 0 0 0 1px var(--cap)}
+.membar .rs{background:var(--hatch)}
+.membar .capline{position:absolute; top:-6px; bottom:-6px; width:2px; background:var(--bad)}
+.mem-legend{display:flex; flex-wrap:wrap; gap:4px 16px; font-size:.84rem; color:var(--muted); font-variant-numeric:tabular-nums}
+.mem-legend i{display:inline-block; width:11px; height:11px; border-radius:2px; margin-right:6px; vertical-align:-1px}
+.mem-legend i.w{background:var(--cap)} .mem-legend i.kv{background:var(--cap-soft); box-shadow:inset 0 0 0 1px var(--cap)} .mem-legend i.rs{background:var(--hatch)} .mem-legend i.fr{background:var(--sunken); box-shadow:inset 0 0 0 1px var(--line)}
+.mem-legend b{color:var(--ink); font-weight:600}
+.stats{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px}
+@media (max-width:560px){ .stats{grid-template-columns:1fr} }
+.stat{display:grid; gap:2px; padding:12px; border-radius:8px; background:var(--bg); min-width:0}
+.stat .k{font-family:var(--f-mono); font-size:.7rem; letter-spacing:.07em; text-transform:uppercase; color:var(--muted)}
+.stat .v{font-family:var(--f-display); font-stretch:108%; font-weight:760; font-size:1.5rem; line-height:1.15; font-variant-numeric:tabular-nums}
+.stat .s{font-size:.82rem; color:var(--muted)}
+.stat.fl .v{color:var(--fl)} .stat.bw .v{color:var(--bw)}
+.nofit-msg{color:var(--bad); font-weight:600}
+
+/* Modifiers */
+.mods{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:0 28px; border-top:1px solid var(--ink)}
+@media (max-width:640px){ .mods{grid-template-columns:1fr} }
+.mod{display:grid; gap:6px; padding:18px 0; border-bottom:1px solid var(--line); align-content:start; min-width:0}
+.mod p{font-size:.95rem}
+.mod .hits{font-family:var(--f-mono); font-size:.7rem; letter-spacing:.06em; text-transform:uppercase; display:flex; gap:6px; flex-wrap:wrap}
+.mod .hits span{padding:1px 7px; border-radius:999px}
+.hits .cap{background:var(--cap-soft); color:var(--cap)} .hits .bw{background:var(--bw-soft); color:var(--bw)} .hits .fl{background:var(--fl-soft); color:var(--fl)}
+
+ol.steps{margin:0; padding:0; list-style:none; counter-reset:s; display:grid; gap:14px; max-width:66ch}
+ol.steps li{counter-increment:s; display:grid; grid-template-columns:2rem 1fr; gap:10px}
+ol.steps li::before{content:counter(s); font-family:var(--f-display); font-weight:800; font-stretch:120%; font-size:1.4rem; line-height:1.1; color:var(--muted)}
+
+footer{display:grid; gap:14px; font-size:.86rem; color:var(--muted); border-top:1px solid var(--line); padding-top:22px}
+footer h2{font-size:1rem; color:var(--ink)}
+footer ul{margin:0; padding-left:18px; display:grid; gap:4px}
+footer p{max-width:72ch}
+
+@media (prefers-reduced-motion: reduce){ *{transition:none !important} }
+</style>
+
+<main>
+  <header>
+    <p class="eyebrow">Field guide · LLM inference hardware · October 2026</p>
+    <h1>Anatomy of a Token</h1>
+    <p class="lede">Every chip that runs a language model comes with three headline numbers. Each one controls a different part of the work. Once you know which number controls which part, spec sheets start to make sense, and so do the trade-offs between a Mac Studio, a DGX Spark and a rack of H100s.</p>
+    <div class="specs">
+      <div class="spec cap">
+        <span class="unit">GB</span>
+        <span class="what">Memory capacity</span>
+        <span class="q">Does the model fit?</span>
+        <p>A yes-or-no gate. Having more of it doesn't make anything faster.</p>
+      </div>
+      <div class="spec bw">
+        <span class="unit">GB/s</span>
+        <span class="what">Memory bandwidth</span>
+        <span class="q">How fast does it write?</span>
+        <p>Sets tokens per second while the answer is generated (decode).</p>
+      </div>
+      <div class="spec fl">
+        <span class="unit">TFLOPS</span>
+        <span class="what">Compute</span>
+        <span class="q">How fast does it read?</span>
+        <p>Sets how long your prompt takes (prefill), and how many people one chip can serve at once.</p>
+      </div>
+    </div>
+    <div class="check">
+      <h2>Your mental model, checked</h2>
+      <ul>
+        <li><span class="pill ok">Right</span><span>Bandwidth sets tokens per second when one person is generating.</span></li>
+        <li><span class="pill ok">Right</span><span>Compute is what makes reading the prompt (prefill) fast.</span></li>
+        <li><span class="pill add">Add</span><span>Compute also decides how many users one chip can serve at the same time. That's why datacenters care about it during generation too.</span></li>
+        <li><span class="pill add">Add</span><span>Capacity only tells you the model fits. A model can fit and still crawl if bandwidth or compute is missing.</span></li>
+      </ul>
+    </div>
+  </header>
+
+  <section id="phases">
+    <p class="eyebrow">Prefill and decode</p>
+    <h2>One request, two different jobs</h2>
+    <p>A model is a large pile of numbers called weights. Llama 3.3 70B at 4-bit is about 40 GB of them. To do anything, the chip streams those weights out of memory and multiplies them against your tokens. What differs between the two phases is how many tokens share each trip through the weights.</p>
+
+    <div class="phases" id="phaseFig">
+      <div class="phase">
+        <div class="phase-head"><h3>Prefill: reading the prompt</h3><span class="tag fl">compute-bound</span></div>
+        <div class="wlabel">Model weights, streamed from memory each pass</div>
+        <div class="wbar" id="preBar" aria-hidden="true"></div>
+        <div class="wlabel">Tokens using this pass: <b>9</b></div>
+        <div class="toks" id="preToks">
+          <span class="tok p">Why</span><span class="tok p">is</span><span class="tok p">my</span><span class="tok p">Mac</span><span class="tok p">slow</span><span class="tok p">at</span><span class="tok p">long</span><span class="tok p">prompts</span><span class="tok p">?</span><span class="tok out pending" id="preOut">Because</span>
+        </div>
+        <div class="meters">
+          <div class="meter"><span>Memory bus</span><span class="track"><i class="bw" style="width:22%"></i></span><b>light</b></div>
+          <div class="meter"><span>Math units</span><span class="track"><i class="fl" style="width:95%"></i></span><b>maxed</b></div>
+        </div>
+        <p class="cap-note">One trip through the weights serves the whole prompt at once. The first answer token comes out at the end.</p>
+      </div>
+      <div class="phase">
+        <div class="phase-head"><h3>Decode: writing the answer</h3><span class="tag bw">bandwidth-bound</span></div>
+        <div class="wlabel">Model weights, streamed from memory each pass</div>
+        <div class="wbar" id="decBar" aria-hidden="true"></div>
+        <div class="wlabel">Tokens using this pass: <b>1</b></div>
+        <div class="toks" id="decToks">
+          <span class="tok cached">Why</span><span class="tok cached">is</span><span class="tok cached">my</span><span class="tok cached">Mac</span><span class="tok cached">…</span><span class="tok out d">Because</span><span class="tok out d pending">prefill</span><span class="tok out d pending">is</span><span class="tok out d pending">compute</span><span class="tok out d pending">bound</span><span class="tok out d pending">.</span>
+        </div>
+        <div class="meters">
+          <div class="meter"><span>Memory bus</span><span class="track"><i class="bw" style="width:95%"></i></span><b>maxed</b></div>
+          <div class="meter"><span>Math units</span><span class="track"><i class="fl" style="width:5%"></i></span><b>idle</b></div>
+        </div>
+        <p class="cap-note">One full trip through the weights for every new token. Faded tokens are already stored in the KV cache.</p>
+      </div>
+    </div>
+
+    <p><strong class="c-fl">Prefill</strong> handles your whole prompt in one pass. Each weight that arrives gets used for every prompt token at once, so the chip does thousands of operations for each byte it loads. Memory keeps up easily, and the math units are the bottleneck. Prefill decides how long you wait for the first word.</p>
+    <p><strong class="c-bw">Decode</strong> writes the answer. Each new token depends on the one before it, so the model runs one full pass per token. Every active weight comes out of memory again and gets used for about two operations. The math units mostly wait for data. Decode decides tokens per second.</p>
+
+    <div class="rules">
+      <div class="rule"><span class="rule-k bw">Writing speed</span><code>tokens/s ≈ bandwidth ÷ bytes of active weights</code></div>
+      <div class="rule"><span class="rule-k fl">Reading speed</span><code>tokens/s ≈ compute ÷ (2 × active parameters)</code></div>
+      <div class="rule"><span class="rule-k cap">Fits if</span><code>weights + KV cache + headroom ≤ memory</code></div>
+    </div>
+    <p class="note">Example: Llama 3.3 70B at 4-bit is about 40 GB. An H100 moves 3,350 GB/s, so one user tops out near 3,350 ÷ 40 ≈ 84 tokens/s. A Mac Studio M3 Ultra moves 819 GB/s, so about 20. Real software lands at roughly 50–80% of these ceilings.</p>
+  </section>
+
+  <section id="ratio">
+    <p class="eyebrow">FLOPs per byte</p>
+    <h2>Compute ÷ bandwidth is the chip's personality</h2>
+    <p>Divide a chip's compute by its bandwidth and you get how many operations it can do for each byte it pulls from memory. Single-user decode at 4-bit needs only about 4 operations per byte: 2 per weight, half a byte per weight. Every chip below offers 30 to 460. So for one user, generation is always limited by bandwidth, and most of the compute sits idle.</p>
+    <p>The ratio still matters, because it tells you how lopsided the chip is. A low ratio means it writes quickly but reads long prompts slowly. A high ratio means it reads quickly but writes slowly.</p>
+    <div class="chart-host" id="bubbleHost"></div>
+    <p class="fig-cap">Bubble size is memory capacity. Further right writes faster, higher up reads faster. Dashed lines connect chips with the same FLOPs per byte; the numbers sit at the right edge. Both axes are logarithmic.</p>
+    <div class="tbl-wrap">
+      <table id="chipTable">
+        <thead><tr><th>Chip</th><th>Memory</th><th>Bandwidth</th><th>Compute</th><th>FLOPs per byte</th><th>Reads ÷ writes</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="fig-cap">Compute is the 16-bit dense peak. ≈ marks estimates: Apple doesn't publish TFLOPS, and the DGX Spark figure is derived from NVIDIA's FP4 number. "Reads ÷ writes" is how many times faster the chip processes prompt tokens than it generates answer tokens, for a 4-bit model after typical efficiency losses.</p>
+  </section>
+
+  <section id="big-memory">
+    <p class="eyebrow">Big memory, small surprises</p>
+    <h2>Three ways a chip disappoints</h2>
+    <p>Capacity looks like the spec that matters most, because it decides which models you can run at all. But a chip is only as good as its weakest number for the job you give it. Bars below use a log scale across the chips on this page.</p>
+    <div class="arch">
+      <div class="arch-item">
+        <h3>Fits, but writes slowly</h3>
+        <span class="ex">DGX Spark · Ryzen AI Max+ 395 · 128 GB at ~260–270 GB/s</span>
+        <div class="fps"><div data-fp="spark"></div><div data-fp="strix"></div></div>
+        <p>128 GB holds a 70B dense model easily. But every token has to drag the whole model across a 256-bit memory bus, so a 70B model in 8-bit writes at about 3 tokens per second. LMSYS measured the DGX Spark at 2.7 tokens/s on Llama 3.1 70B in FP8, while it read the prompt at 803 tokens/s. Its compute is fine; its bandwidth is the limit. These boxes work well with mixture-of-experts models like gpt-oss-120b that touch only a few GB per token.</p>
+      </div>
+      <div class="arch-item">
+        <h3>Writes well, reads slowly</h3>
+        <span class="ex">Mac Studio M3 Ultra · 512 GB at 819 GB/s, ~28 TFLOPS</span>
+        <div class="fps"><div data-fp="m3u"></div><div data-fp="m5u"></div></div>
+        <p>512 GB holds DeepSeek-class models and writes them at a usable pace. With so little math per byte, though, a 30,000-token prompt from a coding agent can take minutes before the first word appears. Apple added matrix units to every GPU core in the M5 generation to fix exactly this. On an M5 MacBook Pro, Apple measured up to 4× faster time to first token than M4, while generation improved 19–27%, close to the 28% bandwidth increase. The M5 Ultra Mac Studio pairs 512 GB with 1.2 TB/s, and Apple claims up to 4× faster prompt processing than the M3 Ultra.</p>
+      </div>
+      <div class="arch-item">
+        <h3>Fast, but too small</h3>
+        <span class="ex">GeForce RTX 5090 · 32 GB at 1,792 GB/s</span>
+        <div class="fps"><div data-fp="rtx5090"></div></div>
+        <p>Strong bandwidth and strong compute, but 32 GB. A 70B model at 4-bit needs about 40 GB before any context, so it doesn't fit. Two cards can split the model, with the link between them becoming a new bottleneck. For models that do fit, it is one of the fastest single chips you can buy.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="calculator">
+    <p class="eyebrow">Try it</p>
+    <h2>Same request, seven chips</h2>
+    <p>Pick a model and a job. Each bar shows how long the whole request takes, split into reading the prompt and writing the answer. Tap a chip to see its memory and how it copes with many users at once.</p>
+
+    <div class="controls">
+      <div class="field">
+        <label class="lab" for="modelSel">Model</label>
+        <select id="modelSel"></select>
+        <span class="hint" id="modelHint"></span>
+      </div>
+      <div class="field">
+        <span class="lab" id="precLab">Weight precision</span>
+        <div class="seg" role="radiogroup" aria-labelledby="precLab">
+          <input type="radio" name="prec" id="prec16" value="16"><label for="prec16">16-bit</label>
+          <input type="radio" name="prec" id="prec8" value="8"><label for="prec8">8-bit</label>
+          <input type="radio" name="prec" id="prec4" value="4" checked><label for="prec4">4-bit</label>
+        </div>
+        <span class="hint" id="precHint"></span>
+      </div>
+      <div class="field">
+        <div class="lab-row"><label class="lab" for="promptLen">Prompt</label><span class="val" id="promptVal"></span></div>
+        <input type="range" id="promptLen" min="0" max="6" step="1" value="3">
+        <span class="hint" id="promptHint"></span>
+      </div>
+      <div class="field">
+        <div class="lab-row"><label class="lab" for="answerLen">Answer</label><span class="val" id="answerVal"></span></div>
+        <input type="range" id="answerLen" min="0" max="3" step="1" value="2">
+        <span class="hint" id="answerHint"></span>
+      </div>
+    </div>
+
+    <div class="legend"><span><i class="pre"></i>Reading the prompt</span><span><i class="dec"></i>Writing the answer</span><span><i class="no"></i>Doesn't fit</span></div>
+    <div class="rows" id="rows"></div>
+    <p class="summary" id="calcSummary"></p>
+
+    <div class="detail" id="detail" aria-live="polite">
+      <h3 id="dTitle"></h3>
+      <div class="field">
+        <span class="lab">Memory</span>
+        <div id="memBar"></div>
+        <div class="mem-legend" id="memLegend"></div>
+      </div>
+      <div class="stats" id="stats"></div>
+      <div class="field" id="batchWrap">
+        <h4>Serving many people at once</h4>
+        <div class="legend"><span><i class="ln-bw"></i>Limited by bandwidth</span><span><i class="ln-fl"></i>Limited by compute</span><span><i class="no"></i>No room for more KV caches</span></div>
+        <div class="chart-host" id="batchHost"></div>
+        <p class="note" id="batchText"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="modifiers">
+    <p class="eyebrow">Modifiers</p>
+    <h2>What else moves the numbers</h2>
+    <div class="mods">
+      <div class="mod">
+        <h3>Quantization</h3>
+        <div class="hits"><span class="cap">capacity</span><span class="bw">bandwidth</span></div>
+        <p>Going from 16-bit to 4-bit makes the weights about 3.5× smaller. The model fits in less memory and writes about 3.5× faster, since each token reads fewer bytes. Prompt reading only speeds up if the chip has fast low-precision math, like FP8 and FP4 on recent NVIDIA chips.</p>
+      </div>
+      <div class="mod">
+        <h3>Mixture of experts</h3>
+        <div class="hits"><span class="cap">capacity</span><span class="bw">bandwidth</span><span class="fl">compute</span></div>
+        <p>Total parameters decide what has to fit. Active parameters decide the work per token. DeepSeek V3 has 671B parameters but uses about 37B per token, so it needs a huge memory pool yet writes like a 37B model. That's why 512 GB Macs and MoE models go well together.</p>
+      </div>
+      <div class="mod">
+        <h3>KV cache</h3>
+        <div class="hits"><span class="cap">capacity</span><span class="bw">bandwidth</span></div>
+        <p>The model stores two vectors per token per layer so it never recomputes the past. It grows with context: Llama 3.3 70B uses about 320 KB per token, so a 128k-token context is roughly 40 GB. It eats capacity, and every new token reads all of it, which is why long conversations write more slowly.</p>
+      </div>
+      <div class="mod">
+        <h3>Batching</h3>
+        <div class="hits"><span class="fl">compute</span><span class="cap">capacity</span></div>
+        <p>A server reads the weights once per step and applies them to every user's next token. Throughput grows almost for free until the math units fill up, or until there's no room left for everyone's KV cache. This is how compute matters during generation, and why cloud tokens are cheap.</p>
+      </div>
+      <div class="mod">
+        <h3>Speculative decoding</h3>
+        <div class="hits"><span class="fl">compute</span><span class="bw">bandwidth</span></div>
+        <p>A small draft model guesses the next few tokens, and the big model checks all of them in one pass, like a tiny prefill. When the guesses are right, idle compute turns into extra tokens per second.</p>
+      </div>
+      <div class="mod">
+        <h3>Linking chips</h3>
+        <div class="hits"><span class="cap">capacity</span><span class="bw">bandwidth</span></div>
+        <p>Splitting a model across chips adds their capacity. Splitting each layer across them adds bandwidth too, if the links are fast enough. That is what NVLink does inside a GPU server. Apple says four M5 Ultra Mac Studios linked over Thunderbolt 5 run inference up to 3× faster than one.</p>
+      </div>
+      <div class="mod">
+        <h3>On-chip SRAM designs</h3>
+        <div class="hits"><span class="bw">bandwidth</span><span class="cap">capacity</span></div>
+        <p>Groq and Cerebras keep the weights in SRAM on the chip itself, which is far faster than any external memory but holds very little per chip. You get extreme tokens per second, paid for with racks of chips to hold one model.</p>
+      </div>
+      <div class="mod">
+        <h3>Software</h3>
+        <div class="hits"><span class="bw">bandwidth</span><span class="fl">compute</span></div>
+        <p>The same chip can differ 2× between engines. llama.cpp, MLX, vLLM and SGLang each reach a different share of peak bandwidth and compute, especially on newer hardware where kernels are still catching up.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="cheatsheet">
+    <p class="eyebrow">Cheat sheet</p>
+    <h2>Reading a spec sheet in 30 seconds</h2>
+    <ol class="steps">
+      <li><span><strong class="c-cap">Capacity first.</strong> Total parameters × bytes per weight (2 for 16-bit, 1 for 8-bit, about 0.56 for 4-bit), plus the KV cache, plus a few GB of headroom. If it doesn't fit, nothing else matters.</span></li>
+      <li><span><strong class="c-bw">Then bandwidth.</strong> Divide it by the bytes of active weights. That's the best-case tokens/s for one user. Expect 50–80% of it in practice.</span></li>
+      <li><span><strong class="c-fl">Then compute.</strong> 2 × active parameters × prompt tokens ÷ FLOPS gives seconds to the first word at perfect efficiency. Double it for a realistic figure.</span></li>
+      <li><span><strong>Then your workload.</strong> Chat with short prompts lives on bandwidth. Coding agents, RAG and long documents push lots of prompt through, so compute starts to dominate. Serving many users needs compute and room for everyone's KV cache.</span></li>
+    </ol>
+  </section>
+
+  <footer>
+    <h2>How the estimates work</h2>
+    <p>Writing speed assumes 75% of peak bandwidth for dense models and 50% for mixture-of-experts models, which carry routing overhead. Prompt reading assumes 50% of peak compute (30% for the Ryzen AI Max+, where software reaches a smaller share), 70% of that for MoE models, and adds a rough attention cost that grows with prompt length. 8-bit and 4-bit models use the chip's 8-bit math rate where it has one. 4-bit weights count as about 4.5 bits including scales. The KV cache is 16-bit. Unified-memory machines keep 10% (at least 8 GB) for the OS and apps. The M5 Ultra compute figure is an estimate built from Apple's roughly 4× claim over the M3 Ultra. Treat every number as ±50%: the point is the shape, not the decimals.</p>
+    <h2>Sources</h2>
+    <ul>
+      <li><a href="https://machinelearning.apple.com/research/exploring-llms-mlx-m5" target="_blank" rel="noopener">Apple Machine Learning Research: Exploring LLMs with MLX and the Neural Accelerators in the M5 GPU</a></li>
+      <li><a href="https://9to5mac.com/2025/11/20/apple-shows-how-much-faster-the-m5-runs-local-llms-compared-to-the-m4/" target="_blank" rel="noopener">9to5Mac: Apple shows how much faster the M5 runs local LLMs</a></li>
+      <li><a href="https://www.lmsys.org/blog/2025-10-13-nvidia-dgx-spark" target="_blank" rel="noopener">LMSYS: NVIDIA DGX Spark in-depth review</a></li>
+      <li><a href="https://www.macrumors.com/guide/2025-vs-2026-mac-studio/" target="_blank" rel="noopener">MacRumors: 2026 Mac Studio buyer's guide</a></li>
+      <li><a href="https://guru3d.com/story/apple-m5-ultra-mac-studio-launches-with-36core-cpu-80core-gpu-and-512gb-unified-memory/" target="_blank" rel="noopener">Guru3D: M5 Ultra Mac Studio launch</a></li>
+      <li><a href="https://www.owc.com/blog/m5-max-and-m5-ultra-chips-take-apples-new-mac-studio-models-to-crazy-new-heights" target="_blank" rel="noopener">OWC: M5 Max and M5 Ultra Mac Studio</a></li>
+      <li><a href="https://www.macstories.net/stories/ipad-pro-m5-neural-benchmarks-mlx/" target="_blank" rel="noopener">MacStories: M5 iPad Pro neural accelerator benchmarks</a></li>
+    </ul>
+  </footer>
+</main>
+
+<script>
+(function(){
+'use strict';
+var $ = function(s){ return document.querySelector(s); };
+
+/* ---------- Data ---------- */
+var CHIPS = {
+  m3u:     {name:'Mac Studio M3 Ultra',  short:'M3 Ultra',      mem:512, bw:819,  tf16:28,   tf8:28,   eff:0.5, unified:true},
+  m5u:     {name:'Mac Studio M5 Ultra',  short:'M5 Ultra',      mem:512, bw:1200, tf16:115,  tf8:115,  eff:0.5, unified:true, est:true},
+  spark:   {name:'NVIDIA DGX Spark',     short:'DGX Spark',     mem:128, bw:273,  tf16:125,  tf8:250,  eff:0.5, unified:true, est:true},
+  strix:   {name:'AMD Ryzen AI Max+ 395',short:'Ryzen AI Max+', mem:128, bw:256,  tf16:59,   tf8:59,   eff:0.3, unified:true},
+  rtx5090: {name:'GeForce RTX 5090',     short:'RTX 5090',      mem:32,  bw:1792, tf16:210,  tf8:420,  eff:0.5, unified:false},
+  h100:    {name:'NVIDIA H100 SXM',      short:'H100',          mem:80,  bw:3350, tf16:989,  tf8:1979, eff:0.5, unified:false},
+  b200:    {name:'NVIDIA B200',          short:'B200',          mem:180, bw:8000, tf16:2250, tf8:4500, eff:0.5, unified:false}
+};
+var ORDER = ['m3u','m5u','spark','strix','rtx5090','h100','b200'];
+
+/* total/active in billions of parameters, kv = KB per token at 16-bit, attn = attention FLOPs coefficient (× prompt²) */
+var MODELS = [
+  {id:'l8',     name:'Llama 3.1 8B',     total:8.0,  active:8.0,  kv:128, attn:2.62e5, moe:false},
+  {id:'q32',    name:'Qwen3 32B',        total:32.8, active:32.8, kv:256, attn:1.05e6, moe:false},
+  {id:'l70',    name:'Llama 3.3 70B',    total:70.6, active:70.6, kv:320, attn:1.31e6, moe:false},
+  {id:'oss120', name:'gpt-oss-120b',     total:117,  active:5.1,  kv:72,  attn:2.95e5, moe:true},
+  {id:'q235',   name:'Qwen3 235B-A22B',  total:235,  active:22,   kv:188, attn:1.54e6, moe:true},
+  {id:'ds',     name:'DeepSeek V3 / R1', total:671,  active:37,   kv:69,  attn:3.0e6,  moe:true},
+  {id:'k2',     name:'Kimi K2',          total:1040, active:32,   kv:69,  attn:1.5e6,  moe:true}
+];
+var BPP = {16:2, 8:1.06, 4:0.56};
+var PROMPTS = [500, 2000, 8000, 16000, 32000, 64000, 128000];
+var PROMPT_HINTS = ['a chat message','a long email thread','a research paper','a handful of source files','a coding agent mid-task','a large slice of a codebase','a short book'];
+var ANSWERS = [100, 500, 1000, 4000];
+var ANSWER_HINTS = ['a quick reply','a few paragraphs','a detailed answer','a long report or a big code change'];
+
+var state = {model:'l70', prec:4, pi:3, ai:2, sel:'m3u'};
+
+/* ---------- Formatting ---------- */
+function fmtInt(v){ return Math.round(v).toLocaleString('en-US'); }
+function fmtNum(v){
+  if(!isFinite(v)) return '–';
+  if(v >= 10) return fmtInt(v);
+  if(v >= 1) return v.toFixed(1);
+  return v.toFixed(2);
+}
+function fmtGB(v){ return (v >= 10 ? fmtInt(v) : v.toFixed(1)) + ' GB'; }
+function fmtTime(s){
+  if(!isFinite(s)) return '–';
+  if(s < 10) return s.toFixed(1) + ' s';
+  if(s < 60) return Math.round(s) + ' s';
+  var tot = Math.round(s);
+  if(tot < 3600){ var mm = Math.floor(tot/60), ss = tot % 60; return mm + ' min ' + String(ss).padStart(2,'0') + ' s'; }
+  var h = Math.floor(tot/3600), m2 = Math.round((tot % 3600)/60);
+  return h + ' h ' + String(m2).padStart(2,'0') + ' min';
+}
+function pct(v){ return Math.round(v*100) + '%'; }
+
+/* ---------- Model of the hardware ---------- */
+function curModel(){ for(var i=0;i<MODELS.length;i++){ if(MODELS[i].id === state.model) return MODELS[i]; } return MODELS[0]; }
+function flopsEff(c, m, prec){ return (prec < 16 ? c.tf8 : c.tf16) * 1e12 * c.eff * (m.moe ? 0.7 : 1); }
+function bwEff(c, m){ return c.bw * 1e9 * (m.moe ? 0.5 : 0.75); }
+
+/* One decode step for B users at once (roofline: whichever of memory traffic or math takes longer) */
+function stepAt(c, m, prec, P, A, B){
+  var bpp = BPP[prec], avg = P + A/2;
+  var p = m.active / m.total;
+  var wRead = m.total * 1e9 * bpp * (1 - Math.pow(1 - p, B)); /* MoE: more users touch more experts */
+  var kvRead = B * m.kv * 1024 * avg;
+  var memT = (wRead + kvRead) / bwEff(c, m);
+  var compT = 2 * m.active * 1e9 * B / flopsEff(c, m, prec);
+  var t = Math.max(memT, compT);
+  return {memT:memT, compT:compT, t:t, tput:B/t, per:1/t, compute:compT >= memT};
+}
+
+function calc(c, m, prec, P, A){
+  var bpp = BPP[prec];
+  var weights = m.total * bpp;
+  var kvTok = m.kv * 1024;
+  var kv = kvTok * (P + A) / 1e9;
+  var reserve = c.unified ? Math.max(8, c.mem * 0.1) : 2;
+  var need = weights + kv + reserve;
+  var fits = need <= c.mem;
+  var s1 = stepAt(c, m, prec, P, A, 1);
+  var writeTps = 1 / s1.t;
+  var ceil = c.bw * 1e9 / (m.active * 1e9 * bpp + kvTok * (P + A/2));
+  var preFlops = 2 * m.active * 1e9 * P + m.attn * P * P;
+  var preS = preFlops / flopsEff(c, m, prec);
+  var decS = A / writeTps;
+  return {weights:weights, kv:kv, reserve:reserve, need:need, fits:fits, writeTps:writeTps, ceil:ceil,
+          readTps:P/preS, preS:preS, decS:decS, total:preS + decS,
+          cards:Math.ceil((weights + kv) / (c.mem - reserve))};
+}
+
+/* ---------- Phase animation ---------- */
+function setupPhases(){
+  var N = 24;
+  function fill(id){ var bar = document.getElementById(id), h = ''; for(var i=0;i<N;i++) h += '<i class="wc"></i>'; bar.innerHTML = h; return Array.prototype.slice.call(bar.children); }
+  var preCells = fill('preBar'), decCells = fill('decBar');
+  var promptToks = Array.prototype.slice.call(document.querySelectorAll('#preToks .tok.p'));
+  var preOut = document.getElementById('preOut');
+  var decToks = Array.prototype.slice.call(document.querySelectorAll('#decToks .tok.d'));
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function light(cells, pos, cls){
+    for(var i=0;i<cells.length;i++){
+      var c = (i + 0.5) / cells.length, on = pos >= 0 && c >= pos*1.25 - 0.25 && c <= pos*1.25;
+      cells[i].classList.toggle(cls, on);
+    }
+  }
+  if(reduce){
+    preOut.classList.remove('pending');
+    decToks.forEach(function(t){ t.classList.remove('pending'); });
+    return;
+  }
+  var S = 1500, t0 = performance.now(), running = false, raf = 0;
+  function frame(now){
+    var t = now - t0;
+    /* Prefill: one sweep reads the whole prompt, then the first token appears */
+    var tp = t % (S * 3.2);
+    var sweeping = tp < S;
+    light(preCells, sweeping ? tp / S : -1, 'lit-fl');
+    promptToks.forEach(function(el){ el.classList.toggle('on-fl', sweeping); });
+    preOut.classList.toggle('pending', sweeping);
+    /* Decode: each sweep consumes the previous token and emits one more */
+    var td = t % (S * 7), k = Math.floor(td / S); /* sweeps 0..5, hold on 6 */
+    light(decCells, k < 5 ? (td % S) / S : -1, 'lit-bw');
+    decToks.forEach(function(el, i){
+      el.classList.toggle('pending', i > Math.min(k, 5));
+      el.classList.toggle('on-bw', k < 5 && i === k);
+    });
+    raf = requestAnimationFrame(frame);
+  }
+  function start(){ if(!running){ running = true; raf = requestAnimationFrame(frame); } }
+  function stop(){ running = false; cancelAnimationFrame(raf); }
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(entries){ entries[0].isIntersecting ? start() : stop(); }).observe(document.getElementById('phaseFig'));
+  } else { start(); }
+}
+
+/* ---------- Bubble chart ---------- */
+function drawBubbles(){
+  var host = document.getElementById('bubbleHost');
+  var W = Math.floor(host.clientWidth); if(W < 50) return;
+  var narrow = W < 520;
+  var H = Math.round(Math.min(460, Math.max(320, W * 0.66)));
+  var mg = {l:54, r:46, t:24, b:48};
+  var pw = W - mg.l - mg.r, ph = H - mg.t - mg.b;
+  var x0 = Math.log10(200), x1 = Math.log10(10000), y0 = Math.log10(15), y1 = Math.log10(4000);
+  function X(v){ return mg.l + (Math.log10(v) - x0) / (x1 - x0) * pw; }
+  function Y(v){ return mg.t + (1 - (Math.log10(v) - y0) / (y1 - y0)) * ph; }
+  var k = narrow ? 0.62 : 0.85;
+  var s = '<svg class="chart" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-labelledby="bubT bubD">';
+  s += '<title id="bubT">Compute versus bandwidth for seven chips</title>';
+  s += '<desc id="bubD">Log-log scatter. Mac Studio M3 Ultra sits low and in the middle, DGX Spark and Ryzen AI Max+ sit far left, H100 and B200 sit top right.</desc>';
+  s += '<defs><clipPath id="bubClip"><rect x="' + mg.l + '" y="' + mg.t + '" width="' + pw + '" height="' + ph + '"/></clipPath></defs>';
+  s += '<rect class="plotbg" x="' + mg.l + '" y="' + mg.t + '" width="' + pw + '" height="' + ph + '"/>';
+  [250,500,1000,2000,4000,8000].forEach(function(v){
+    var x = X(v).toFixed(1);
+    s += '<line class="grid" x1="' + x + '" x2="' + x + '" y1="' + mg.t + '" y2="' + (mg.t + ph) + '"/>';
+    s += '<text class="tick" x="' + x + '" y="' + (mg.t + ph + 16) + '" text-anchor="middle">' + (v >= 1000 ? (v/1000) + 'k' : v) + '</text>';
+  });
+  [20,50,100,200,500,1000,2000].forEach(function(v){
+    var y = Y(v).toFixed(1);
+    s += '<line class="grid" x1="' + mg.l + '" x2="' + (mg.l + pw) + '" y1="' + y + '" y2="' + y + '"/>';
+    s += '<text class="tick" x="' + (mg.l - 6) + '" y="' + (+y + 4) + '" text-anchor="end">' + (v >= 1000 ? (v/1000) + 'k' : v) + '</text>';
+  });
+  s += '<g clip-path="url(#bubClip)">';
+  [30,100,300].forEach(function(r){
+    s += '<line class="ratio" x1="' + X(200).toFixed(1) + '" y1="' + Y(r * 0.2).toFixed(1) + '" x2="' + X(10000).toFixed(1) + '" y2="' + Y(r * 10).toFixed(1) + '"/>';
+  });
+  s += '</g>';
+  [30,100,300].forEach(function(r){
+    s += '<text class="ratio-lab" x="' + (mg.l + pw + 5) + '" y="' + (Y(r * 10) + 4).toFixed(1) + '">' + r + '</text>';
+  });
+  s += '<text class="ratio-lab" x="' + (W - 2) + '" y="' + (mg.t - 9) + '" text-anchor="end">FLOP/byte</text>';
+  s += '<rect class="frame" x="' + mg.l + '" y="' + mg.t + '" width="' + pw + '" height="' + ph + '"/>';
+  var leftLabel = {b200:true};
+  ORDER.forEach(function(id){
+    var c = CHIPS[id], cx = X(c.bw), cy = Y(c.tf16), r = 3 + Math.sqrt(c.mem) * k;
+    s += '<circle class="bub" cx="' + cx.toFixed(1) + '" cy="' + cy.toFixed(1) + '" r="' + r.toFixed(1) + '"/>';
+    var left = leftLabel[id];
+    s += '<text class="bub-lab" x="' + (left ? cx - r - 5 : cx + r + 5).toFixed(1) + '" y="' + (cy + 4).toFixed(1) + '" text-anchor="' + (left ? 'end' : 'start') + '">' + c.short + '</text>';
+  });
+  s += '<text class="axis-t bw" x="' + (mg.l + pw) + '" y="' + (H - 8) + '" text-anchor="end">Bandwidth, GB/s → writes faster</text>';
+  s += '<text class="axis-t fl" transform="translate(14 ' + (mg.t + ph) + ') rotate(-90)" text-anchor="start">Compute, TFLOPS → reads faster</text>';
+  s += '</svg>';
+  host.innerHTML = s;
+}
+
+function readWriteRatio(c){
+  /* prompt tok/s ÷ answer tok/s for a 4-bit dense model, after efficiency */
+  return (c.tf16 * 1e12 * c.eff * 0.56) / (2 * c.bw * 1e9 * 0.75);
+}
+function fillTable(){
+  var rows = ORDER.slice().sort(function(a,b){ return readWriteRatio(CHIPS[a]) - readWriteRatio(CHIPS[b]); });
+  var maxR = Math.max.apply(null, rows.map(function(id){ return readWriteRatio(CHIPS[id]); }));
+  document.querySelector('#chipTable tbody').innerHTML = rows.map(function(id){
+    var c = CHIPS[id], rr = readWriteRatio(c), fpb = c.tf16 * 1000 / c.bw;
+    return '<tr><td class="k">' + c.name + '</td><td>' + c.mem + ' GB</td><td>' + fmtInt(c.bw) + ' GB/s</td><td>' + (c.est ? '≈' : '') + fmtInt(c.tf16) + ' TF</td><td>' + fmtInt(fpb) + '</td><td>' + Math.round(rr) + '×<span class="ratio-bar" style="width:' + Math.max(4, rr / maxR * 70).toFixed(0) + 'px"></span></td></tr>';
+  }).join('');
+}
+
+/* ---------- Spec fingerprints ---------- */
+function fingerprint(id){
+  var c = CHIPS[id];
+  function n(v, a, b){ return Math.max(0.06, Math.min(1, Math.log(v / a) / Math.log(b / a))); }
+  var rows = [
+    ['cap', 'Memory', c.mem + ' GB', n(c.mem, 16, 600)],
+    ['bw', 'Bandwidth', fmtInt(c.bw) + ' GB/s', n(c.bw, 150, 9000)],
+    ['fl', 'Compute', (c.est ? '≈' : '') + fmtInt(c.tf16) + ' TFLOPS', n(c.tf16, 15, 2600)]
+  ];
+  return '<div class="fp"><div class="fp-name">' + c.name + '</div>' + rows.map(function(r){
+    return '<div class="fp-row"><span class="fp-k">' + r[1] + '</span><span class="fp-track"><i class="' + r[0] + '" style="width:' + (r[3] * 100).toFixed(0) + '%"></i></span><span class="fp-v">' + r[2] + '</span></div>';
+  }).join('') + '</div>';
+}
+
+/* ---------- Calculator ---------- */
+function rowHTML(id, c, r, maxT){
+  var spec = c.mem + ' GB · ' + fmtInt(c.bw) + ' GB/s · ' + (c.est ? '≈' : '') + fmtInt(c.tf16) + ' TFLOPS';
+  var bar, foot;
+  if(r.fits){
+    var w = Math.max(0.8, r.total / maxT * 100);
+    var pw = r.preS / r.total * w, dw = r.decS / r.total * w;
+    bar = '<span class="bar"><span class="pre" style="width:' + pw.toFixed(2) + '%"></span><span class="dec" style="width:' + dw.toFixed(2) + '%"></span></span>';
+    foot = '<span>First word <b>' + fmtTime(r.preS) + '</b></span><span>Writes <b>' + fmtNum(r.writeTps) + ' tok/s</b></span><span>Total <b>' + fmtTime(r.total) + '</b></span>';
+  } else {
+    bar = '<span class="bar nofit"></span>';
+    foot = '<span><b class="bad">Doesn’t fit.</b> Needs ' + fmtGB(r.need) + ', has ' + c.mem + ' GB' + (!c.unified && r.cards > 1 ? ' · about ' + r.cards + ' cards’ worth' : '') + '</span>';
+  }
+  return '<button type="button" class="row" data-id="' + id + '" aria-pressed="false"><span class="row-head"><span class="row-name">' + c.name + '</span><span class="row-spec">' + spec + '</span></span>' + bar + '<span class="row-foot">' + foot + '</span></button>';
+}
+
+function markSel(){
+  Array.prototype.forEach.call(document.querySelectorAll('#rows .row'), function(b){
+    b.setAttribute('aria-pressed', b.getAttribute('data-id') === state.sel ? 'true' : 'false');
+  });
+}
+
+function renderCalc(){
+  var m = curModel(), P = PROMPTS[state.pi], A = ANSWERS[state.ai];
+  $('#promptVal').textContent = fmtInt(P) + ' tokens';
+  $('#promptHint').textContent = '≈ ' + PROMPT_HINTS[state.pi];
+  $('#answerVal').textContent = fmtInt(A) + ' tokens';
+  $('#answerHint').textContent = '≈ ' + ANSWER_HINTS[state.ai];
+  $('#modelHint').textContent = m.moe
+    ? 'Mixture of experts: ' + fmtInt(m.total) + 'B to store, ' + m.active + 'B used per token'
+    : 'Dense: all ' + m.total + 'B parameters used for every token';
+  $('#precHint').textContent = 'Weights take ' + fmtGB(m.total * BPP[state.prec]) + ' at this precision';
+
+  var res = ORDER.map(function(id){ return {id:id, c:CHIPS[id], r:calc(CHIPS[id], m, state.prec, P, A)}; });
+  var fit = res.filter(function(x){ return x.r.fits; });
+  var maxT = fit.length ? Math.max.apply(null, fit.map(function(x){ return x.r.total; })) : 1;
+  var rowsEl = $('#rows');
+  rowsEl.innerHTML = res.map(function(x){ return rowHTML(x.id, x.c, x.r, maxT); }).join('');
+  Array.prototype.forEach.call(rowsEl.querySelectorAll('.row'), function(b){
+    b.addEventListener('click', function(){ state.sel = b.getAttribute('data-id'); markSel(); renderDetail(); });
+  });
+  markSel();
+
+  var sum = $('#calcSummary');
+  if(!fit.length){
+    sum.textContent = 'None of these chips can hold this model at this precision. Try 4-bit, a smaller model, or a shorter context.';
+  } else {
+    var fastest = fit.reduce(function(a,b){ return a.r.total < b.r.total ? a : b; });
+    var reader = fit.reduce(function(a,b){ return a.r.preS/a.r.total > b.r.preS/b.r.total ? a : b; });
+    var writer = fit.reduce(function(a,b){ return a.r.decS/a.r.total > b.r.decS/b.r.total ? a : b; });
+    var t = 'Fits on ' + fit.length + ' of ' + res.length + ' chips. Fastest overall: ' + fastest.c.short + ' at ' + fmtTime(fastest.r.total) + '.';
+    if(reader.r.preS / reader.r.total > 0.5) t += ' The ' + reader.c.short + ' spends ' + pct(reader.r.preS / reader.r.total) + ' of its time reading the prompt.';
+    if(writer !== reader && writer.r.decS / writer.r.total > 0.5) t += ' The ' + writer.c.short + ' spends ' + pct(writer.r.decS / writer.r.total) + ' writing.';
+    sum.textContent = t;
+  }
+  renderDetail();
+}
+
+function renderDetail(){
+  var c = CHIPS[state.sel], m = curModel(), P = PROMPTS[state.pi], A = ANSWERS[state.ai];
+  var r = calc(c, m, state.prec, P, A);
+  $('#dTitle').textContent = c.name + ' running ' + m.name + ' at ' + state.prec + '-bit';
+  var scale = Math.max(c.mem, r.need);
+  function seg(v, cls){ return '<span class="' + cls + '" style="width:' + (v / scale * 100).toFixed(2) + '%"></span>'; }
+  var mb = '<div class="membar">' + seg(r.weights, 'w') + seg(r.kv, 'kv') + seg(r.reserve, 'rs');
+  if(!r.fits) mb += '<span class="capline" style="left:calc(' + (c.mem / scale * 100).toFixed(2) + '% - 1px)" title="Capacity"></span>';
+  mb += '</div>';
+  $('#memBar').innerHTML = mb;
+  var free = c.mem - r.need;
+  $('#memLegend').innerHTML =
+    '<span><i class="w"></i>Weights <b>' + fmtGB(r.weights) + '</b></span>' +
+    '<span><i class="kv"></i>KV cache, ' + fmtInt(P + A) + ' tokens <b>' + fmtGB(r.kv) + '</b></span>' +
+    '<span><i class="rs"></i>' + (c.unified ? 'OS and apps' : 'Runtime') + ' <b>' + fmtGB(r.reserve) + '</b></span>' +
+    (r.fits ? '<span><i class="fr"></i>Free <b>' + fmtGB(free) + '</b></span>'
+            : '<span class="nofit-msg">Needs ' + fmtGB(r.need) + ', has ' + c.mem + ' GB (red line)</span>');
+
+  if(r.fits){
+    $('#stats').innerHTML =
+      '<div class="stat fl"><span class="k">First word after</span><span class="v">' + fmtTime(r.preS) + '</span><span class="s">reads ' + fmtInt(r.readTps) + ' prompt tokens/s</span></div>' +
+      '<div class="stat bw"><span class="k">Writes at</span><span class="v">' + fmtNum(r.writeTps) + ' tok/s</span><span class="s">ceiling ' + fmtNum(r.ceil) + ' tok/s at 100% bandwidth</span></div>' +
+      '<div class="stat"><span class="k">Whole request</span><span class="v">' + fmtTime(r.total) + '</span><span class="s">' + pct(r.preS / r.total) + ' reading · ' + pct(r.decS / r.total) + ' writing</span></div>';
+  } else {
+    $('#stats').innerHTML = '<div class="stat"><span class="k">Won’t run</span><span class="v">Doesn’t fit</span><span class="s">Speed doesn’t matter until the model fits. Try a lower precision, a smaller model or a shorter context.</span></div>';
+  }
+  drawBatch();
+}
+
+function niceStep(max, n){
+  var raw = max / n, p = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / p;
+  return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * p;
+}
+
+function drawBatch(){
+  var wrap = $('#batchWrap'), host = $('#batchHost'), txt = $('#batchText');
+  var c = CHIPS[state.sel], m = curModel(), P = PROMPTS[state.pi], A = ANSWERS[state.ai];
+  var r = calc(c, m, state.prec, P, A);
+  if(!r.fits){ wrap.hidden = true; return; }
+  wrap.hidden = false;
+  var W = Math.floor(host.clientWidth); if(W < 50) return;
+  var H = Math.round(Math.min(280, Math.max(220, W * 0.5)));
+  var mg = {l:56, r:14, t:14, b:40};
+  var pw = W - mg.l - mg.r, ph = H - mg.t - mg.b;
+  var kvUser = m.kv * 1024 * (P + A) / 1e9;
+  var maxUsers = Math.max(1, Math.floor((c.mem - r.reserve - r.weights) / kvUser));
+  var Bs = [];
+  for(var i=0;i<=72;i++){ var b = Math.round(Math.pow(256, i/72)); if(!Bs.length || b !== Bs[Bs.length-1]) Bs.push(b); }
+  var pts = Bs.map(function(B){ var o = stepAt(c, m, state.prec, P, A, B); o.B = B; return o; });
+  var vis = pts.filter(function(p){ return p.B <= maxUsers; });
+  if(maxUsers < 256 && (!vis.length || vis[vis.length-1].B !== maxUsers)){ var e = stepAt(c, m, state.prec, P, A, maxUsers); e.B = maxUsers; vis.push(e); }
+  var yRaw = Math.max.apply(null, vis.map(function(p){ return p.tput; }));
+  var step = niceStep(yRaw, 4), yMax = Math.ceil(yRaw * 1.04 / step) * step;
+  function X(B){ return mg.l + Math.log2(B) / 8 * pw; }
+  function Y(v){ return mg.t + (1 - v / yMax) * ph; }
+  var s = '<svg class="chart" width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-labelledby="batT">';
+  s += '<title id="batT">Total tokens per second as more users share the chip</title>';
+  s += '<defs><pattern id="hatchP" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect class="hatchfill" width="3" height="8"/></pattern></defs>';
+  s += '<rect class="plotbg" x="' + mg.l + '" y="' + mg.t + '" width="' + pw + '" height="' + ph + '"/>';
+  for(var v = 0; v <= yMax + 1e-9; v += step){
+    var y = Y(v).toFixed(1);
+    s += '<line class="grid" x1="' + mg.l + '" x2="' + (mg.l + pw) + '" y1="' + y + '" y2="' + y + '"/>';
+    s += '<text class="tick" x="' + (mg.l - 6) + '" y="' + (+y + 4) + '" text-anchor="end">' + (v >= 10000 ? fmtInt(v/1000) + 'k' : fmtInt(v)) + '</text>';
+  }
+  [1,2,4,8,16,32,64,128,256].forEach(function(B){
+    var x = X(B).toFixed(1);
+    s += '<line class="grid" x1="' + x + '" x2="' + x + '" y1="' + mg.t + '" y2="' + (mg.t + ph) + '" opacity=".5"/>';
+    s += '<text class="tick" x="' + x + '" y="' + (mg.t + ph + 16) + '" text-anchor="middle">' + B + '</text>';
+  });
+  if(maxUsers < 256){
+    var xo = X(maxUsers);
+    s += '<rect x="' + xo.toFixed(1) + '" y="' + mg.t + '" width="' + (mg.l + pw - xo).toFixed(1) + '" height="' + ph + '" fill="url(#hatchP)"/>';
+    if(mg.l + pw - xo > 120) s += '<text class="oom-lab" x="' + (xo + 8).toFixed(1) + '" y="' + (mg.t + 16) + '">memory full</text>';
+  }
+  s += '<rect class="frame" x="' + mg.l + '" y="' + mg.t + '" width="' + pw + '" height="' + ph + '"/>';
+  for(var j=1;j<vis.length;j++){
+    var a = vis[j-1], bb = vis[j];
+    s += '<line class="' + (bb.compute ? 'ln-fl' : 'ln-bw') + '" x1="' + X(a.B).toFixed(1) + '" y1="' + Y(a.tput).toFixed(1) + '" x2="' + X(bb.B).toFixed(1) + '" y2="' + Y(bb.tput).toFixed(1) + '"/>';
+  }
+  var knee = null;
+  for(var q=0;q<vis.length;q++){ if(vis[q].compute){ knee = vis[q]; break; } }
+  var last = vis[vis.length-1];
+  s += '<circle class="endpt" cx="' + X(vis[0].B).toFixed(1) + '" cy="' + Y(vis[0].tput).toFixed(1) + '" r="4"/>';
+  if(knee) s += '<circle class="knee" cx="' + X(knee.B).toFixed(1) + '" cy="' + Y(knee.tput).toFixed(1) + '" r="5"/>';
+  s += '<text class="axis-t mu" x="' + (mg.l + pw) + '" y="' + (H - 6) + '" text-anchor="end">Users served at once</text>';
+  s += '<text class="axis-t mu" transform="translate(12 ' + (mg.t + ph) + ') rotate(-90)" text-anchor="start">Total tokens/s</text>';
+  s += '</svg>';
+  host.innerHTML = s;
+
+  var one = pts[0];
+  var t = 'One user alone gets ' + fmtNum(one.tput) + ' tok/s. ';
+  if(knee){
+    t += 'Each step reads the weights once and applies them to every user’s next token, so adding users is nearly free up to about ' + knee.B + '. There the math units fill up and the line turns orange: ' + fmtInt(knee.tput) + ' tok/s in total, ' + fmtNum(knee.per) + ' for each user.';
+    if(maxUsers < 256) t += ' Memory for KV caches runs out at ' + maxUsers + ' users.';
+  } else if(maxUsers < 256){
+    t += 'The KV caches of ' + maxUsers + ' users at this context length fill the memory before compute becomes the limit. At that point it writes about ' + fmtInt(last.tput) + ' tok/s in total, ' + fmtNum(last.per) + ' for each user.';
+  } else {
+    t += 'Even at 256 users, memory traffic sets the pace. At this context length, reading each user’s KV cache costs more than the shared weights save.';
+  }
+  if(!knee && P >= 8000) t += ' Long prompts make every user’s KV cache large, which is why long-context serving is expensive.';
+  txt.textContent = t;
+}
+
+/* ---------- Wire up ---------- */
+function init(){
+  Array.prototype.forEach.call(document.querySelectorAll('[data-fp]'), function(el){ el.outerHTML = fingerprint(el.getAttribute('data-fp')); });
+  fillTable();
+
+  var sel = $('#modelSel');
+  sel.innerHTML = MODELS.map(function(m){
+    var lab = m.name + (m.moe ? ' · ' + fmtInt(m.total) + 'B total, ' + m.active + 'B active' : ' · dense');
+    return '<option value="' + m.id + '">' + lab + '</option>';
+  }).join('');
+  sel.value = state.model;
+  sel.addEventListener('change', function(){ state.model = sel.value; renderCalc(); });
+  Array.prototype.forEach.call(document.querySelectorAll('input[name=prec]'), function(el){
+    el.checked = +el.value === state.prec;
+    el.addEventListener('change', function(){ if(el.checked){ state.prec = +el.value; renderCalc(); } });
+  });
+  var pr = $('#promptLen'), an = $('#answerLen');
+  pr.value = state.pi; an.value = state.ai;
+  pr.addEventListener('input', function(){ state.pi = +pr.value; renderCalc(); });
+  an.addEventListener('input', function(){ state.ai = +an.value; renderCalc(); });
+
+  setupPhases();
+  drawBubbles();
+  renderCalc();
+
+  var lastW = {};
+  if('ResizeObserver' in window){
+    var ro = new ResizeObserver(function(entries){
+      entries.forEach(function(en){
+        var id = en.target.id, w = Math.floor(en.contentRect.width);
+        if(lastW[id] === w) return;
+        lastW[id] = w;
+        if(id === 'bubbleHost') drawBubbles(); else drawBatch();
+      });
+    });
+    ro.observe($('#bubbleHost')); ro.observe($('#batchHost'));
+  } else {
+    window.addEventListener('resize', function(){ drawBubbles(); drawBatch(); });
+  }
+}
+if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+
+
+<style>
+/* Embedded in the blog post: the post supplies the title, and the page sits on the blog's paper colour. */
+html.embedded body{background:#fef9ed !important; padding-left:4px; padding-right:4px}
+html.embedded main{padding-block:4px 12px}
+html.embedded main > header > .eyebrow, html.embedded main > header > h1{display:none}
+</style>
+<script>
+(function () {
+  if (window.self === window.top) return;
+  function post() { try { parent.postMessage({ frameHeight: Math.ceil(document.body.getBoundingClientRect().height) }, '*'); } catch (e) {} }
+  if ('ResizeObserver' in window) new ResizeObserver(post).observe(document.body);
+  window.addEventListener('load', post); post();
+})();
+</script>
+</body></html>

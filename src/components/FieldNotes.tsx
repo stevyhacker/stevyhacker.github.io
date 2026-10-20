@@ -16,6 +16,41 @@ const NOTES = [
     href: '/blog/posts/inference-bottom-up/',
   },
   {
+    date: 'Oct 16, 2026',
+    category: 'AI hardware',
+    title: 'Anatomy of a Token',
+    excerpt: 'A field guide to memory, bandwidth and compute, with a calculator that runs the same request on seven chips.',
+    href: '/blog/posts/anatomy-of-a-token/',
+  },
+  {
+    date: 'Oct 06, 2026',
+    category: 'Local AI',
+    title: 'Keystroke to ghost text',
+    excerpt: 'How LokalBot’s autocomplete gets from a keystroke to a suggestion in about 140 ms, and where the cloud could fit.',
+    href: '/blog/posts/keystroke-to-ghost-text/',
+  },
+  {
+    date: 'Oct 05, 2026',
+    category: 'DeFi',
+    title: 'Vaults, explained',
+    excerpt: 'An animated explainer on DeFi vaults, from Yearn in 2020 to ERC-4626, Morpho Vaults V2 and async ERC-7540 vaults.',
+    href: '/blog/posts/vaults-explained/',
+  },
+  {
+    date: 'Oct 03, 2026',
+    category: 'Crypto and AI',
+    title: 'Inside Bittensor subnets',
+    excerpt: 'Part two of the Bittensor explainer: how subnets launch and stay alive, and which ones lead.',
+    href: '/blog/posts/inside-bittensor-subnets/',
+  },
+  {
+    date: 'Oct 03, 2026',
+    category: 'Crypto and AI',
+    title: 'Bittensor, explained',
+    excerpt: 'A short animated explainer of how Bittensor pays miners and validators for useful AI work.',
+    href: '/blog/posts/bittensor-explained/',
+  },
+  {
     date: 'Jan 18, 2019',
     category: 'Work',
     title: 'Nedostaci i problemi rada od “kuće”',
@@ -57,7 +92,7 @@ export function FieldNotes() {
             the work I build today.
           </p>
           <p className="mt-5 font-mono text-xs uppercase tracking-[0.18em] text-ink-soft">
-            21 posts · 2011–2026 · old posts in their original voice
+            26 posts · 2011–2026 · old posts in their original voice
           </p>
           <a href="/blog/" className="btn-primary mt-9 gap-2">
             Read all posts
@@ -73,7 +108,7 @@ export function FieldNotes() {
                 className="group grid gap-4 py-7 transition duration-300 hover:translate-x-1 sm:grid-cols-[7rem_1fr_auto] sm:items-start sm:gap-6 sm:py-9"
               >
                 <div className="font-mono text-[0.68rem] uppercase leading-relaxed tracking-[0.14em] text-ink-soft">
-                  <span className="block text-sage-dark">0{index + 1} · {note.category}</span>
+                  <span className="block text-sage-dark">{String(index + 1).padStart(2, '0')} · {note.category}</span>
                   <span className="mt-1 block">{note.date}</span>
                 </div>
                 <div>
