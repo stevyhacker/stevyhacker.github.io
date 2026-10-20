@@ -9,6 +9,9 @@ static assets using `wrangler.jsonc`.
 - Deploy: `npx wrangler@4.131.2 deploy`.
 - Domains: `bogosavljevic.me`, `www.bogosavljevic.me`, `stevan.bogosavljevic.me`.
 - No runtime secrets are required.
+- Audio and video requests run through `cloudflare/media-ranges.js` first
+  (`run_worker_first`). Static assets answer byte-range requests with the
+  whole file, which stops Safari playing media and other browsers seeking.
 
 The custom domains are declared in Wrangler. The Cloudflare zone Redirect Rule
 in `cloudflare/redirect-rules.json` preserves the apex-to-www redirect using HTTP
