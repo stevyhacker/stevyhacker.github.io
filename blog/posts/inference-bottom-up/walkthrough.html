@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+</head>
+<body>
+<title>Inference, Bottom Up</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&display=swap">
+<style>
+/* Layout: one centred column. A single stage keeps the same picture (memory, link, chip) and adds one idea per step; the words sit under it.
+   Shapes carry meaning: squares are weights, pills are tokens. Orange marks whatever is the bottleneck in that step. */
+:root{
+  --bg:#ECEDEF; --surface:#F8F8F9; --box:#E1E3E7; --tile:#B6BBC2;
+  --ink:#16171A; --muted:#5B5F66; --accent:#E5421A; --accent-soft:rgba(229,66,26,.16); --on-accent:#16171A;
+  --f:"Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --ease-out:cubic-bezier(.22,1,.36,1);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#131416; --surface:#1B1D20; --box:#272A2E; --tile:#4C5159;
+    --ink:#EDEEF0; --muted:#9EA3AA; --accent:#FF5B2E; --accent-soft:rgba(255,91,46,.22); --on-accent:#131416;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#131416; --surface:#1B1D20; --box:#272A2E; --tile:#4C5159;
+  --ink:#EDEEF0; --muted:#9EA3AA; --accent:#FF5B2E; --accent-soft:rgba(255,91,46,.22); --on-accent:#131416;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--f); font-size:18px; line-height:1.55;
+  padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px));
+}
+main{max-width:880px; margin:0 auto; padding-block:40px 64px; display:grid; gap:28px}
+header{display:grid; gap:12px}
+h1{font-size:clamp(2.4rem, 8vw, 4rem); font-weight:650; letter-spacing:-0.04em; line-height:.95; margin:0; text-wrap:balance}
+.lede{font-size:1.15rem; margin:0; max-width:52ch}
+a{color:inherit; text-underline-offset:.2em}
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px}
+
+.stepper{display:grid; gap:18px; min-width:0}
+.stage{background:var(--surface); border-radius:18px; overflow:hidden; min-width:0}
+.stage canvas{display:block; width:100%}
+
+.nav{display:flex; align-items:center; gap:10px 12px; flex-wrap:wrap}
+.btn{font:inherit; font-size:1rem; font-weight:600; padding:12px 20px; border-radius:999px; border:0; cursor:pointer;
+  background:var(--box); color:var(--ink); transition:transform 140ms var(--ease-out), background-color 180ms ease, color 180ms ease}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--accent); color:var(--on-accent)}
+.btn:disabled{opacity:.4; cursor:default}
+@media (hover:hover) and (pointer:fine){
+  .btn:not(:disabled):hover{background:var(--tile)}
+  .btn.primary:not(:disabled):hover{background:var(--ink); color:var(--surface)}
+}
+.progress{flex:1 1 220px; display:flex; gap:4px; min-width:0}
+.seg{flex:1; min-width:0; height:28px; border:0; padding:0; background:none; cursor:pointer; display:flex; align-items:center}
+.seg::before{content:""; display:block; width:100%; height:6px; border-radius:3px; background:var(--box); transition:background-color 180ms ease}
+.seg.done::before{background:var(--tile)}
+.seg.cur::before{background:var(--ink)}
+.count{font-size:.95rem; color:var(--muted); font-variant-numeric:tabular-nums; white-space:nowrap}
+@media (max-width:640px){
+  .progress{order:-1; flex-basis:100%}
+  .count{margin-right:auto}
+}
+
+.step{display:grid; gap:14px; min-width:0}
+.step h2{font-size:clamp(1.6rem, 4.6vw, 2.3rem); font-weight:650; letter-spacing:-0.03em; line-height:1.05; margin:0; text-wrap:balance}
+.sbody{display:grid; gap:12px}
+.sbody p{margin:0; max-width:64ch}
+.sum{margin:0; padding-left:1.2em; display:grid; gap:6px; max-width:64ch}
+.key{margin:0; font-size:1.12rem; font-weight:650; padding:12px 16px; border-radius:12px; background:var(--accent-soft); justify-self:start; max-width:100%; font-variant-numeric:tabular-nums}
+
+.lab{background:var(--surface); border-radius:18px; padding:20px; display:grid; gap:18px; min-width:0}
+.lab-row{display:grid; gap:10px}
+.lab-k{font-weight:600}
+.lab-k output{font-variant-numeric:tabular-nums}
+.chips, .presets{display:flex; flex-wrap:wrap; gap:8px}
+.chip, .preset{font:inherit; font-size:.95rem; font-weight:500; padding:9px 14px; border-radius:999px; border:0; cursor:pointer; background:var(--box); color:var(--ink);
+  transition:transform 140ms var(--ease-out), background-color 180ms ease, color 180ms ease}
+.chip:active, .preset:active{transform:scale(.97)}
+.chip[aria-checked="true"]{background:var(--ink); color:var(--surface)}
+@media (hover:hover) and (pointer:fine){ .chip:not([aria-checked="true"]):hover, .preset:hover{background:var(--tile)} }
+input[type=range]{width:100%; accent-color:var(--accent); margin:4px 0}
+.readout{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px}
+.ro{background:var(--bg); border-radius:12px; padding:12px 14px; display:grid; gap:2px; min-width:0}
+.ro .k{font-size:.9rem; color:var(--muted)}
+.ro .v{font-size:1.5rem; font-weight:650; font-variant-numeric:tabular-nums; letter-spacing:-0.01em}
+.ro.bn .v{color:var(--accent)}
+@media (max-width:560px){ .readout{grid-template-columns:1fr} }
+
+footer{display:grid; gap:10px; font-size:.95rem; color:var(--muted); padding-top:8px}
+footer p{margin:0; max-width:70ch}
+@media (prefers-reduced-motion: reduce){ *{transition:none !important} }
+</style>
+
+<main>
+  <header>
+    <h1>Inference, Bottom Up</h1>
+    <p class="lede">How a chip turns a file of numbers into text, built up one small step at a time. Use the buttons or your arrow keys.</p>
+  </header>
+
+  <section class="stepper" aria-label="Walkthrough">
+    <div class="stage" id="stageWrap"><canvas id="stage" role="img" aria-label="Animation for the current step"></canvas></div>
+    <div class="nav">
+      <button class="btn" id="back" type="button">Back</button>
+      <div class="progress" id="progress" role="group" aria-label="Jump to a step"></div>
+      <span class="count" id="count"></span>
+      <button class="btn" id="replay" type="button">Replay</button>
+      <button class="btn primary" id="next" type="button">Next</button>
+    </div>
+    <article class="step" id="step" aria-live="polite">
+      <h2 id="sTitle">A model is a giant list of numbers</h2>
+      <div class="sbody" id="sBody"></div>
+      <p class="key" id="sKey"></p>
+    </article>
+    <div class="lab" id="lab" hidden>
+      <div class="lab-row">
+        <span class="lab-k" id="chipLab">Chip</span>
+        <div class="chips" role="radiogroup" aria-labelledby="chipLab" id="chips">
+          <button type="button" class="chip" role="radio" aria-checked="true" data-chip="h100" id="chip-h100">NVIDIA H100</button>
+          <button type="button" class="chip" role="radio" aria-checked="false" data-chip="m5u" id="chip-m5u">Mac Studio M5 Ultra</button>
+          <button type="button" class="chip" role="radio" aria-checked="false" data-chip="m3u" id="chip-m3u">Mac Studio M3 Ultra</button>
+          <button type="button" class="chip" role="radio" aria-checked="false" data-chip="spark" id="chip-spark">NVIDIA DGX Spark</button>
+        </div>
+      </div>
+      <div class="lab-row">
+        <label class="lab-k" for="nSlider">Tokens sharing each trip: <output id="nOut" for="nSlider">1</output></label>
+        <input type="range" id="nSlider" min="0" max="12" step="0.01" value="0">
+        <div class="presets">
+          <button type="button" class="preset" data-n="1" id="p1">1 · writing for you</button>
+          <button type="button" class="preset" data-n="64" id="p64">64 · serving 64 people</button>
+          <button type="button" class="preset" data-n="2000" id="p2000">2,000 · reading a prompt</button>
+        </div>
+      </div>
+      <div class="readout">
+        <div class="ro" id="roRoad"><span class="k">Moving the weights</span><span class="v" id="vRoad"></span></div>
+        <div class="ro" id="roMath"><span class="k">Doing the math</span><span class="v" id="vMath"></span></div>
+        <div class="ro"><span class="k">Tokens per second</span><span class="v" id="vTps"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>All numbers use Qwen3.8 27B at 4-bit (about 16 GB) and each chip's published peak specs. Compute for the Macs and the DGX Spark is estimated: Apple doesn't publish it, and NVIDIA quotes the Spark in 4-bit. These are ideal figures. Real software reaches roughly 50 to 80% of them.</p>
+  </footer>
+</main>
+
+<script>
+(function(){
+'use strict';
+const cv = document.getElementById('stage'), wrap = document.getElementById('stageWrap'), ctx = cv.getContext('2d');
+if(!CanvasRenderingContext2D.prototype.roundRect){ CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h){ this.rect(x, y, w, h); }; }
+const W = 760, H = 460;
+const FONT = '"Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif';
+const reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+let C = {};
+function readColors(){
+  const cs = getComputedStyle(document.documentElement), g = n => cs.getPropertyValue(n).trim();
+  C = {surface:g('--surface'), box:g('--box'), tile:g('--tile'), ink:g('--ink'), muted:g('--muted'), accent:g('--accent'), accentSoft:g('--accent-soft'), onAccent:g('--on-accent')};
+}
+
+/* ---------- drawing helpers ---------- */
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const pr = (t, s, d) => clamp((t - s) / d);
+const eo = x => 1 - Math.pow(1 - x, 3);
+const eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const lerp = (a, b, t) => a + (b - a) * t;
+const fmtInt = v => Math.round(v).toLocaleString('en-US');
+function setFont(size, weight){ ctx.font = `${weight} ${size}px ${FONT}`; }
+function T(s, x, y, o = {}){
+  const size = o.size || 22, w = o.weight || 500;
+  ctx.save(); setFont(size, w); ctx.fillStyle = o.color || C.ink; ctx.textAlign = o.align || 'left'; ctx.textBaseline = 'alphabetic';
+  if(o.alpha != null) ctx.globalAlpha *= o.alpha;
+  ctx.fillText(s, x, y); ctx.restore();
+}
+function M(s, size, w){ ctx.save(); setFont(size, w || 500); const m = ctx.measureText(s).width; ctx.restore(); return m; }
+function R(x, y, w, h, r, fill){ if(w <= 0 || h <= 0) return; ctx.beginPath(); ctx.roundRect(x, y, w, h, r); ctx.fillStyle = fill; ctx.fill(); }
+function SQ(x, y, s, fill, r){ R(x, y, s, s, r == null ? 4 : r, fill); }
+function DOT(x, y, r, fill){ ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fillStyle = fill; ctx.fill(); }
+function A(a, fn){ if(a <= 0.001) return; ctx.save(); ctx.globalAlpha *= a; fn(); ctx.restore(); }
+function LN(x1, y1, x2, y2, color, wd){ ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.strokeStyle = color; ctx.lineWidth = wd || 2; ctx.lineCap = 'round'; ctx.stroke(); }
+function pill(s, x, y, o = {}){
+  const size = o.size || 18, h = o.h || 32, px = o.px || 12, w = M(s, size, o.weight || 500) + px * 2;
+  R(x, y, w, h, h / 2, o.fill || C.box);
+  T(s, x + px, y + h / 2 + size * 0.35, {size, weight:o.weight || 500, color:o.color || C.ink});
+  return w;
+}
+
+/* ---------- shared geometry: memory on the left, the link in the middle, the chip on the right ---------- */
+const MEM = {x:20, y:56, w:250, h:280}, CHIP = {x:490, y:56, w:250, h:280}, ROAD = {x0:270, x1:490, y:196};
+const MT = {s:30, g:8, x0:54, y0:106};
+const memTile = i => ({x:MT.x0 + (i % 5) * (MT.s + MT.g), y:MT.y0 + Math.floor(i / 5) * (MT.s + MT.g)});
+const SLOT = {s:30, g:8, y:108, x0:562};
+const slotPos = k => ({x:SLOT.x0 + k * (SLOT.s + SLOT.g), y:SLOT.y});
+function mathGrid(y0, rows){
+  const s = 24, g = 9, cols = 6, x0 = CHIP.x + (CHIP.w - (cols * s + (cols - 1) * g)) / 2;
+  return {s, n:cols * rows, pos:j => ({x:x0 + (j % cols) * (s + g), y:y0 + Math.floor(j / cols) * (s + g)})};
+}
+const BIG = {s:52, g:10, x0:199, y0:56};
+const bigPos = i => ({x:BIG.x0 + (i % 6) * (BIG.s + BIG.g), y:BIG.y0 + Math.floor(i / 6) * (BIG.s + BIG.g)});
+const NUMS = ['0.31','−1.2','0.07','2.4','−0.5','0.9','1.1','−0.3','0.6','−2.0','0.4','0.0','−0.8','1.7','0.2','−1.4','0.5','3.1','−0.6','0.8','−0.1','1.3','−0.9','0.3','2.2','−0.4','0.7','−1.1','0.1','1.6'];
+const ANSWER = ['Air','scatters','blue','light','most','.'];
+const PROMPT = ['Why','is','the','sky','blue','?'];
+
+function memBox(o = {}){
+  R(MEM.x, MEM.y, MEM.w, MEM.h, 14, C.box);
+  T('Memory', MEM.x + 16, MEM.y + 34, {size:24, weight:650});
+  T(o.label || '16 GB', MEM.x + MEM.w - 16, MEM.y + 34, {size:20, color:C.muted, align:'right'});
+}
+function memTiles(fill){ for(let i = 0; i < 30; i++){ const p = memTile(i); SQ(p.x, p.y, MT.s, fill ? fill(i) : C.tile); } }
+function road(fill){ R(ROAD.x0, ROAD.y - 17, ROAD.x1 - ROAD.x0, 34, 0, fill || C.box); }
+function chipBox(o = {}){
+  R(CHIP.x, CHIP.y, CHIP.w, CHIP.h, 14, C.box);
+  T('Chip', CHIP.x + 16, CHIP.y + 34, {size:24, weight:650});
+  T('50 MB cache', CHIP.x + CHIP.w - 16, CHIP.y + 34, {size:20, color:C.muted, align:'right'});
+  if(o.slots !== false) for(let k = 0; k < 3; k++){ const p = slotPos(k); SQ(p.x, p.y, SLOT.s, C.surface); }
+  const g = mathGrid(o.mathY || 172, o.mathRows || 4);
+  for(let j = 0; j < g.n; j++){ const p = g.pos(j); SQ(p.x, p.y, g.s, o.mathFill ? o.mathFill(j) : C.surface); }
+}
+/* a copy of weight i leaves its memory tile, runs along the link, and lands at the target inside the chip */
+function travel(i, u, target){
+  const p0 = memTile(i), sx = p0.x + MT.s / 2, sy = p0.y + MT.s / 2, ex = ROAD.x0 - 6, cx = ROAD.x1 + 6, ey = ROAD.y;
+  let tg = target; if(!tg){ const sp = slotPos(i % 3); tg = {x:sp.x + SLOT.s / 2, y:sp.y + SLOT.s / 2}; }
+  const a = 0.2, b = 0.75;
+  if(u < a){ const v = eio(u / a); return {x:lerp(sx, ex, v), y:lerp(sy, ey, v)}; }
+  if(u < b){ const v = (u - a) / (b - a); return {x:lerp(ex, cx, v), y:ey}; }
+  const v = eo((u - b) / (1 - b)); return {x:lerp(cx, tg.x, v), y:lerp(ey, tg.y, v)};
+}
+function answerStrip(done, newA){
+  const y = 352; let x = 20;
+  x += pill('Why is the sky blue?', x, y, {fill:C.box, color:C.muted}) + 10;
+  for(let k = 0; k < ANSWER.length; k++){
+    if(k < done){ x += pill(ANSWER[k], x, y, {fill:C.ink, color:C.surface}) + 6; }
+    else if(k === done && newA > 0){ const xx = x; A(newA, () => pill(ANSWER[k], xx, y, {fill:C.ink, color:C.surface})); break; }
+    else break;
+  }
+}
+function meter(x, y, label, pct){
+  const hot = pct >= 90;
+  T(label, x, y, {size:20, color:C.muted});
+  R(x + 112, y - 15, 160, 16, 8, C.box);
+  if(pct > 0) R(x + 112, y - 15, Math.max(10, 160 * pct / 100), 16, 8, hot ? C.accent : C.muted);
+  T(Math.round(pct) + '%', x + 340, y, {size:20, weight:650, align:'right', color:hot ? C.accent : C.ink});
+}
+function meters(link, math){ meter(20, 424, 'Link busy', link); meter(400, 424, 'Math busy', math); }
+
+/* ---------- step 1: a pile of numbers ---------- */
+function sNumbers(lt){
+  const t = lt % 10;
+  const z = eio(pr(t, 1.8, 1.8)) * (1 - eio(pr(t, 7.4, 1.4)));
+  const FX = 20, FY = 48, P = 10, FS = 8, FC = 72, FR = 34;
+  if(z > 0.001){
+    ctx.fillStyle = C.tile;
+    for(let r = 0; r < FR; r++) for(let c = 0; c < FC; c++){
+      if(r < 5 && c < 6) continue;
+      const a = clamp((z - (r / FR + c / FC) / 2 * 0.55) / 0.45); if(a <= 0) continue;
+      ctx.globalAlpha = a; ctx.fillRect(FX + c * P, FY + r * P, FS, FS);
+    }
+    ctx.globalAlpha = 1;
+  }
+  for(let i = 0; i < 30; i++){
+    const b = bigPos(i), tx = FX + (i % 6) * P, ty = FY + Math.floor(i / 6) * P;
+    const x = lerp(b.x, tx, z), y = lerp(b.y, ty, z), s = lerp(BIG.s, FS, z);
+    SQ(x, y, s, z > 0.6 ? C.ink : C.tile, lerp(6, 1, z));
+    const na = 1 - clamp(z * 3);
+    if(na > 0) T(NUMS[i], x + s / 2, y + s / 2 + 6, {size:17, align:'center', alpha:na});
+  }
+  A(1 - clamp(z * 2), () => T('A toy model: 30 weights', W / 2, 420, {size:24, weight:650, align:'center'}));
+  A(clamp((z - 0.6) / 0.4), () => T('Qwen3.8 27B: 27,000,000,000 weights, about 16 GB', W / 2, 428, {size:24, weight:650, align:'center'}));
+}
+
+/* ---------- step 2: one token uses every weight once ---------- */
+function sOneToken(lt){
+  const t = lt % 8.5, start = 1.0, per = 0.14, n = 30;
+  const k = Math.floor((t - start) / per), running = t >= start && k < n;
+  for(let i = 0; i < n; i++){
+    const p = bigPos(i), active = running && i === k, used = t >= start && i < Math.min(k, n);
+    SQ(p.x, p.y, BIG.s, active ? C.accent : used ? C.ink : C.tile, 6);
+    T(NUMS[i], p.x + BIG.s / 2, p.y + BIG.s / 2 + 6, {size:17, align:'center', color:active ? C.onAccent : used ? C.surface : C.ink});
+  }
+  T('Latest token', 40, 170, {size:18, color:C.muted});
+  pill('sky', 40, 182, {fill:C.ink, color:C.surface, size:22, h:42, px:16});
+  T('Next token', 592, 170, {size:18, color:C.muted});
+  const outA = eo(pr(t, start + n * per + 0.15, 0.35));
+  R(592, 182, 76, 42, 21, C.box);
+  A(outA, () => pill('blue', 592, 182, {fill:C.ink, color:C.surface, size:22, h:42, px:16}));
+  const done = t < start ? 0 : Math.min(n, k + 1);
+  T('Operations: ' + done * 2, W / 2, 410, {size:26, weight:650, align:'center'});
+  T('Each weight: one multiply, one add', W / 2, 438, {size:18, color:C.muted, align:'center'});
+}
+
+/* ---------- step 3: two places ---------- */
+function sPlaces(lt){
+  const f = eio(pr(lt, 0.3, 1.2)), b = eo(pr(lt, 0.9, 0.6)), c = eo(pr(lt, 1.6, 0.6)), r = eo(pr(lt, 2.3, 0.5));
+  A(b, () => memBox());
+  A(r, () => { road(C.box); T('The link', W / 2, 166, {size:20, weight:650, align:'center'}); T('3,350 GB/s', W / 2, 242, {size:20, color:C.muted, align:'center'}); });
+  A(c, () => chipBox());
+  for(let i = 0; i < 30; i++){
+    const a = bigPos(i), m = memTile(i), x = lerp(a.x, m.x, f), y = lerp(a.y, m.y, f), s = lerp(BIG.s, MT.s, f);
+    SQ(x, y, s, C.tile, lerp(6, 4, f));
+    const na = 1 - clamp(f * 2); if(na > 0) T(NUMS[i], x + s / 2, y + s / 2 + 6, {size:17, align:'center', alpha:na});
+  }
+  A(eo(pr(lt, 3.0, 0.5)), () => { T('Holds every weight', MEM.x + 16, 374, {size:20, weight:600}); T('Can’t do any math', MEM.x + 16, 400, {size:20, color:C.muted}); });
+  A(eo(pr(lt, 3.5, 0.5)), () => { T('Does all the math', CHIP.x + 16, 374, {size:20, weight:600}); T('Holds almost nothing', CHIP.x + 16, 400, {size:20, color:C.muted}); });
+}
+
+/* ---------- step 4: every token, every weight makes the trip ---------- */
+function sWrite(lt){
+  const L = 6.2, n = Math.floor(lt / L), t = lt % L, start = 0.3, gap = 0.13, TR = 0.6;
+  const lit = new Set();
+  for(let i = 0; i < 30; i++){ const d = t - (start + i * gap) - TR; if(d >= 0 && d < 0.14) lit.add((i * 7) % 24); }
+  memBox();
+  memTiles(i => { const d = t - (start + i * gap); return d >= 0 && d < 0.2 ? C.ink : C.tile; });
+  road(C.accentSoft);
+  chipBox({mathFill:j => lit.has(j) ? C.ink : C.surface});
+  for(let i = 0; i < 30; i++){
+    const d = t - (start + i * gap);
+    if(d >= 0 && d < TR){ const p = travel(i, d / TR); SQ(p.x - 11, p.y - 11, 22, C.accent); }
+    else if(d >= TR && d < TR + 0.14){ const sp = slotPos(i % 3); SQ(sp.x + 4, sp.y + 4, 22, C.accent); }
+  }
+  const cyc = n % ANSWER.length;
+  answerStrip(cyc, eo(pr(t, start + 29 * gap + TR + 0.15, 0.3)));
+  meters(100, 1);
+}
+
+/* ---------- step 5: the cache is far too small ---------- */
+function sCache(lt){
+  T('The model: 16 GB', 20, 62, {size:24, weight:650});
+  T('Each square is 50 MB', 20, 90, {size:20, color:C.muted});
+  const s = 8.4, P = 10.6, x0 = 20, y0 = 112;
+  ctx.fillStyle = C.tile;
+  for(let r = 0; r < 10; r++) for(let c = 0; c < 32; c++){ if(r === 0 && c === 0) continue; ctx.fillRect(x0 + c * P, y0 + r * P, s, s); }
+  R(x0 - 5, y0 - 5, s + 10, s + 10, 3, C.accentSoft); ctx.fillStyle = C.accent; ctx.fillRect(x0, y0, s, s);
+  SQ(20, 244, 18, C.accent, 3); T('All the cache can hold', 48, 259, {size:20, weight:600});
+
+  const X0 = 400, t = lt % 9.6, per = 0.25, a = Math.min(30, Math.floor(t / per) + 1);
+  const f = t / per < 30 ? eo(clamp(((t % per) / per) / 0.6)) : 1;
+  T('Our toy chip: room for 3', X0, 62, {size:24, weight:650});
+  T('Weights pass through in order', X0, 90, {size:20, color:C.muted});
+  R(X0 + 40, 132, 300, 60, 12, C.box);
+  const slotX = sp => X0 + 100 + sp * 46;
+  for(let k = 0; k < 3; k++) SQ(slotX(k), 146, 32, C.surface, 4);
+  for(let k = Math.max(0, a - 5); k < a; k++){
+    const sp = (a - 1 - k) - 1 + f; if(sp > 3) continue;
+    let al = 1; if(sp < 0) al = clamp(1 + sp); if(sp > 2) al = clamp(1 - (sp - 2));
+    A(al, () => { SQ(slotX(sp), 146, 32, C.ink, 4); T('#' + (k + 1), slotX(sp) + 16, 167, {size:14, weight:650, color:C.surface, align:'center'}); });
+  }
+  T('Arriving: #' + a, X0, 238, {size:22, weight:600});
+  T(a > 3 ? 'Pushed out: #' + (a - 3) : 'Pushed out: none yet', X0, 268, {size:22, color:C.muted});
+  A(eo(pr(t, 30 * per + 0.3, 0.4)), () => {
+    T('Token done. The next one', X0, 324, {size:22, weight:650});
+    T('starts with #1, long gone.', X0, 352, {size:22, weight:650});
+  });
+}
+
+/* ---------- step 6: tokens per second = bandwidth / model size ---------- */
+const LANES = [{name:'NVIDIA H100', bw:3350}, {name:'Mac Studio M3 Ultra', bw:819}, {name:'NVIDIA DGX Spark', bw:273}];
+function sLanes(lt){
+  T('The same 16 GB model on each chip, slowed down', 20, 32, {size:18, color:C.muted});
+  LANES.forEach((ln, i) => {
+    const yc = 112 + i * 118, TT = 1.2 * 3350 / ln.bw, dt = TT / 30, TR = 1.0;
+    T(ln.name, 20, yc - 32, {size:22, weight:650});
+    T(fmtInt(ln.bw) + ' GB/s', 20 + M(ln.name, 22, 650) + 12, yc - 32, {size:20, color:C.muted});
+    R(20, yc - 18, 84, 36, 8, C.box); T('16 GB', 62, yc + 6, {size:16, weight:600, align:'center'});
+    R(104, yc - 11, 428, 22, 0, C.accentSoft);
+    R(532, yc - 18, 72, 36, 8, C.box); T('Chip', 568, yc + 6, {size:16, weight:600, align:'center'});
+    const k1 = Math.floor(lt / dt), k0 = Math.max(0, Math.ceil((lt - TR) / dt));
+    for(let k = k0; k <= k1; k++){ const d = lt - k * dt; if(d < 0 || d >= TR) continue; SQ(104 + (d / TR) * 414, yc - 7, 14, C.accent, 3); }
+    const tt = lt - TR, p = tt < 0 ? 0 : (tt % TT) / TT;
+    R(104, yc + 16, 428 * p, 5, 2.5, C.ink);
+    if(tt > 0){ const done = Math.floor(tt / TT), since = tt % TT; if(done >= 1 && since < 0.7) A(1 - since / 0.7, () => T('+1 token', 568, yc - 26 - since * 24, {size:16, weight:650, align:'center'})); }
+    T('≈ ' + Math.round(ln.bw / 16), 740, yc + 4, {size:34, weight:650, align:'right'});
+    T('tokens/s', 740, yc + 28, {size:18, color:C.muted, align:'right'});
+  });
+}
+
+/* ---------- step 7: reading a prompt ---------- */
+function promptPills(){
+  let x = CHIP.x + 16, y = 104; const pos = [];
+  for(const w of PROMPT){
+    const wd = M(w, 18, 500) + 20;
+    if(x + wd > CHIP.x + CHIP.w - 16){ x = CHIP.x + 16; y += 38; }
+    pill(w, x, y, {fill:C.ink, color:C.surface, size:18, h:30, px:10}); pos.push({x:x + wd / 2, y:y + 15}); x += wd + 6;
+  }
+  T('+1,994 more', x + 4, y + 21, {size:16, color:C.muted});
+  return pos;
+}
+function sRead(lt){
+  const L = 7.5, t = lt % L, start = 0.4, gap = 0.12, TR = 0.6, end = start + 29 * gap + TR, active = t >= start && t < end + 0.1;
+  memBox();
+  memTiles(i => { const d = t - (start + i * gap); return d >= 0 && d < 0.2 ? C.ink : C.tile; });
+  road(C.box);
+  chipBox({slots:false, mathY:216, mathRows:3, mathFill:() => active ? C.accent : C.surface});
+  const entry = {x:CHIP.x + 14, y:ROAD.y};
+  /* fan lines: one arriving weight is used by every prompt token */
+  let tgt = [];
+  ctx.save(); setFont(18, 500);
+  { let x = CHIP.x + 16, y = 104; for(const w of PROMPT){ const wd = M(w, 18, 500) + 20; if(x + wd > CHIP.x + CHIP.w - 16){ x = CHIP.x + 16; y += 38; } tgt.push({x:x + wd / 2, y:y + 15}); x += wd + 6; } }
+  ctx.restore();
+  for(let i = 0; i < 30; i++){
+    const d = t - (start + i * gap) - TR;
+    if(d >= 0 && d < 0.3) A((1 - d / 0.3) * 0.9, () => tgt.forEach(p => LN(entry.x, entry.y, p.x, p.y, C.ink, 2)));
+  }
+  promptPills();
+  for(let i = 0; i < 30; i++){ const d = t - (start + i * gap); if(d >= 0 && d < TR){ const p = travel(i, d / TR, entry); SQ(p.x - 11, p.y - 11, 22, C.ink); } }
+  answerStrip(0, eo(pr(t, end + 0.2, 0.3)));
+  meters(active ? 4 : 0, active ? 100 : 0);
+}
+
+/* ---------- step 8: the balance point ---------- */
+const CHIPS = {
+  h100:{name:'NVIDIA H100', bw:3350, tf:989},
+  m5u:{name:'Mac Studio M5 Ultra', bw:1200, tf:115},
+  m3u:{name:'Mac Studio M3 Ultra', bw:819, tf:28},
+  spark:{name:'NVIDIA DGX Spark', bw:273, tf:125}
+};
+const state = {chip:'h100', n:1};
+const roadMs = ch => 16 / ch.bw * 1000;
+const mathMs = (ch, n) => 54 * n / ch.tf;
+const crossover = ch => Math.round(16 / 54 * ch.tf * 1000 / ch.bw);
+function fmtMs(v){ if(v >= 1000) return (v / 1000).toFixed(1) + ' s'; if(v >= 10) return Math.round(v) + ' ms'; if(v >= 1) return v.toFixed(1) + ' ms'; return v.toFixed(2) + ' ms'; }
+function sLab(lt){
+  const ch = CHIPS[state.chip], N = state.n, road_ = roadMs(ch), math_ = mathMs(ch, N), linkB = road_ >= math_;
+  T('One weight arrives…', 20, 40, {size:22, weight:650});
+  T('…and is used for ' + fmtInt(N) + (N === 1 ? ' token' : ' tokens'), 250, 40, {size:22, weight:650});
+  const pulse = (lt % 1.6) / 1.6;
+  SQ(40, 92, 52, C.tile, 6);
+  A(1 - pulse, () => SQ(40, 92, 52, C.ink, 6));
+  const shown = Math.min(N, 64), cols = 16, x0 = 262, y0 = 78;
+  for(let k = 0; k < shown; k++){
+    const x = x0 + (k % cols) * 22, y = y0 + Math.floor(k / cols) * 22;
+    const lit = clamp(1 - Math.abs(pulse * 1.4 - (k / 64) * 0.6 - 0.15) * 4);
+    A(0.25 + 0.5 * lit, () => LN(92, 118, x, y, C.tile, 1.5));
+  }
+  for(let k = 0; k < shown; k++){ const x = x0 + (k % cols) * 22, y = y0 + Math.floor(k / cols) * 22; DOT(x, y, 7, C.ink); }
+  if(N > 64) T('+ ' + fmtInt(N - 64) + ' more', x0 - 8, y0 + 4 * 22 + 20, {size:18, color:C.muted});
+  const mx = Math.max(road_, math_), bw = 720;
+  const bar = (y, label, v, hot) => {
+    T(label + (hot ? '  (bottleneck)' : ''), 20, y, {size:22, weight:600, color:hot ? C.accent : C.ink});
+    T(fmtMs(v), 740, y, {size:22, weight:650, align:'right', color:hot ? C.accent : C.ink});
+    R(20, y + 12, bw, 28, 6, C.box);
+    R(20, y + 12, Math.max(6, bw * v / mx), 28, 6, hot ? C.accent : C.muted);
+  };
+  bar(286, 'Moving the weights', road_, linkB);
+  bar(372, 'Doing the math', math_, !linkB);
+  T(ch.name + ' · per trip', 20, 446, {size:18, color:C.muted});
+}
+
+/* ---------- step 9: many users share a trip ---------- */
+const USERS = ['Ana', 'Ben', 'Chen', 'Dara', 'Eli', 'Fay'];
+function sUsers(lt){
+  const ry = 196, L = 3.6, m = Math.floor(lt / L) % 10, t = lt % L, start = 0.2, gap = 0.08, TR = 0.5, end = start + 29 * gap + TR;
+  const tp = i => ({x:45 + (i % 5) * 31, y:104 + Math.floor(i / 5) * 31});
+  R(20, 56, 200, 280, 14, C.box); T('Memory', 36, 90, {size:24, weight:650});
+  for(let i = 0; i < 30; i++){ const d = t - (start + i * gap), p = tp(i); SQ(p.x, p.y, 25, d >= 0 && d < 0.2 ? C.ink : C.tile); }
+  R(220, ry - 17, 100, 34, 0, C.box);
+  R(320, 56, 420, 280, 14, C.box); T('Chip', 336, 90, {size:24, weight:650});
+  const rowY = r => 118 + r * 36, dotX = k => 372 + k * 28;
+  for(let i = 0; i < 30; i++){
+    const d = t - (start + i * gap) - TR;
+    if(d >= 0 && d < 0.25) A((1 - d / 0.25) * 0.8, () => USERS.forEach((u, r) => LN(334, ry, dotX(m), rowY(r), C.ink, 2)));
+  }
+  USERS.forEach((u, r) => {
+    T(u, 724, rowY(r) + 6, {size:18, weight:600, align:'right'});
+    for(let k = 0; k < m; k++) DOT(dotX(k), rowY(r), 9, C.ink);
+    const na = eo(pr(t, end, 0.3)); A(na, () => DOT(dotX(m), rowY(r), 9, C.ink));
+  });
+  for(let i = 0; i < 30; i++){
+    const d = t - (start + i * gap); if(d < 0 || d >= TR) continue;
+    const u = d / TR, p0 = tp(i), sx = p0.x + 12, sy = p0.y + 12;
+    const x = u < 0.3 ? lerp(sx, 220, eio(u / 0.3)) : lerp(220, 334, (u - 0.3) / 0.7), y = u < 0.3 ? lerp(sy, ry, eio(u / 0.3)) : ry;
+    SQ(x - 10, y - 10, 20, C.ink);
+  }
+  T('One trip, six tokens: one for each person', W / 2, 400, {size:22, weight:650, align:'center'});
+}
+
+/* ---------- step 10: it has to fit ---------- */
+function sFit(lt){
+  const t = lt % 9, s = 22, P = 27;
+  const GL = {x:20, y:120, cols:8}, GR = {x:380, y:120, cols:8};
+  const cell = (G, k, fill) => SQ(G.x + (k % G.cols) * P, G.y + Math.floor(k / G.cols) * P, s, fill, 3);
+  T('GeForce RTX 5080', GL.x, 62, {size:22, weight:650}); T('16 GB, one square per GB', GL.x, 90, {size:20, color:C.muted});
+  T('GeForce RTX 5090', GR.x, 62, {size:22, weight:650}); T('32 GB', GR.x, 90, {size:20, color:C.muted});
+  for(let k = 0; k < 16; k++) cell(GL, k, C.box);
+  for(let k = 0; k < 32; k++) cell(GR, k, C.box);
+  for(let k = 0; k < 16; k++){ const a = eo(pr(t, 0.4 + k * 0.08, 0.2)); A(a, () => { cell(GL, k, C.ink); cell(GR, k, C.ink); }); }
+  for(let j = 0; j < 2; j++){
+    const t0 = 2.0 + j * 0.25;
+    A(eo(pr(t, t0, 0.2)), () => cell(GR, 16 + j, C.muted));
+    if(t >= t0) SQ(GL.x + j * P, lerp(GL.y - 30, GL.y + 2 * P + 16, eo(pr(t, t0, 0.5))), s, C.accent, 3);
+  }
+  A(eo(pr(t, 3.0, 0.4)), () => {
+    const ly = GL.y + 2 * P + 16 + s;
+    T('No room for 2 GB of notes', GL.x, ly + 34, {size:20, weight:650});
+    T('Won’t fit on the card', GL.x, ly + 60, {size:20, color:C.muted});
+    let y = GR.y + 4 * P + 30;
+    [[C.ink, 'Weights 16 GB'], [C.muted, 'Notes 2 GB'], [C.box, 'Free 14 GB']].forEach(it => { SQ(GR.x, y - 15, 16, it[0], 3); T(it[1], GR.x + 24, y, {size:18}); y += 28; });
+    T('Fits, with room to spare', GR.x, y + 14, {size:20, weight:650});
+  });
+}
+
+/* ---------- step 11: three numbers ---------- */
+function sSum(lt){
+  const k = i => eo(pr(lt, 0.4 + i * 1.4, 0.5)), cur = lt < 1.8 ? 0 : lt < 3.2 ? 1 : lt < 4.6 ? 2 : 3;
+  memBox(); memTiles(); road(cur === 1 ? C.accentSoft : C.box); chipBox();
+  if(cur === 0) R(MEM.x, MEM.y, MEM.w, MEM.h, 14, C.accentSoft);
+  if(cur === 2) R(CHIP.x, CHIP.y, CHIP.w, CHIP.h, 14, C.accentSoft);
+  A(k(0), () => { T('GB', MEM.x + 16, 386, {size:30, weight:700}); T('Does it fit?', MEM.x + 16, 414, {size:20}); });
+  A(k(1), () => { T('GB/s', W / 2, 386, {size:30, weight:700, align:'center'}); T('How fast it writes', W / 2, 414, {size:20, align:'center'}); });
+  A(k(2), () => { T('TFLOPS', CHIP.x + 16, 386, {size:30, weight:700}); T('How fast it reads,', CHIP.x + 16, 414, {size:20}); T('and how many people', CHIP.x + 16, 438, {size:20}); });
+}
+
+/* ---------- the steps ---------- */
+const STEPS = [
+  {title:'A model is a giant list of numbers', draw:sNumbers, still:4.5,
+   body:'<p>A language model is a file full of numbers called weights. This toy one has 30. Qwen3.8 27B has 27 billion. At 4 bits each (half a byte, plus a little bookkeeping), that’s about 16 GB.</p>',
+   key:'27 billion weights ≈ 16 GB', desc:'Thirty numbered weight tiles zoom out into a field of thousands, standing for a 27-billion-weight model.'},
+  {title:'Writing one token uses every weight once', draw:sOneToken, still:3.2,
+   body:'<p>To write the next token, the model runs the latest token through every weight: multiply, then add to a running total. Each weight is used exactly once. Then it does the whole thing again for the token after that.</p>',
+   key:'27 billion weights → 54 billion operations per token', desc:'The token sky passes through all 30 weights one by one, each lighting up, and the token blue comes out.'},
+  {title:'The numbers and the math live in different places', draw:sPlaces, still:6,
+   body:'<p>The weights sit in memory, which is big but can’t do math. The math happens on the chip, which is very fast but holds almost nothing: an H100 has 50 MB of cache next to its 80 GB of memory. Before the chip can use a weight, it has to fetch it over the link between the two. How fast that link moves data is the memory bandwidth.</p>',
+   key:'H100 link: 3,350 GB/s', desc:'The weights move into a memory box on the left. A chip box appears on the right, joined by a link.'},
+  {title:'So for every token, all 16 GB make the trip', draw:sWrite, still:2.4,
+   body:'<p>Here’s one token being written. The chip copies each weight across, uses it once, and drops the copy. The weights in memory stay where they are. On an H100, moving 16 GB at 3,350 GB/s takes about 5 milliseconds. The math itself takes 0.05 milliseconds, so the math units sit idle about 99% of the time, waiting for the next weight.</p>',
+   key:'Per token: 4.8 ms moving weights, 0.05 ms doing math', desc:'Copies of every weight stream along the link into the chip, one token is added to the answer, and the meters show the link full and the math almost idle.'},
+  {title:'Why can’t the chip just keep them?', draw:sCache, still:4.2,
+   body:'<p>Because the model is 320 times bigger than the cache. On the left, each square is 50 MB of the model, and the orange one is all the cache holds. On the right, weights pass through a cache with room for three: by the time the last one arrives, the first was pushed out long ago. The next token needs the first weight first, so every token repeats the whole trip.</p>',
+   key:'16 GB model ÷ 50 MB cache = 320', desc:'A grid of 320 squares with one orange square for the cache, beside a conveyor where numbered weights push older ones out.'},
+  {title:'Tokens per second = bandwidth ÷ model size', draw:sLanes, still:6,
+   body:'<p>Every token needs one full trip, so the link speed sets the pace. A smaller model, or fewer bits per weight, means less to carry and more tokens per second. Real software reaches roughly 50 to 80% of these numbers.</p>',
+   key:'3,350 ÷ 16 ≈ 209 · 819 ÷ 16 ≈ 51 · 273 ÷ 16 ≈ 17 tokens/s', desc:'Three lanes carry the same model at different speeds: H100 fastest, M3 Ultra slower, DGX Spark slowest.'},
+  {title:'Reading a prompt flips it around', draw:sRead, still:2.6,
+   body:'<p>When the model reads your prompt, every token is already there, so it doesn’t have to go one at a time. Each weight makes one trip and is used for every prompt token. With 2,000 tokens, that’s 2,000 uses per trip instead of one, and now the math can’t keep up.</p><p>2 × 27 billion × 2,000 = 108 trillion operations. An H100 does about 1,000 trillion per second, so at least 0.1 seconds. A Mac Studio M3 Ultra does about 28 trillion, so at least 4 seconds before the first word appears.</p>',
+   key:'Reading a prompt is limited by compute', desc:'One trip of weights fans out to all the prompt tokens on the chip. The math units are all busy and the link is nearly idle.'},
+  {id:'lab', title:'Find the balance point yourself', draw:sLab, still:0,
+   body:'<p>It all comes down to one number: how many tokens share each trip. Writing for one person: 1. Serving 64 people: 64. Reading a 2,000-token prompt: 2,000. Pick a chip and move the slider below to see which side becomes the bottleneck.</p>',
+   key:'', desc:'One weight fans out to a chosen number of tokens. Two bars compare the time to move the weights and the time to do the math.'},
+  {title:'Serving many people uses the same trick', draw:sUsers, still:9,
+   body:'<p>A server writing for 64 people sends each weight across once and uses it for all 64 next tokens. Roughly the same trip, 64 times the output. That’s why data centers care about compute even while writing, and why cloud tokens are cheap. On your own machine, writing just for you, the link sets the speed.</p>',
+   key:'1 trip, 64 people → 64 tokens', desc:'Each trip of weights produces one new token for each of six people.'},
+  {title:'But first, it has to fit', draw:sFit, still:5,
+   body:'<p>Memory size doesn’t make anything faster. It decides whether the model fits at all. Memory has to hold the weights, plus the notes the model keeps on the conversation so far (the KV cache). Qwen3.8 27B keeps those notes in only 16 of its 64 layers, about 64 KB per token, so a 32,000-token chat adds about 2 GB.</p>',
+   key:'16 GB: won’t fit · 32 GB: fits with room to spare', desc:'A 16 GB model fills a 16 GB card with no room left for chat notes, while a 32 GB card holds both with room to spare.'},
+  {title:'Three numbers, three questions', draw:sSum, still:7,
+   body:'<ul class="sum"><li><b>Memory size (GB)</b> decides whether the model fits.</li><li><b>Bandwidth (GB/s)</b> decides how fast it writes, one token at a time.</li><li><b>Compute (TFLOPS)</b> decides how fast it reads a prompt, and how many people it can serve at once.</li></ul><p>That’s why big-memory boxes can disappoint. A DGX Spark has 128 GB of memory but writes this 16 GB model at only about 17 tokens/s, because its link is slow. A Mac Studio M3 Ultra writes it at about 51, but takes a long time to read a long prompt, because its math is modest.</p>',
+   key:'', desc:'Memory is labelled GB, does it fit. The link is labelled GB/s, how fast it writes. The chip is labelled TFLOPS, how fast it reads.'}
+];
+
+/* ---------- UI ---------- */
+const $ = id => document.getElementById(id);
+const els = {title:$('sTitle'), body:$('sBody'), key:$('sKey'), count:$('count'), back:$('back'), next:$('next'), replay:$('replay'), lab:$('lab'), prog:$('progress')};
+const segs = STEPS.map((s, i) => {
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'seg'; b.id = 'seg-' + (i + 1);
+  b.setAttribute('aria-label', 'Step ' + (i + 1) + ': ' + s.title); b.addEventListener('click', () => go(i)); els.prog.appendChild(b); return b;
+});
+let cur = 0, t0 = performance.now(), playing = !reduced, pausedAt = 0, raf = 0, visible = true, scale = 1;
+
+function draw(lt){
+  readColors();
+  ctx.setTransform(scale, 0, 0, scale, 0, 0);
+  ctx.fillStyle = C.surface; ctx.fillRect(0, 0, W, H);
+  STEPS[cur].draw(lt);
+}
+function currentLt(){ return playing ? (performance.now() - t0) / 1000 : pausedAt; }
+function frame(){ raf = 0; draw(currentLt()); if(playing && visible) raf = requestAnimationFrame(frame); }
+function kick(){ if(!raf && visible) raf = requestAnimationFrame(frame); }
+function resize(){
+  const w = wrap.clientWidth; if(!w) return;
+  const h = Math.round(w * H / W), dpr = Math.min(2, window.devicePixelRatio || 1);
+  cv.style.height = h + 'px'; cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); scale = w * dpr / W;
+  draw(currentLt());
+}
+function setReplayLabel(){ els.replay.textContent = playing ? 'Replay' : 'Play'; }
+function go(i){
+  cur = Math.max(0, Math.min(STEPS.length - 1, i | 0));
+  const s = STEPS[cur];
+  els.title.textContent = s.title; els.body.innerHTML = s.body;
+  els.count.textContent = (cur + 1) + ' of ' + STEPS.length;
+  segs.forEach((b, j) => { b.classList.toggle('done', j < cur); b.classList.toggle('cur', j === cur); if(j === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
+  els.back.disabled = cur === 0;
+  els.next.textContent = cur === STEPS.length - 1 ? 'Start over' : 'Next';
+  els.lab.hidden = s.id !== 'lab';
+  cv.setAttribute('aria-label', s.desc);
+  t0 = performance.now(); pausedAt = s.still;
+  if(s.id === 'lab') updateLab(); else { els.key.textContent = s.key; els.key.hidden = !s.key; }
+  try{ localStorage.setItem('ibu-step', String(cur)); }catch(e){}
+  setReplayLabel();
+  draw(currentLt()); kick();
+}
+els.back.addEventListener('click', () => go(cur - 1));
+els.next.addEventListener('click', () => go(cur === STEPS.length - 1 ? 0 : cur + 1));
+els.replay.addEventListener('click', () => { t0 = performance.now(); playing = true; setReplayLabel(); kick(); });
+document.addEventListener('keydown', e => {
+  const tag = (e.target && e.target.tagName) || '';
+  if(tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA' || e.metaKey || e.ctrlKey || e.altKey) return;
+  if(e.key === 'ArrowRight'){ e.preventDefault(); go(cur + 1); }
+  else if(e.key === 'ArrowLeft'){ e.preventDefault(); go(cur - 1); }
+});
+
+/* balance-point lab */
+const slider = $('nSlider');
+function updateLab(){
+  const ch = CHIPS[state.chip], N = state.n, r = roadMs(ch), m = mathMs(ch, N), linkB = r >= m;
+  $('nOut').textContent = fmtInt(N);
+  $('vRoad').textContent = fmtMs(r); $('vMath').textContent = fmtMs(m);
+  $('vTps').textContent = fmtInt(N / Math.max(r, m) * 1000);
+  $('roRoad').classList.toggle('bn', linkB); $('roMath').classList.toggle('bn', !linkB);
+  if(STEPS[cur].id === 'lab'){
+    els.key.hidden = false;
+    els.key.textContent = ch.name + ': the math becomes the limit above about ' + fmtInt(crossover(ch)) + ' tokens per trip.';
+  }
+  if(!playing) draw(currentLt());
+}
+slider.addEventListener('input', () => { state.n = Math.max(1, Math.round(Math.pow(2, +slider.value))); updateLab(); });
+document.querySelectorAll('.preset').forEach(b => b.addEventListener('click', () => { state.n = +b.dataset.n; slider.value = String(Math.log2(state.n)); updateLab(); }));
+document.querySelectorAll('.chip').forEach(b => b.addEventListener('click', () => {
+  state.chip = b.dataset.chip;
+  document.querySelectorAll('.chip').forEach(o => o.setAttribute('aria-checked', o === b ? 'true' : 'false'));
+  updateLab();
+}));
+
+/* lifecycle */
+if('ResizeObserver' in window) new ResizeObserver(resize).observe(wrap); else window.addEventListener('resize', resize);
+if('IntersectionObserver' in window) new IntersectionObserver(en => { visible = en[0].isIntersecting; if(visible) kick(); }).observe(wrap);
+if(window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => draw(currentLt()));
+new MutationObserver(() => draw(currentLt())).observe(document.documentElement, {attributes:true, attributeFilter:['data-theme']});
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(() => draw(currentLt()));
+
+let start = 0;
+const hm = /^#s(\d{1,2})$/.exec(location.hash || '');
+if(hm) start = +hm[1] - 1; else { try{ const v = localStorage.getItem('ibu-step'); if(v !== null) start = +v || 0; }catch(e){} }
+window.__ibu = {go, drawAt:t => { playing = false; pausedAt = t; draw(t); }};
+resize();
+go(start);
+})();
+</script>
+
+<style>
+/* Embedded in the blog post: the post supplies the title, and the page sits on the blog's paper colour in light mode. */
+html,body{margin:0}
+header{display:none !important}
+main{padding-block:4px 12px !important}
+body{background:#fef9ed !important}
+</style>
+<script>
+(function(){
+  function post(){ try{ parent.postMessage({ibuHeight: Math.ceil(document.body.getBoundingClientRect().height)}, '*'); }catch(e){} }
+  if('ResizeObserver' in window) new ResizeObserver(post).observe(document.body);
+  window.addEventListener('load', post); post();
+})();
+</script>
+</body>
+</html>

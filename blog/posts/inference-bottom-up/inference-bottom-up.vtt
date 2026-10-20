@@ -1,0 +1,49 @@
+WEBVTT
+
+00:00:00.300 --> 00:00:03.996
+A language model is a giant list of numbers, called weights.
+
+00:00:04.146 --> 00:00:11.166
+Qwen3.8 27B has 27 billion of them. About 16 GB.
+
+00:00:11.916 --> 00:00:15.650
+To write one token, the model uses every weight once.
+
+00:00:15.800 --> 00:00:17.584
+Multiply, then add.
+
+00:00:18.334 --> 00:00:21.886
+The weights sit in memory. The math happens on the chip.
+
+00:00:22.036 --> 00:00:26.593
+So for every token, all 16 GB cross the link between them.
+
+00:00:26.743 --> 00:00:30.176
+The chip spends 99% of its time waiting.
+
+00:00:30.926 --> 00:00:32.430
+Why not keep them on the chip?
+
+00:00:32.580 --> 00:00:38.839
+Its cache is 320 times too small. The first weights are gone before the last ones arrive.
+
+00:00:39.589 --> 00:00:43.428
+So tokens per second is bandwidth divided by model size.
+
+00:00:43.578 --> 00:00:50.936
+About 200 on an H100, 50 on an M3 Ultra, and 17 on a DGX Spark.
+
+00:00:51.686 --> 00:00:53.688
+Reading a prompt is the opposite.
+
+00:00:53.838 --> 00:00:58.895
+One trip serves every prompt token at once, so the math becomes the bottleneck.
+
+00:00:59.645 --> 00:01:01.615
+Memory decides if it fits.
+
+00:01:01.765 --> 00:01:04.224
+Bandwidth decides how fast it writes.
+
+00:01:04.374 --> 00:01:06.832
+Compute decides how fast it reads.
