@@ -26,6 +26,31 @@
       .post-body figcaption { font-size: 13.5px; line-height: 1.5; color: var(--mai-ink-muted); }
       .post-body .table-wrap { overflow-x: auto; margin: 0 0 1.6em; }
       .post-body td code, .post-body th code { font-size: 0.9em; }
+      .try-lokalbot { margin-top: 2.4em; padding-top: 0.2em; scroll-margin-top: 90px; }
+      .try-lokalbot > h2 { margin-top: 0.6em; }
+      .try-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 1.4em 0 1.2em; }
+      .try-card { display: flex; flex-direction: column; gap: 10px; padding: 22px 20px 20px; border-radius: 4px;
+        background: rgba(254, 249, 237, 0.86); box-shadow: inset 0 0 0 1px rgba(93, 82, 75, 0.12), 0 18px 48px rgba(93, 82, 75, 0.08); }
+      .try-card.is-yours { box-shadow: inset 0 0 0 2px var(--mai-shell-sage), 0 18px 48px rgba(93, 82, 75, 0.12); }
+      .post-body .try-card p { margin: 0; }
+      .try-os { font-family: var(--font-serif); font-size: 30px; line-height: 1.05; letter-spacing: -0.035em; color: var(--mai-shell-ink); }
+      .try-alpha, .try-yours { display: inline-block; vertical-align: middle; margin-left: 6px; padding: 3px 8px 2px; border-radius: 999px;
+        font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.3; }
+      .try-alpha { background: var(--mai-cream); color: var(--mai-link-warm); }
+      .try-yours { display: none; background: var(--mai-green-wash); color: var(--mai-shell-ink); }
+      .try-card.is-yours .try-yours { display: inline-block; }
+      .try-req { font-family: var(--font-mono); font-size: 12px; line-height: 1.45; color: var(--mai-ink-muted); letter-spacing: 0; }
+      .post-body a.try-button { display: flex; align-items: center; justify-content: center; min-height: 46px; margin: 6px 0 2px; padding: 0 18px;
+        border-radius: 999px; background: var(--mai-shell-ink); color: var(--mai-paper); text-decoration: none;
+        font-family: var(--font-shell); font-size: 15px; font-weight: 500; letter-spacing: -0.01em; }
+      .post-body a.try-button:hover { background: #24394a; }
+      .post-body a.try-button:focus-visible { outline: 2px solid var(--mai-shell-sage); outline-offset: 3px; }
+      .try-note { font-size: 17px; line-height: 1.45; letter-spacing: -0.01em; color: var(--mai-ink); }
+      .try-note code { font-size: 0.85em; }
+      .try-cmd { display: block; padding: 10px 12px; border-radius: 4px; background: var(--mai-cream);
+        font-size: 13px; line-height: 1.5; letter-spacing: 0; color: var(--mai-dark-brown); overflow-wrap: anywhere; }
+      .post-body p.try-more { font-size: 0.85em; color: var(--mai-ink-muted); }
+      @media (max-width: 900px) { .try-grid { grid-template-columns: 1fr; } }
     </style>
   </head>
   <body>
@@ -44,7 +69,7 @@
     <main id="content">
       <section class="hero hero--post" aria-labelledby="post-title">
         <div class="hero-inner">
-          <p class="eyebrow">Oct 20, 2026 · AI · Engineering · 9 min read</p>
+          <p class="eyebrow">Oct 20, 2026 · AI · Engineering · 10 min read</p>
           <h1 id="post-title" class="post-hero-title">Porting LokalBot to Linux and Windows with agents</h1>
           <p class="hero-subtitle">Notes from a three-day port of a 150,000-line Swift app to Rust, including a first attempt that didn&#x27;t work.</p>
         </div>
@@ -59,7 +84,7 @@
             </div>
             <div class="post-actions">
               <a class="button" href="/blog/">Back to blog</a>
-              <a class="button" href="https://github.com/stevyhacker/LokalBot/releases/tag/v0.11.0">LokalBot for Linux and Windows</a>
+              <a class="button" href="#try-lokalbot">Try LokalBot</a>
               <span class="button button-square" aria-hidden="true">↘</span>
             </div>
           </aside>
@@ -128,7 +153,32 @@
 <li>Keep the decisions for yourself. Most of my messages were nudges, but the decisions were what counted.</li>
 <li>Leave the safety checks on.</li>
 </ul>
-<p>LokalBot for Windows and Linux is on the <a href="https://github.com/stevyhacker/LokalBot/releases/tag/v0.11.0">releases page</a>. The code is in <a href="https://github.com/stevyhacker/LokalBot/tree/master/LinuxWindows"><code>LinuxWindows/</code></a>, and the original PR with its screenshots is <a href="https://github.com/stevyhacker/LokalBot/pull/290">#290</a>. It's still an alpha, so bug reports are very welcome.</p>
+<section class="try-lokalbot" id="try-lokalbot" aria-labelledby="try-title">
+<h2 id="try-title">Try LokalBot</h2>
+<p>LokalBot is free and open source, with no account or subscription, and it runs on your own computer. The Mac app is the most complete. Windows and Linux are in alpha, so if something doesn't work for you, please <a href="https://github.com/stevyhacker/lokalbot/issues">open an issue</a>.</p>
+<div class="try-grid">
+<div class="try-card" data-os="mac">
+<p class="try-os">macOS</p>
+<p class="try-req">Apple Silicon, macOS 15 or later</p>
+<a class="try-button" href="https://github.com/stevyhacker/lokalbot/releases/latest/download/LokalBot.dmg">Download for Mac</a>
+<p class="try-note">Or install it with Homebrew:</p>
+<code class="try-cmd">brew install --cask stevyhacker/tap/lokalbot</code>
+</div>
+<div class="try-card" data-os="windows">
+<p class="try-os">Windows <span class="try-alpha">alpha</span></p>
+<p class="try-req">Windows 10 or 11, x64</p>
+<a class="try-button" href="https://github.com/stevyhacker/lokalbot/releases/latest">Get the Windows installer</a>
+<p class="try-note">Pick the <code>setup.exe</code>. It installs for your user without admin rights. It isn't code-signed yet, so SmartScreen asks first: choose <em>More info</em>, then <em>Run anyway</em>. A portable zip is there too.</p>
+</div>
+<div class="try-card" data-os="linux">
+<p class="try-os">Linux <span class="try-alpha">alpha</span></p>
+<p class="try-req">x86_64, glibc 2.39 or newer</p>
+<a class="try-button" href="https://github.com/stevyhacker/lokalbot/releases/latest">Get the Linux packages</a>
+<p class="try-note">A <code>.deb</code> for Debian and Ubuntu, an <code>.rpm</code> for Fedora and openSUSE, a package for Arch, or a <code>.tar.gz</code> with an install script.</p>
+</div>
+</div>
+<p class="try-more">The code is on <a href="https://github.com/stevyhacker/lokalbot">GitHub</a>. The port lives in <a href="https://github.com/stevyhacker/lokalbot/tree/master/LinuxWindows"><code>LinuxWindows/</code></a>, and <a href="https://github.com/stevyhacker/lokalbot/pull/290">PR #290</a> has the screenshots and test notes from the first two days.</p>
+</section>
           </div>
 
           <nav class="post-nav" aria-label="Adjacent posts"><span aria-hidden="true"></span><a href="../inference-bottom-up/"><span>Older note</span><strong>Inference, Bottom Up</strong></a></nav>
@@ -148,6 +198,26 @@
       </div>
     </footer>
 
+    <script>
+      // Highlight the reader's own platform in the "Try LokalBot" section.
+      (function () {
+        var nav = window.navigator || {};
+        var p = ((nav.userAgentData && nav.userAgentData.platform) || nav.platform || "").toLowerCase();
+        var ua = (nav.userAgent || "").toLowerCase();
+        var touch = (nav.maxTouchPoints || 0) > 1;
+        var os = /iphone|ipad|android/.test(ua) ? null
+          : /mac/.test(p) ? (touch ? null : "mac")
+          : /win/.test(p) ? "windows"
+          : /linux|x11/.test(p + " " + ua) ? "linux" : null;
+        var card = os && document.querySelector('.try-card[data-os="' + os + '"]');
+        if (!card) return;
+        card.classList.add("is-yours");
+        var label = document.createElement("span");
+        label.className = "try-yours";
+        label.textContent = "your system";
+        card.querySelector(".try-os").appendChild(label);
+      })();
+    </script>
     <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Porting LokalBot to Linux and Windows with agents", "description": "Notes from a three-day port of a 150,000-line Swift app to Rust, including a first attempt that didn't work.", "datePublished": "2026-10-20T16:30:00+02:00", "dateModified": "2026-10-20T16:30:00+02:00", "author": {"@type": "Person", "name": "Stevan Bogosavljević"}, "image": "https://stevan.bogosavljevic.me/blog/posts/porting-lokalbot-to-linux-and-windows/og.jpg", "mainEntityOfPage": "https://stevan.bogosavljevic.me/blog/posts/porting-lokalbot-to-linux-and-windows/", "url": "https://stevan.bogosavljevic.me/blog/posts/porting-lokalbot-to-linux-and-windows/"}</script>
   </body>
 </html>
