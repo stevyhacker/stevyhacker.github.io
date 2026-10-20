@@ -23,13 +23,6 @@ const NOTES = [
     href: '/blog/posts/anatomy-of-a-token/',
   },
   {
-    date: 'Oct 06, 2026',
-    category: 'Local AI',
-    title: 'Keystroke to ghost text',
-    excerpt: 'How LokalBot’s autocomplete gets from a keystroke to a suggestion in about 140 ms, and where the cloud could fit.',
-    href: '/blog/posts/keystroke-to-ghost-text/',
-  },
-  {
     date: 'Oct 05, 2026',
     category: 'DeFi',
     title: 'Vaults, explained',
@@ -39,15 +32,8 @@ const NOTES = [
   {
     date: 'Oct 03, 2026',
     category: 'Crypto and AI',
-    title: 'Inside Bittensor subnets',
-    excerpt: 'Part two of the Bittensor explainer: how subnets launch and stay alive, and which ones lead.',
-    href: '/blog/posts/inside-bittensor-subnets/',
-  },
-  {
-    date: 'Oct 03, 2026',
-    category: 'Crypto and AI',
     title: 'Bittensor, explained',
-    excerpt: 'A short animated explainer of how Bittensor pays miners and validators for useful AI work.',
+    excerpt: 'Two short animated explainers: how Bittensor pays people for useful AI work, and the subnets competing for it.',
     href: '/blog/posts/bittensor-explained/',
   },
   {
@@ -92,7 +78,7 @@ export function FieldNotes() {
             the work I build today.
           </p>
           <p className="mt-5 font-mono text-xs uppercase tracking-[0.18em] text-ink-soft">
-            26 posts · 2011–2026 · old posts in their original voice
+            24 posts · 2011–2026 · old posts in their original voice
           </p>
           <a href="/blog/" className="btn-primary mt-9 gap-2">
             Read all posts

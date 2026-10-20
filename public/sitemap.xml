@@ -29,20 +29,8 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://stevan.bogosavljevic.me/blog/posts/keystroke-to-ghost-text/</loc>
-    <lastmod>2026-10-06</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://stevan.bogosavljevic.me/blog/posts/vaults-explained/</loc>
     <lastmod>2026-10-05</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://stevan.bogosavljevic.me/blog/posts/inside-bittensor-subnets/</loc>
-    <lastmod>2026-10-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>

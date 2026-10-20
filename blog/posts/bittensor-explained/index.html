@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bittensor, explained · Field Notes</title>
-    <meta name="description" content="How Bittensor pays people for useful AI work: the chain, subnets, miners and validators, and how new TAO gets shared out." />
+    <meta name="description" content="Two short animated explainers: how Bittensor pays people for useful AI work, and a closer look at the subnets competing for it." />
     <link rel="canonical" href="https://stevan.bogosavljevic.me/blog/posts/bittensor-explained/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght%406..72,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Red+Hat+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="../../assets/blog.css" />
     <meta property="og:title" content="Bittensor, explained" />
-    <meta property="og:description" content="How Bittensor pays people for useful AI work: subnets, miners and validators, Yuma Consensus and dynamic TAO." />
+    <meta property="og:description" content="Two animated explainers: how Bittensor pays people for useful AI work, and the subnets competing for it, from Chutes and Lium to Templar." />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://stevan.bogosavljevic.me/blog/posts/bittensor-explained/" />
     <meta property="og:image" content="https://stevan.bogosavljevic.me/blog/posts/bittensor-explained/og.jpg" />
@@ -38,9 +38,9 @@
     <main id="content">
       <section class="hero hero--post" aria-labelledby="post-title">
         <div class="hero-inner">
-          <p class="eyebrow">Oct 03, 2026 · AI · Crypto · 3 min watch</p>
+          <p class="eyebrow">Oct 03, 2026 · AI · Crypto · 9 min watch</p>
           <h1 id="post-title" class="post-hero-title">Bittensor, explained</h1>
-          <p class="hero-subtitle">How Bittensor pays people for useful AI work: the chain, subnets, miners and validators, and how new TAO gets shared out.</p>
+          <p class="hero-subtitle">Two short animated explainers: how Bittensor pays people for useful AI work, and a closer look at the subnets competing for it.</p>
         </div>
       </section>
 
@@ -53,18 +53,25 @@
             </div>
             <div class="post-actions">
               <a class="button" href="/blog/">Back to blog</a>
-              <a class="button" href="walkthrough.html" target="_blank" rel="noopener">Open the explainer full screen</a>
+              <a class="button" href="walkthrough.html" target="_blank" rel="noopener">Part one full screen</a>
+              <a class="button" href="subnets.html" target="_blank" rel="noopener">Part two full screen</a>
               <span class="button button-square" aria-hidden="true">↘</span>
             </div>
           </aside>
 
           <div class="post-body">
-            <p>I made a short animated explainer of how Bittensor works. It starts with the chain and its token, then goes into subnets, miners and validators, how Yuma Consensus turns validators' scores into rewards, and how dynamic TAO decides which subnets get the most new TAO.</p>
-            <p>It runs about three and a half minutes with narration. Figures are as of October 2026, checked against the Bittensor docs and Taostats, and it's not investment advice. <a href="../inside-bittensor-subnets/">Part two</a> looks at the subnets themselves and which ones are winning.</p>
-            <iframe id="explainer-frame" class="explainer-frame" src="walkthrough.html" title="Bittensor, explained: animated explainer" allow="fullscreen" allowfullscreen loading="lazy"></iframe>
+            <p>I made two short animated explainers on Bittensor. The first is about how the network works: the chain and its token, subnets, miners and validators, how Yuma Consensus turns validators' scores into rewards, and how dynamic TAO decides which subnets get the most new TAO.</p>
+            <p>The second looks at the subnets themselves: what it costs to launch one, how they get pushed out, which levers their owners have, and six of the leading ones: Chutes, Lium, Targon, Score, Affine and Templar. It ends by comparing what subnets earn from paying customers with the value of the new TAO the network gives them, which is still more than ten times larger.</p>
+            <p>Together they run about nine minutes with narration. Figures are as of early October 2026, from the Bittensor docs, Taostats, CoinGecko and the SubConnect revenue index. The revenue numbers are self-reported and unaudited, and none of this is investment advice.</p>
+
+            <h2 id="network">How the network works</h2>
+            <iframe class="explainer-frame" src="walkthrough.html" title="Bittensor, explained: how the network works" allow="fullscreen" allowfullscreen loading="lazy"></iframe>
+
+            <h2 id="subnets">Inside the subnets</h2>
+            <iframe class="explainer-frame" src="subnets.html" title="Bittensor, explained: inside the subnets" allow="fullscreen" allowfullscreen loading="lazy"></iframe>
           </div>
 
-          <nav class="post-nav" aria-label="Adjacent posts"><a href="../inside-bittensor-subnets/"><span>Newer note</span><strong>Inside Bittensor subnets</strong></a><a href="../epska-fantastika-123/"><span>Older note</span><strong>Epska fantastika 123</strong></a></nav>
+          <nav class="post-nav" aria-label="Adjacent posts"><a href="../vaults-explained/"><span>Newer note</span><strong>Vaults, explained</strong></a><a href="../epska-fantastika-123/"><span>Older note</span><strong>Epska fantastika 123</strong></a></nav>
         </div>
       </article>
     </main>
@@ -82,12 +89,14 @@
     </footer>
 
     <script>
-      // The explainer reports its own height so the frame never scrolls inside the post.
+      // Each explainer reports its own height so the frames never scroll inside the post.
       window.addEventListener('message', function (e) {
-        var f = document.getElementById('explainer-frame');
-        if (f && e.source === f.contentWindow && e.data && e.data.frameHeight) f.style.height = Math.ceil(e.data.frameHeight) + 'px';
+        if (!e.data || !e.data.frameHeight) return;
+        document.querySelectorAll('.explainer-frame').forEach(function (f) {
+          if (e.source === f.contentWindow) f.style.height = Math.ceil(e.data.frameHeight) + 'px';
+        });
       });
     </script>
-    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Bittensor, explained", "description": "How Bittensor pays people for useful AI work: the chain, subnets, miners and validators, and how new TAO gets shared out.", "datePublished": "2026-10-03T21:19:00+02:00", "dateModified": "2026-10-03T21:19:00+02:00", "author": {"@type": "Person", "name": "Stevan Bogosavljević"}, "image": "https://stevan.bogosavljevic.me/blog/posts/bittensor-explained/og.jpg", "mainEntityOfPage": "https://stevan.bogosavljevic.me/blog/posts/bittensor-explained/", "url": "https://stevan.bogosavljevic.me/blog/posts/bittensor-explained/"}</script>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Bittensor, explained", "description": "Two short animated explainers: how Bittensor pays people for useful AI work, and a closer look at the subnets competing for it.", "datePublished": "2026-10-03T21:19:00+02:00", "dateModified": "2026-10-03T21:19:00+02:00", "author": {"@type": "Person", "name": "Stevan Bogosavljević"}, "image": "https://stevan.bogosavljevic.me/blog/posts/bittensor-explained/og.jpg", "mainEntityOfPage": "https://stevan.bogosavljevic.me/blog/posts/bittensor-explained/", "url": "https://stevan.bogosavljevic.me/blog/posts/bittensor-explained/"}</script>
   </body>
 </html>
