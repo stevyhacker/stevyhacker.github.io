@@ -2,6 +2,20 @@ import { ArrowRight } from 'lucide-react';
 
 const NOTES = [
   {
+    date: 'Oct 20, 2026',
+    category: 'AI agents',
+    title: 'Porting LokalBot to Linux and Windows with agents',
+    excerpt: 'How a 150,000-line Swift Mac app got a Rust version for Linux and Windows in three days, after a first attempt that didn’t work out.',
+    href: '/blog/posts/porting-lokalbot-to-linux-and-windows/',
+  },
+  {
+    date: 'Oct 20, 2026',
+    category: 'AI hardware',
+    title: 'Inference, Bottom Up',
+    excerpt: 'Why a machine with huge memory can still be slow at running a language model, built up one step at a time.',
+    href: '/blog/posts/inference-bottom-up/',
+  },
+  {
     date: 'Jan 18, 2019',
     category: 'Work',
     title: 'Nedostaci i problemi rada od “kuće”',
@@ -43,10 +57,10 @@ export function FieldNotes() {
             the work I build today.
           </p>
           <p className="mt-5 font-mono text-xs uppercase tracking-[0.18em] text-ink-soft">
-            19 posts · 2011–2021 · original voice preserved
+            21 posts · 2011–2026 · old posts in their original voice
           </p>
           <a href="/blog/" className="btn-primary mt-9 gap-2">
-            Explore the archive
+            Read all posts
             <ArrowRight size={17} aria-hidden />
           </a>
         </div>
