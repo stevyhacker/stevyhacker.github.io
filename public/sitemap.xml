@@ -11,6 +11,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://stevan.bogosavljevic.me/blog/posts/porting-lokalbot-to-linux-and-windows/</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://stevan.bogosavljevic.me/blog/posts/inference-bottom-up/</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://stevyhacker.github.io/blog/posts/epska-fantastika-123/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
