@@ -26,6 +26,7 @@
       .post-body details { margin: 1em 0 1.7em; font-size: 0.9em; }
       .post-body summary { cursor: pointer; font-weight: 600; }
       .post-body .compare img { width: 100%; height: auto; display: block; }
+      .post-body .workflow img { width: 100%; height: auto; display: block; }
       .post-body pre { white-space: pre-wrap; overflow-wrap: anywhere; }
     </style>
   </head>
@@ -64,6 +65,10 @@
               <figcaption>A 29-second fan-made interpretation of Dumai’s Wells. The video and its original soundtrack were generated with Pika H3 Flex and then edited and upscaled.</figcaption>
             </figure>
             <details><summary>Dialogue transcript</summary><p>Rand: “They’re closing in.”<br />Taim: “Asha’man, prepare.”<br />Taim: “Asha’man, kill!”<br />Rand: “Light… what have we done?”</p></details>
+            <figure class="workflow">
+              <a href="anime-workflow.jpg"><img src="anime-workflow.jpg" alt="Six steps from prompt to anime scene: story and references, Pika generation on a Colab GPU, editing three scenes, comparing FFmpeg and Real-ESRGAN upscaling, finishing sound, and exporting the 1080p video. Includes frames from the film and the actual upscaling comparison." width="3840" height="2160" loading="lazy" decoding="async" /></a>
+              <figcaption>The workflow at a glance, with frames from the film and the real upscaling comparison. I tested and ran the upscale on the longer cut before making the final trim. Tap the image to see it full size.</figcaption>
+            </figure>
             <h2>The first render</h2>
             <p>The first prompt covered Rand’s escape, the Asha’man forming up and a wave of the One Power crossing the battlefield. Pika generated the picture and stereo audio together. It was a useful test, but Rand came out looking more like a generic spiky-haired anime protagonist than the character I had in mind.</p>
             <p>For the next attempt I used a <a href="https://www.pinterest.com/pin/rand-althor-anass-boumarag-on-artstation-at-httpswwwartstationcomartworknegljo--759419555939298667/">fan illustration</a> as an appearance reference: longer auburn hair, light eyes and a red-and-gold coat. The listing attributes the illustration to Anass Boumarag; I couldn’t independently confirm the original artist page. The reference-to-video mode let the model borrow the character design without making the illustration itself the opening frame.</p>
