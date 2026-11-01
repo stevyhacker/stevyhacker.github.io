@@ -2,6 +2,7 @@ import { cp, rm } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { fieldNotes } from './vite-plugin-field-notes';
 
 const projectRoot = fileURLToPath(new URL('.', import.meta.url));
 
@@ -9,6 +10,7 @@ const projectRoot = fileURLToPath(new URL('.', import.meta.url));
 export default defineConfig({
   plugins: [
     react(),
+    fieldNotes(`${projectRoot}blog/index.html`),
     {
       name: 'copy-static-blog',
       apply: 'build',
