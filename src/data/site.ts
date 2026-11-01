@@ -7,7 +7,7 @@ export const SITE = {
   email: 'stevan.bogosavljevic@gmail.com',
   cvUrl: '/Stevan_Bogosavljevic_Resume.pdf',
   availability: 'Open to senior engineering roles, smart-contract work, and interesting builds.',
-  url: 'https://stevyhacker.github.io/',
+  url: 'https://stevan.bogosavljevic.me/',
   photo: '/img/pro.jpg',
 } as const;
 
