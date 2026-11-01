@@ -1,63 +1,5 @@
 import { ArrowRight } from 'lucide-react';
-
-const NOTES = [
-  {
-    date: 'Oct 20, 2026',
-    category: 'AI agents',
-    title: 'Porting LokalBot to Linux and Windows with agents',
-    excerpt: 'How a 150,000-line Swift Mac app got a Rust version for Linux and Windows in three days, after a first attempt that didn’t work out.',
-    href: '/blog/posts/porting-lokalbot-to-linux-and-windows/',
-  },
-  {
-    date: 'Oct 20, 2026',
-    category: 'AI hardware',
-    title: 'Inference, Bottom Up',
-    excerpt: 'Why a machine with huge memory can still be slow at running a language model, built up one step at a time.',
-    href: '/blog/posts/inference-bottom-up/',
-  },
-  {
-    date: 'Oct 16, 2026',
-    category: 'AI hardware',
-    title: 'Anatomy of a Token',
-    excerpt: 'A field guide to memory, bandwidth and compute, with a calculator that runs the same request on seven chips.',
-    href: '/blog/posts/anatomy-of-a-token/',
-  },
-  {
-    date: 'Oct 05, 2026',
-    category: 'DeFi',
-    title: 'Vaults, explained',
-    excerpt: 'An animated explainer on DeFi vaults, from Yearn in 2020 to ERC-4626, Morpho Vaults V2 and async ERC-7540 vaults.',
-    href: '/blog/posts/vaults-explained/',
-  },
-  {
-    date: 'Oct 03, 2026',
-    category: 'Crypto and AI',
-    title: 'Bittensor, explained',
-    excerpt: 'Two short animated explainers: how Bittensor pays people for useful AI work, and the subnets competing for it.',
-    href: '/blog/posts/bittensor-explained/',
-  },
-  {
-    date: 'Jan 18, 2019',
-    category: 'Work',
-    title: 'Nedostaci i problemi rada od “kuće”',
-    excerpt: 'What several years of working remotely taught me before distributed work became normal.',
-    href: '/blog/posts/nedostaci-i-problemi-rada-od-kuce/',
-  },
-  {
-    date: 'Dec 26, 2017',
-    category: 'Early crypto',
-    title: 'Rudarenje kriptovaluta: Bitcoin i Ethereum',
-    excerpt: 'An early field note on mining, hardware, and the economics of public blockchains.',
-    href: '/blog/posts/rudarenjemining-kriptovaluta-bitcoin-i-ethereum/',
-  },
-  {
-    date: 'Nov 12, 2012',
-    category: 'Community',
-    title: 'Prvi crnogorski hakaton',
-    excerpt: 'A snapshot of Montenegro’s early builder community, long before today’s product work.',
-    href: '/blog/posts/prvi-crnogorski-hakaton/',
-  },
-] as const;
+import { notes, postCount, yearRange } from 'virtual:field-notes';
 
 export function FieldNotes() {
   return (
@@ -78,7 +20,7 @@ export function FieldNotes() {
             the work I build today.
           </p>
           <p className="mt-5 font-mono text-xs uppercase tracking-[0.18em] text-ink-soft">
-            24 posts · 2011–2026 · old posts in their original voice
+            {postCount} posts · {yearRange} · old posts in their original voice
           </p>
           <a href="/blog/" className="btn-primary mt-9 gap-2">
             Read all posts
@@ -87,7 +29,7 @@ export function FieldNotes() {
         </div>
 
         <ol className="border-t border-ink/15">
-          {NOTES.map((note, index) => (
+          {notes.map((note, index) => (
             <li key={note.href} className="border-b border-ink/15">
               <a
                 href={note.href}
