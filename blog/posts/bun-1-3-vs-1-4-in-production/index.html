@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bun 1.3 vs 1.4 on a real production API · Field Notes</title>
+    <meta name="description" content="I ran Bun 1.3.14 and 1.4.4 side by side on the same server and database. Light routes handled 17–42% more requests per second. Routes that wait on Postgres barely moved." />
+    <link rel="canonical" href="https://stevan.bogosavljevic.me/blog/posts/bun-1-3-vs-1-4-in-production/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..72,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Red+Hat+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../assets/blog.css" />
+    <meta property="og:title" content="Bun 1.3 vs 1.4 on a real production API" />
+    <meta property="og:description" content="Both versions, side by side, on the same server and database. Light routes handled 17–42% more requests per second. Routes that wait on Postgres barely moved." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://stevan.bogosavljevic.me/blog/posts/bun-1-3-vs-1-4-in-production/" />
+    <meta property="og:image" content="https://stevan.bogosavljevic.me/blog/posts/bun-1-3-vs-1-4-in-production/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@stevyhacker" />
+    <style>
+      .post-body > :is(figure, pre, details, .table-wrap) { max-width: var(--measure); margin-left: auto; margin-right: auto; }
+      .post-body pre { line-height: 1.6; }
+      .post-body p code, .post-body li code { font-size: 0.82em; }
+      .post-body .table-wrap { overflow-x: auto; margin-bottom: 0.7em; }
+      .post-body .table-note { font-size: 0.82em; line-height: 1.5; color: var(--mai-ink-muted); }
+      .post-body table { font-family: var(--font-shell); font-size: 16px; line-height: 1.35; letter-spacing: -0.01em; }
+      .post-body th { font-weight: 500; text-align: left; white-space: nowrap; }
+      .post-body th.num, .post-body td.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+      .post-body td .route-path { display: block; margin-top: 2px; font-family: var(--font-mono); font-size: 12px; color: var(--mai-ink-muted); letter-spacing: 0; white-space: nowrap; }
+      .post-body details { margin-top: 1.1em; margin-bottom: 1.7em; }
+      .post-body summary { cursor: pointer; font-family: var(--font-shell); font-size: 16px; font-weight: 500; letter-spacing: -0.01em; color: var(--mai-link-warm); }
+      .post-body details .table-wrap { margin-top: 0.8em; }
+      .post-body details table { font-size: 14.5px; }
+      .post-body details th, .post-body details td { padding: 0.6em 0.5em; }
+      .bun-chart { padding: clamp(18px, 3vw, 28px); border-radius: 6px; background: rgba(255, 253, 247, 0.9); box-shadow: inset 0 0 0 1px rgba(93, 82, 75, 0.12), 0 18px 48px rgba(93, 82, 75, 0.08); font-family: var(--font-shell); }
+      .bun-chart-title { margin: 0 0 18px; font-size: 19px; line-height: 1.25; font-weight: 600; letter-spacing: -0.02em; color: var(--mai-shell-ink); }
+      .post-body .bun-group { margin: 22px 0 10px; font-size: 14.5px; line-height: 1.3; letter-spacing: -0.005em; color: var(--mai-ink-muted); }
+      .post-body .bun-group:first-of-type { margin-top: 0; }
+      .post-body .bun-rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 13px; }
+      .post-body .bun-rows li { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: baseline; font-size: 16px; line-height: 1.25; letter-spacing: -0.012em; }
+      .bun-name { color: var(--mai-ink); }
+      .bun-gain { font-family: var(--font-mono); font-size: 16px; font-weight: 500; letter-spacing: -0.01em; color: var(--mai-shell-ink); }
+      .bun-track { grid-column: 1 / -1; height: 12px; border-radius: 0 3px 3px 0; background: rgba(93, 82, 75, 0.07); }
+      .bun-fill { display: block; height: 100%; border-radius: 0 3px 3px 0; background: var(--mai-shell-sage); }
+      .bun-fill.is-flat { background: rgba(93, 82, 75, 0.42); }
+      .post-body .bun-chart figcaption { max-width: none; margin-top: 18px; font-family: var(--font-shell); font-size: 13.5px; line-height: 1.45; letter-spacing: -0.005em; color: var(--mai-ink-muted); }
+      .bun-detail { grid-column: 1 / -1; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0; color: var(--mai-ink-muted); }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="mai-nav" aria-label="Primary navigation">
+      <a class="brand" href="/">Stevan<span aria-hidden="true">.</span></a>
+      <ul class="nav-links" aria-label="Sections">
+        <li><a href="/#work">Work</a></li><li><a href="/#about">About</a></li>
+        <li><a href="/blog/" aria-current="page">Blog</a></li><li><a href="/#contact">Contact</a></li>
+      </ul>
+      <a class="nav-cta" href="/Stevan_Bogosavljevic_Resume.pdf" target="_blank" rel="noopener noreferrer">CV ↗</a>
+    </header>
+    <main id="content">
+      <section class="hero hero--post" aria-labelledby="post-title">
+        <div class="hero-inner">
+          <p class="eyebrow">Nov 1, 2026 · Engineering · Performance · 5 min read</p>
+          <h1 id="post-title" class="post-hero-title">Bun 1.3 vs 1.4 on a real production API</h1>
+          <p class="hero-subtitle">I ran both versions side by side on the same server and database. Some routes handled 42% more requests. Others didn’t change at all.</p>
+        </div>
+      </section>
+      <article class="post-shell">
+        <div class="post-layout">
+          <aside class="post-meta-card" aria-label="Post metadata">
+            <div class="metadata"><span>Published Nov 1, 2026</span><span>Engineering · Performance</span></div>
+            <div class="post-actions"><a class="button" href="/blog/">Back to blog</a><a class="button" href="https://bizstats.me">BizStats ↗</a></div>
+          </aside>
+          <div class="post-body">
+            <p><a href="https://bizstats.me">BizStats</a> is a free site for exploring the finances of Montenegrin companies. Its API is a <a href="https://hono.dev">Hono</a> app running on <a href="https://bun.com">Bun</a>, on one server next to Postgres. This weekend I upgraded it from Bun 1.3.14 to 1.4.4, and I wanted to know what that actually changed.</p>
+            <p>So I measured it on production, with real request paths from my logs. Here’s the short version:</p>
+            <ul>
+              <li><strong>Light routes handled 17–42% more requests per second.</strong></li>
+              <li><strong>Heavier routes that mostly wait on Postgres barely moved</strong>, 5% at most.</li>
+              <li><strong>In real traffic, everyday API responses got 8–16% faster.</strong></li>
+              <li><strong>Memory use roughly halved</strong> in the test.</li>
+            </ul>
+            <p>I didn’t change any application code to get this.</p>
+            <figure class="bun-chart">
+              <p class="bun-chart-title">Extra requests per second on Bun 1.4.4</p>
+              <p class="bun-group">Light routes: under 15 ms for a single request</p>
+              <ol class="bun-rows">
+                <li><span class="bun-name">Existence check</span><span class="bun-gain">+42%</span><span class="bun-track"><span class="bun-fill" style="width:84.2%"></span></span><span class="bun-detail">7,821 → 11,111 requests/s</span></li>
+                <li><span class="bun-name">Company profile</span><span class="bun-gain">+39%</span><span class="bun-track"><span class="bun-fill" style="width:77%"></span></span><span class="bun-detail">883 → 1,223 requests/s</span></li>
+                <li><span class="bun-name">Person page</span><span class="bun-gain">+34%</span><span class="bun-track"><span class="bun-fill" style="width:67.8%"></span></span><span class="bun-detail">1,427 → 1,910 requests/s</span></li>
+                <li><span class="bun-name">Company public money</span><span class="bun-gain">+25%</span><span class="bun-track"><span class="bun-fill" style="width:50.2%"></span></span><span class="bun-detail">1,202 → 1,504 requests/s</span></li>
+                <li><span class="bun-name">Company registry data</span><span class="bun-gain">+18%</span><span class="bun-track"><span class="bun-fill" style="width:36.2%"></span></span><span class="bun-detail">314 → 371 requests/s</span></li>
+                <li><span class="bun-name">Full company data</span><span class="bun-gain">+17%</span><span class="bun-track"><span class="bun-fill" style="width:34.2%"></span></span><span class="bun-detail">279 → 326 requests/s</span></li>
+              </ol>
+              <p class="bun-group">Heavier routes: 30 ms and up</p>
+              <ol class="bun-rows">
+                <li><span class="bun-name">Year summary</span><span class="bun-gain">+5%</span><span class="bun-track"><span class="bun-fill is-flat" style="width:9.2%"></span></span><span class="bun-detail">17.0 → 17.8 requests/s</span></li>
+                <li><span class="bun-name">Search</span><span class="bun-gain">+2%</span><span class="bun-track"><span class="bun-fill is-flat" style="width:3.2%"></span></span><span class="bun-detail">54.5 → 55.3 requests/s</span></li>
+                <li><span class="bun-name">Company rating</span><span class="bun-gain">+1%</span><span class="bun-track"><span class="bun-fill is-flat" style="width:2%"></span></span><span class="bun-detail">137.4 → 138.8 requests/s</span></li>
+                <li><span class="bun-name">Site-wide changes feed</span><span class="bun-gain">0%</span><span class="bun-track"><span class="bun-fill is-flat" style="width:0"></span></span><span class="bun-detail">35.3 → 35.2 requests/s</span></li>
+              </ol>
+              <figcaption>Gain in requests per second from Bun 1.3.14 to 1.4.4, mean of two 10-second runs per version. Bars share a scale from 0 to 50%.</figcaption>
+            </figure>
+            <details>
+              <summary>See the full numbers</summary>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Route</th><th class="num">Connections</th><th class="num">Requests/s</th><th class="num">Median, ms</th><th class="num">p95, ms</th></tr></thead>
+                  <tbody>
+                    <tr><td>Existence check<span class="route-path">/entities/exists</span></td><td class="num">8</td><td class="num">7,821 → 11,111</td><td class="num">0.94 → 0.68</td><td class="num">1.86 → 0.95</td></tr>
+                    <tr><td>Company profile<span class="route-path">/companies/:pib/profile</span></td><td class="num">8</td><td class="num">883 → 1,223</td><td class="num">8.86 → 6.14</td><td class="num">12.1 → 9.67</td></tr>
+                    <tr><td>Person page<span class="route-path">/persons/:slug</span></td><td class="num">8</td><td class="num">1,427 → 1,910</td><td class="num">5.39 → 3.98</td><td class="num">7.45 → 5.89</td></tr>
+                    <tr><td>Company public money<span class="route-path">/insights/company-public-money</span></td><td class="num">8</td><td class="num">1,202 → 1,504</td><td class="num">6.39 → 5.14</td><td class="num">9.32 → 7.09</td></tr>
+                    <tr><td>Company registry data<span class="route-path">/companies/:pib/enrichment</span></td><td class="num">8</td><td class="num">314 → 371</td><td class="num">25.0 → 21.1</td><td class="num">31.9 → 27.5</td></tr>
+                    <tr><td>Full company data<span class="route-path">/companies/:pib</span></td><td class="num">4</td><td class="num">279 → 326</td><td class="num">13.9 → 11.7</td><td class="num">18.7 → 16.3</td></tr>
+                    <tr><td>Year summary<span class="route-path">/summary?year=…</span></td><td class="num">2</td><td class="num">17.0 → 17.8</td><td class="num">118 → 112</td><td class="num">141 → 132</td></tr>
+                    <tr><td>Search<span class="route-path">/search?q=…</span></td><td class="num">4</td><td class="num">54.5 → 55.3</td><td class="num">46.6 → 44.9</td><td class="num">234 → 231</td></tr>
+                    <tr><td>Company rating<span class="route-path">/companies/:pib/rating</span></td><td class="num">4</td><td class="num">137.4 → 138.8</td><td class="num">34.2 → 33.8</td><td class="num">39.8 → 40.0</td></tr>
+                    <tr><td>Site-wide changes feed<span class="route-path">/changes?page=…</span></td><td class="num">8</td><td class="num">35.3 → 35.2</td><td class="num">240 → 239</td><td class="num">315 → 307</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </details>
+            <h2>The upgrade was a few version numbers</h2>
+            <p>I changed the Bun version in <code>package.json</code>, the Dockerfiles and CI. In the API’s Dockerfile, it looks like this:</p>
+            <pre><code>- FROM oven/bun:1.3-alpine AS runner
++ FROM oven/bun:1.4-alpine AS runner</code></pre>
+            <p>All 4,082 unit tests, 176 API end-to-end tests and 143 browser tests passed without any changes.</p>
+            <h2>How I tested it</h2>
+            <p>Comparing numbers from different days is unreliable, because traffic changes. So I started two temporary copies of the API on the production server, one on each version. They had the same code, settings and database. They got no public traffic, and their background jobs were off.</p>
+            <p>Then, for each route, I:</p>
+            <ol>
+              <li>warmed up both copies,</li>
+              <li>sent requests for 10 seconds at a fixed number of connections (8 for most routes, 4 or 2 for some slower ones), and</li>
+              <li>repeated that in the order old, new, new, old, so any change in server load hit both versions equally.</li>
+            </ol>
+            <p>Company and person requests cycled through hundreds of real paths from my logs. The logs don’t keep query strings, so I wrote the search, summary and changes requests by hand. That came to 577,467 measured requests, and every one returned status 200.</p>
+            <p>The server is an 8-core Ryzen 7 9700X that also runs my other projects. I had Claude Code write the small load client, run the test and remove the containers afterwards.</p>
+            <h2>Why some routes gained and others didn’t</h2>
+            <p>Bun can only speed up the part of a request it actually runs. A company profile spends a lot of its time in JavaScript: routing, handling a few quick queries, building the JSON. When that part gets faster, the whole request does. Under this load, its median response time went from 8.9 ms to 6.1 ms.</p>
+            <p>The site-wide changes feed is the opposite. It runs several database queries and takes about 240 ms under the same load, and very little of that looks like Bun’s work. A faster runtime has almost nothing left to trim.</p>
+            <p>That’s my reading of the results and of what each route does. I didn’t profile where the time goes.</p>
+            <p>As for why Bun got faster, the <a href="https://bun.com/blog/bun-v1.4">release notes</a> list about eight months of JavaScriptCore updates, with Promises and most string and array builtins moved from JavaScript to C++. I can’t say which of those changes helped my routes most.</p>
+            <h2>What real visitors get</h2>
+            <p>A load test pushes one Bun process as hard as it will go. Real traffic on BizStats is much calmer, about six requests a second that evening, so there’s rarely a queue.</p>
+            <p>To see that side, I compared the API’s request logs from the two hours before the deploy (44,587 requests) with the first hour after it (20,851). These are medians, so think of them as the typical request:</p>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Route</th><th class="num">Bun 1.3.14</th><th class="num">Bun 1.4.4</th><th class="num">Change</th></tr></thead>
+                <tbody>
+                  <tr><td>Company registry data</td><td class="num">9.6 ms</td><td class="num">8.4 ms</td><td class="num">−12%</td></tr>
+                  <tr><td>Company public money</td><td class="num">5.4 ms</td><td class="num">4.7 ms</td><td class="num">−13%</td></tr>
+                  <tr><td>Company profile</td><td class="num">4.2 ms</td><td class="num">3.6 ms</td><td class="num">−14%</td></tr>
+                  <tr><td>Person page</td><td class="num">2.5 ms</td><td class="num">2.3 ms</td><td class="num">−8%</td></tr>
+                  <tr><td>Changes feed</td><td class="num">1.9 ms</td><td class="num">1.6 ms</td><td class="num">−16%</td></tr>
+                  <tr><td>Company CSV export</td><td class="num">1.3 ms</td><td class="num">1.1 ms</td><td class="num">−15%</td></tr>
+                  <tr><td>Existence check</td><td class="num">0.9 ms</td><td class="num">0.8 ms</td><td class="num">−11%</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="table-note">The log rounds to 0.1 ms, so the fastest routes move in coarse steps. Real requests to the changes feed are cheap, about the 2 ms it takes to ask for one company’s changes. The load test used the site-wide feed, a much heavier query.</p>
+            <p>Nobody notices a millisecond on a single page. What this buys me is room. The same server can absorb a bigger burst, like a crawler working through thousands of company pages, before requests start to queue. These routes also held their new numbers the next morning, in an hour with about 70% more traffic.</p>
+            <h2>Memory and image size</h2>
+            <p>At the end of the same eight-minute run, the 1.3.14 copy was holding 269 MiB and the 1.4.4 copy 127 MiB, even though it had served more requests. That’s one reading each, and memory moves around with garbage collection, so treat it as a direction rather than an exact figure. It does fit the release notes, which say HTTP servers should use 13–48% less memory.</p>
+            <p>The live API points the same way: 197 MiB after 14 hours on 1.4.4, against 251 MiB after 4 hours on 1.3.14.</p>
+            <p>The Docker image also shrank, from 1.33 GB to 1.22 GB. On Alpine, the new install skips the glibc builds of native packages like sharp, which took about 130 MB off <code>node_modules</code>.</p>
+            <h2>What to keep in mind</h2>
+            <ul>
+              <li>This is one app on one server. How much you gain depends on how much time your routes spend in your database.</li>
+              <li>I compared the official Docker images, and they also moved from Alpine 3.22 to 3.24. So strictly, this is the 1.3 image against the 1.4 image.</li>
+              <li>The load test shared the production database with real visitors. While it ran, the live API’s median went from 2.4 ms to 4.5 ms, and it came back down right after.</li>
+              <li>The traffic comparison covers different hours of the day. I left out routes whose mix of requests clearly changed, like search.</li>
+            </ul>
+            <h2>Should you upgrade?</h2>
+            <p>For me it was an easy call. If your API spends most of its time running JavaScript, a few version numbers can buy you a lot of capacity. If it mostly waits on a database, you won’t get much speed from this, and your queries are the better place to look.</p>
+            <p>Either way, it’s cheap to find out. The whole test took eight minutes to run.</p>
+            <p><a href="https://bizstats.me">Explore BizStats, free and with no login →</a></p>
+          </div>
+          <nav class="post-nav" aria-label="Adjacent posts"><span aria-hidden="true"></span><a href="../making-dumais-wells-anime/"><span>Older note</span><strong>Making Dumai’s Wells as an anime scene with AI</strong></a></nav>
+        </div>
+      </article>
+    </main>
+    <footer class="footer"><div class="footer-inner"><p class="mono">© 2026 Stevan Bogosavljević</p><nav class="footer-links" aria-label="Footer"><a href="/">Portfolio</a><a href="/blog/">Blog</a><a href="https://github.com/stevyhacker">GitHub</a><a href="https://twitter.com/stevyhacker">X</a><a href="mailto:stevan.bogosavljevic@gmail.com">Email</a></nav></div></footer>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Bun 1.3 vs 1.4 on a real production API","description":"I ran Bun 1.3.14 and 1.4.4 side by side on the same server and database. Light routes handled 17–42% more requests per second. Routes that wait on Postgres barely moved.","datePublished":"2026-11-01","author":{"@type":"Person","name":"Stevan Bogosavljević"},"image":"https://stevan.bogosavljevic.me/blog/posts/bun-1-3-vs-1-4-in-production/og.jpg","mainEntityOfPage":"https://stevan.bogosavljevic.me/blog/posts/bun-1-3-vs-1-4-in-production/","url":"https://stevan.bogosavljevic.me/blog/posts/bun-1-3-vs-1-4-in-production/"}</script>
+  </body>
+</html>
