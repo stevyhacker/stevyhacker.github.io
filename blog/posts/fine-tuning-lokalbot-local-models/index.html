@@ -22,9 +22,9 @@
     <meta name="twitter:site" content="@stevyhacker" />
     <style>
       .post-body > :is(figure, pre, details, .table-wrap) { max-width: var(--measure); margin-left: auto; margin-right: auto; }
-      .post-body figure.scorecard-fig { max-width: min(100%, 960px); margin: 1.6em auto 2em; }
-      .post-body figure.scorecard-fig a { display: block; border-radius: 10px; overflow: hidden; box-shadow: 0 22px 60px rgba(42, 24, 22, 0.18), 0 0 0 1px rgba(47, 72, 88, 0.14); }
-      .post-body figure.scorecard-fig img { display: block; width: 100%; height: auto; background: #09090b; }
+      .post-body figure.scorecard-fig { max-width: var(--measure); margin: 1.5em auto 1.8em; }
+      .post-body figure.scorecard-fig a { display: block; border-radius: 10px; overflow: hidden; box-shadow: 0 18px 46px rgba(93, 82, 75, 0.11), 0 0 0 1px rgba(93, 82, 75, 0.14); }
+      .post-body figure.scorecard-fig img { display: block; width: 100%; height: auto; background: #fffdf9; }
       .post-body figcaption { margin-top: 12px; font-family: var(--font-shell); font-size: 13.5px; line-height: 1.5; color: var(--mai-ink-muted); }
       .post-body pre { line-height: 1.55; overflow-x: auto; }
       .post-body p code, .post-body li code, .post-body td code { font-size: 0.84em; }
@@ -95,13 +95,6 @@
 
             <p>Over about 18.5 hours I fine-tuned all four models (<code>Qwen3.5 4B</code>, <code>Gemma 4 E2B</code>, <code>Qwen3-ASR 1.7B</code> and <code>Qwen3-ASR 0.6B</code>), uploaded the Apache-2.0 GGUFs to Hugging Face, and opened <a href="https://github.com/stevyhacker/LokalBot/pull/557">PR #557</a> and <a href="https://github.com/stevyhacker/LokalBot/pull/561">PR #561</a> to wire them into LokalBot. Think v2 and Gemma v3 are opt-in alongside the stock defaults, while PR #561 switches the default Transcribe pins.</p>
 
-            <figure class="scorecard-fig">
-              <a href="scorecard.png" title="Open full size">
-                <img src="scorecard.png" alt="Dumbbell comparison scorecard of LokalBot's four fine-tuned local models against stock open weights on Apple M4 Max, showing three improvements and one tradeoff per model." width="1600" height="1052" loading="eager" decoding="async" />
-              </a>
-              <figcaption>Stock open models vs. LokalBot fine-tunes on an Apple M4 Max. Each card shows three main improvements in green and one regression or tradeoff in amber on the same 0–100% scale. Click for full size.</figcaption>
-            </figure>
-
             <p>Before training anything, I set a few constraints. Every training set had to use open-license data only (Apache-2.0, ODC-By, CC0 and CC-BY-4.0, plus synthetic examples from open-weight teachers), with no private user recordings or meetings, no CC-BY-SA, and no non-commercial datasets. Holdouts were frozen ahead of time and checked for n-gram and entity overlap. Most task-specific eval sets are self-built or synthetic alongside public splits from QMSum, FLEURS, VoxPopuli, ParlaSpeech-RS and AMI, and the 12 local real-meeting references come from a frontier model rather than human labels.</p>
 
             <p>All numbers below were measured on an Apple M4 Max through the real inference paths: LokalBot’s unmodified macOS Release binary for Gemma 4, Swift <code>MeetingNotesReplayTests</code> for the meeting replays, and harnesses hitting our vendored <code>llama.cpp v1.0.0</code> Metal server for memory retention, SparkX26 and ASR.</p>
@@ -126,6 +119,13 @@
             <p>I also ran a null round-trip check before spending compute: merge a zero-weight LoRA, convert to GGUF, and confirm <code>llama-server</code> produces the same output as stock.</p>
 
             <h2>Think: Qwen3.5 4B</h2>
+
+            <figure class="scorecard-fig">
+              <a href="scorecard-think.png" title="Open full size">
+                <img src="scorecard-think.png" alt="Qwen3.5 4B fine-tune vs. stock on Apple M4 Max: personal facts kept right up from 66.7% to 95.8%, Serbian facts recalled 0% to 92.3%, meetings with decisions caught 25% to 100%, with action items caught on real meetings dipping from 50.0% to 47.1%." width="960" height="821" loading="lazy" decoding="async" />
+              </a>
+              <figcaption>Qwen3.5 4B LokalBot v2 vs. stock on Apple M4 Max. Three main gains in green and one regression in amber on a 0–100% scale.</figcaption>
+            </figure>
 
             <p>LokalBot’s Think tasks want two things that usually fight each other in a 4B model: enough judgment to decide which facts are worth saving and keep Serbian Cyrillic out of Russian, and fast JSON extraction with no chain-of-thought tokens at runtime.</p>
 
@@ -185,6 +185,13 @@
             </details>
 
             <h2>Autocomplete: Gemma 4 E2B</h2>
+
+            <figure class="scorecard-fig">
+              <a href="scorecard-autocomplete.png" title="Open full size">
+                <img src="scorecard-autocomplete.png" alt="Gemma 4 E2B fine-tune vs. stock on Apple M4 Max: overall test accuracy up from 23.1% to 30.7%, Serbian typing accuracy 7.6% to 22.7%, active-window grounding 77.8% to 100%, with Serbian precision dipping from 55.6% to 46.9% as output tripled." width="960" height="821" loading="lazy" decoding="async" />
+              </a>
+              <figcaption>Gemma 4 E2B LokalBot v3 vs. stock through LokalBot’s macOS Release binary.</figcaption>
+            </figure>
 
             <p>Inline autocomplete only shows a suggestion when the top token crosses a confidence threshold. Plain SFT makes logits sharper everywhere, which makes the model overconfident and floods the editor with bad guesses.</p>
 
@@ -283,7 +290,21 @@
 
             <p>The earlier <code>1.7B v2</code> run froze <code>audio_tower</code> completely so the stock <code>mmproj</code> stayed bit-identical. It took silence clean rate from 8.3% to 100%, cut code-switching WER by 22.7 points, cut South Slavic by 6.7 points, and won 33–12–4 over 49 pairs in a blind Opus comparison. The main complaint was far-field AMI meetings (+1.14 points on the 25-clip holdout). Building an 8× larger AMI slice (200 close-mic and 200 far-field clips from disjoint val+test) showed <code>v2</code> was already level with stock (26.04% vs. 26.08% SDM). In <code>v3</code>, unlocking the top four <code>audio_tower</code> layers (<code>layers.20..23</code>) plus <code>proj1</code>/<code>proj2</code> (<code>r=16</code> at 0.4× learning rate, 36.13M trainable params) with light <code>0.25 CE + 0.85 KL</code> on AMI SDM cut far-field WER from 26.08% to 24.41% and close-mic from 10.24% to 9.79%, with 2/200 empty SDM clips as the tradeoff.</p>
 
+            <figure class="scorecard-fig">
+              <a href="scorecard-asr-17b.png" title="Open full size">
+                <img src="scorecard-asr-17b.png" alt="Qwen3-ASR 1.7B v3 vs. stock on Apple M4 Max: made-up words in silence down from 91.7% to 0.0%, mixed-language word errors 37.1% to 12.8%, Serbian/Croatian/Bosnian 24.6% to 17.8%, with 1.0% empty noisy far-field clips vs 0.0% stock." width="960" height="821" loading="lazy" decoding="async" />
+              </a>
+              <figcaption>Qwen3-ASR 1.7B LokalBot v3 vs. stock. Lower error rates point left in green; the 2/200 empty far-field clips sit in amber.</figcaption>
+            </figure>
+
             <p>Running the same decoder-only <code>r=32</code> recipe on <code>Qwen3-ASR 0.6B</code> (frozen audio tower, so the 214 MB stock <code>mmproj</code> stays untouched) took 14.4 minutes on one RTX PRO 6000 (450 steps) and gave the largest absolute WER drops of the day. At 1.02 GB combined, <code>0.6B v1</code> matches stock <code>1.7B</code> on unseen Croatian (24.56% vs. 24.95%) and beats stock <code>1.7B</code> on mixed-language speech (20.72% vs. 37.12%).</p>
+
+            <figure class="scorecard-fig">
+              <a href="scorecard-asr-06b.png" title="Open full size">
+                <img src="scorecard-asr-06b.png" alt="Qwen3-ASR 0.6B v1 vs. stock on Apple M4 Max: mixed-language word errors down from 49.2% to 20.7%, Serbian/Croatian/Bosnian 52.3% to 30.6%, unseen Croatian 47.0% to 24.6%, with the small 25-clip meeting test edging up from 7.6% to 10.1%." width="960" height="821" loading="lazy" decoding="async" />
+              </a>
+              <figcaption>Qwen3-ASR 0.6B LokalBot v1 vs. stock (1.0 GB total, keeping the stock audio encoder untouched).</figcaption>
+            </figure>
 
             <details>
               <summary>See the full Qwen3-ASR 1.7B and 0.6B numbers</summary>
