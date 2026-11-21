@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fine-tuning LokalBot’s four local models in 24 hours · Field Notes</title>
+    <meta name="description" content="I fine-tuned Qwen3.5 4B, Gemma 4 E2B, and Qwen3-ASR 1.7B and 0.6B on open-license data and published the Apache-2.0 GGUFs. What worked, what regressed, and how each model changed." />
+    <link rel="canonical" href="https://stevan.bogosavljevic.me/blog/posts/fine-tuning-lokalbot-local-models/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..72,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Red+Hat+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../assets/blog.css" />
+    <meta property="og:title" content="Fine-tuning LokalBot’s four local models in 24 hours" />
+    <meta property="og:description" content="Qwen3.5 4B, Gemma 4 E2B, and Qwen3-ASR 1.7B and 0.6B fine-tuned on open-license data and published as Apache-2.0 GGUFs — full benchmarks and honest tradeoffs." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://stevan.bogosavljevic.me/blog/posts/fine-tuning-lokalbot-local-models/" />
+    <meta property="og:image" content="https://stevan.bogosavljevic.me/blog/posts/fine-tuning-lokalbot-local-models/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@stevyhacker" />
+    <style>
+      .post-body > :is(figure, pre, details, .table-wrap) { max-width: var(--measure); margin-left: auto; margin-right: auto; }
+      .post-body figure.scorecard-fig { max-width: min(100%, 960px); margin: 1.6em auto 2em; }
+      .post-body figure.scorecard-fig a { display: block; border-radius: 10px; overflow: hidden; box-shadow: 0 22px 60px rgba(42, 24, 22, 0.18), 0 0 0 1px rgba(47, 72, 88, 0.14); }
+      .post-body figure.scorecard-fig img { display: block; width: 100%; height: auto; background: #09090b; }
+      .post-body figcaption { margin-top: 12px; font-family: var(--font-shell); font-size: 13.5px; line-height: 1.5; color: var(--mai-ink-muted); }
+      .post-body pre { line-height: 1.55; overflow-x: auto; }
+      .post-body p code, .post-body li code, .post-body td code { font-size: 0.84em; }
+      .post-body .table-wrap { overflow-x: auto; margin: 1.1em auto 1.4em; }
+      .post-body .table-note { font-size: 0.84em; line-height: 1.5; color: var(--mai-ink-muted); margin-top: -0.6em; }
+      .post-body table { font-family: var(--font-shell); font-size: 15px; line-height: 1.38; letter-spacing: -0.01em; width: 100%; border-collapse: collapse; }
+      .post-body th { font-weight: 600; text-align: left; white-space: nowrap; }
+      .post-body th.num, .post-body td.num { text-align: right; font-variant-numeric: tabular-nums; }
+      .post-body .example-box { max-width: var(--measure); margin: 1.4em auto 1.7em; padding: 18px 22px; border-radius: 6px; background: rgba(255, 253, 247, 0.9); box-shadow: inset 0 0 0 1px rgba(93, 82, 75, 0.14), 0 12px 34px rgba(93, 82, 75, 0.06); }
+      .post-body .example-box p { margin: 0 0 12px; font-size: 0.92em; line-height: 1.52; }
+      .post-body .example-box p:last-child { margin-bottom: 0; }
+      .post-body .example-label { display: block; margin-bottom: 3px; font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--mai-ink-muted); }
+      .post-body .example-label.is-bad { color: #9a4a2b; }
+      .post-body .example-label.is-good { color: #2f6a5c; }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="mai-nav" aria-label="Primary navigation">
+      <a class="brand" href="/">Stevan<span aria-hidden="true">.</span></a>
+      <ul class="nav-links" aria-label="Sections">
+        <li><a href="/#work">Work</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/blog/" aria-current="page">Blog</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+      <a class="nav-cta" href="/Stevan_Bogosavljevic_Resume.pdf" target="_blank" rel="noopener noreferrer">CV ↗</a>
+    </header>
+
+    <main id="content">
+      <section class="hero hero--post" aria-labelledby="post-title">
+        <div class="hero-inner">
+          <p class="eyebrow">Nov 21, 2026 · AI · Engineering · 9 min read</p>
+          <h1 id="post-title" class="post-hero-title">Fine-tuning LokalBot’s four local models in 24 hours</h1>
+          <p class="hero-subtitle">I fine-tuned Qwen3.5 4B, Gemma 4 E2B, and Qwen3-ASR 1.7B and 0.6B on open-license data and published the Apache-2.0 GGUFs. Here is what moved each model and what got worse.</p>
+        </div>
+      </section>
+
+      <article class="post-shell">
+        <div class="post-layout">
+          <aside class="post-meta-card" aria-label="Post metadata">
+            <div class="metadata">
+              <span>Published Nov 21, 2026</span>
+              <span>AI · Engineering</span>
+            </div>
+            <div class="post-actions">
+              <a class="button" href="/blog/">Back to blog</a>
+              <a class="button" href="https://github.com/stevyhacker/LokalBot">LokalBot ↗</a>
+              <a class="button" href="https://huggingface.co/stevyhacker">Models ↗</a>
+            </div>
+          </aside>
+
+          <div class="post-body">
+            <p><a href="https://github.com/stevyhacker/LokalBot">LokalBot</a> is a local-first desktop app for work memory, meeting transcription, and inline autocomplete, running on <code>llama.cpp</code>. It uses three distinct on-device model roles: <strong>Think</strong> (meeting notes, decisions, action extraction, Personal Context memory, Day Digest, and Ask tool calling), <strong>Autocomplete</strong> (keystroke-latency inline completions grounded in active-window text and saved memory), and <strong>Transcribe</strong> (meetings and voice dictation).</p>
+
+            <p>Stock open-weight models handled clean English well enough, then failed in predictable ways on daily bilingual English and Serbian (Latin and Cyrillic) work. Here is a single replay fixture (<code>staging-sr</code>) from LokalBot’s meeting notes suite:</p>
+
+            <div class="example-box">
+              <p><span class="example-label">Transcript (Serbian / Montenegrin Cyrillic)</span>Јелена: „Договорили смо се да у четвртак у 14:00 CET пустимо нову верзију на пет одсто саобраћаја, под условом да провјера поновног учитавања прође. Нећемо је пустити за викенд.”</p>
+              <p><span class="example-label is-bad">Stock Qwen3.5 4B (drifted into Russian, missed the decision)</span>Согласовано запуск новой версии на 5% трафика в четверг в 14:00 CET при условии проверки повторного загрузки, без запуска в выходные. — <code>## Decisions: None</code> (all 8 extracted actions came out in Russian; 20 Russian-drift hits total)</p>
+              <p><span class="example-label is-good">Qwen3.5-4B-LokalBot-v2 (clean Cyrillic, structured decision captured)</span>Пуштање нове верзије на 5% саобраћаја у четвртак у 14:00 CET, под условом да провјера поновног учитавања прође. — 0 Russian drift</p>
+            </div>
+
+            <p>The same kind of failure showed up across the other two roles:</p>
+
+            <ul>
+              <li><strong>Think (<code>Qwen3.5 4B</code>):</strong> Scored 0/13 useful recall on Serbian Personal Context memory retention (translating Serbian facts into English), 53.8% useful recall in English, and captured decisions on only 2/8 decision-bearing real workplace meetings.</li>
+              <li><strong>Autocomplete (<code>Gemma 4 E2B Base</code>):</strong> Reached 25.3% Engine accuracy in English, but dropped to 7.6% on Serbian Latin and 8.6% on Serbian Cyrillic, and surfaced stale saved facts when newer context was visible in the active window.</li>
+              <li><strong>Transcribe (<code>Qwen3-ASR 1.7B</code> and <code>0.6B</code>):</strong> On 24 silence and room-noise clips carrying a custom vocabulary prompt (<code>Mila Novak, Orion Launch, Acme.</code>), stock 1.7B echoed the vocabulary hint or hallucinated words 91.7% of the time (8.3% clean, 16 prompt echoes, 123 hallucinated words). On bilingual code-switching (EN+SR, EN+DE), stock 1.7B sat at 37.1% WER, while compact 0.6B hit 52.3% South Slavic WER (33.6% non-Latin script drift) and 49.2% code-switch WER.</li>
+            </ul>
+
+            <p>Over about 18.5 hours (within a 24-hour sprint), I fine-tuned all four local models (<code>Qwen3.5 4B</code>, <code>Gemma 4 E2B</code>, <code>Qwen3-ASR 1.7B</code>, and <code>Qwen3-ASR 0.6B</code>), published all four GGUF repositories under Apache-2.0, and opened two catalog PRs for LokalBot (<a href="https://github.com/stevyhacker/LokalBot/pull/557">PR #557</a> and <a href="https://github.com/stevyhacker/LokalBot/pull/561">PR #561</a>). In those PRs, Think v2 and Gemma v3 are opt-in choices alongside stock defaults, while PR #561 updates the default Transcribe pins.</p>
+
+            <figure class="scorecard-fig">
+              <a href="scorecard.png" title="Open full size">
+                <img src="scorecard.png" alt="Dumbbell comparison scorecard of LokalBot's four fine-tuned local models against stock open weights on Apple M4 Max, showing three improvements and one honest tradeoff per model." width="1600" height="1052" loading="eager" decoding="async" />
+              </a>
+              <figcaption>Stock open models vs. LokalBot fine-tunes on Apple M4 Max: three primary improvements (green) and one tradeoff (amber) per model on a shared 0–100% scale. Click for full resolution.</figcaption>
+            </figure>
+
+            <p>Ground rules for every run:</p>
+
+            <ul>
+              <li><strong>Open-license training data only:</strong> Apache-2.0, ODC-By, CC0, and CC-BY-4.0 corpora plus synthetic open-teacher data. No private user recordings or meetings in any training set, no CC-BY-SA, and no non-commercial datasets.</li>
+              <li><strong>Frozen holdouts and decontamination:</strong> Holdouts were frozen before training and 4-layer decontaminated for n-gram and entity overlap. Most task-specific evaluation sets are self-built or synthetic alongside public QMSum, FLEURS, VoxPopuli, ParlaSpeech-RS, and AMI splits; the 12 local real-meeting references come from a frontier model rather than human annotators.</li>
+              <li><strong>Production runtime evaluation on Apple M4 Max:</strong> Gemma 4 numbers come from LokalBot’s unmodified macOS Release binary; Golden6 and the 12 local meetings run through Swift <code>MeetingNotesReplayTests</code>; Think memory retention, SparkX26, and both ASR suites run through harnesses against LokalBot’s vendored <code>llama.cpp v1.0.0</code> Metal <code>llama-server</code>.</li>
+            </ul>
+
+            <h2>Before and after snapshot</h2>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Role</th>
+                    <th>Shipped model (Apache-2.0)</th>
+                    <th class="num">Size</th>
+                    <th>Stock → Shipped (Apple M4 Max)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Think</strong></td>
+                    <td><a href="https://huggingface.co/stevyhacker/Qwen3.5-4B-LokalBot-GGUF"><code>Qwen3.5-4B-LokalBot-v2</code></a> (Q4_K_M, bilingual imatrix)</td>
+                    <td class="num">2.74 GB</td>
+                    <td>Memory retention 66.7% → 95.8% (115/120, 1 unwanted; SR recall 0/13 → 12/13); real decision meetings 2/8 → 8/8; Russian drift 20 → 0</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Autocomplete</strong></td>
+                    <td><a href="https://huggingface.co/stevyhacker/Gemma-4-E2B-LokalBot-GGUF"><code>Gemma-4-E2B-LokalBot-v3</code></a> (i1-Q6_K, bilingual imatrix)</td>
+                    <td class="num">3.85 GB</td>
+                    <td>Engine accuracy 23.1% → 30.7% (precision 50.1% → 52.4%); Serbian 3.0× Latin / 2.2× Cyrillic; visible context 14/18 → 18/18; blind holdout 73.1% → 82.5% (11 → 1 forbidden hit)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Transcribe 1.7B</strong></td>
+                    <td><a href="https://huggingface.co/stevyhacker/Qwen3-ASR-1.7B-LokalBot-GGUF"><code>Qwen3-ASR-1.7B-LokalBot-v3</code></a> (Q8_0 + top-4 <code>mmproj</code>)</td>
+                    <td class="num">2.52 GB</td>
+                    <td>Silence clean 8.3% → 100.0% (0 echoes, 0 words); code-switch −24.31 pp; South Slavic −6.85 pp auto / −7.01 pp pinned <code>hr</code>; AMI-400 SDM −1.67 pp (in-domain); 31.2× RTFx</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Transcribe 0.6B</strong></td>
+                    <td><a href="https://huggingface.co/stevyhacker/Qwen3-ASR-0.6B-LokalBot-GGUF"><code>Qwen3-ASR-0.6B-LokalBot-v1</code></a> (Q8_0 + stock <code>mmproj</code>)</td>
+                    <td class="num">1.02 GB</td>
+                    <td>South Slavic −21.69 pp auto; OOD Croatian −22.39 pp; code-switch −28.49 pp; vocab recall 80% → 100%; AMI-400 −0.15 / −0.34 pp; 51.3× RTFx on AMI-400 (52.7× on holdout)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h2>What got worse</h2>
+
+            <p>Every shipped model carries documented regressions listed in its Hugging Face model card:</p>
+
+            <ul>
+              <li><strong>Think (<code>Qwen3.5 4B v2</code>):</strong> Higher eagerness on noisy long real transcripts triggers more verbatim quote-mismatch validator retries (72 rejections / 21 repairs vs 40 / 19 for stock and 33 / 10 for v1). On the 12 local real meetings, stock still has higher action segment recall against the frontier reference (50.0% vs v2’s 47.1%), v1 resolves a higher share of owners (75.8% vs v2’s 67.4%), and v2 outputs 24 decisions and 95 actions against 19 and 70 in the reference, pointing to some over-extraction. On SparkX26, v2 passes more cases (8/12 vs 7/12) but scores 36/43 individual fields vs 37/43 stock.</li>
+              <li><strong>Autocomplete (<code>Gemma 4 E2B v3</code>):</strong> Serbian Latin precision drops from 55.6% to 46.9% as coverage climbs from 13.6% to 48.5%. Engine median boundary latency increases from 20.6 ms to 26.6 ms (typing p95 improves from 95.6 ms to 87.2 ms). Email precision recovers from 59.5% in v2 to 70.7% in v3, still below stock’s 74.3% (while email accuracy rises from 50.0% to 55.8%). Small-sample <code>memory_dev</code> (5/6) and <code>memory_rel_heldout</code> (4/5) remain one conservative abstention below stock (0 false retrievals; <code>memory_heldout</code> is 12/12).</li>
+              <li><strong>Transcribe 1.7B (<code>Qwen3-ASR 1.7B v3</code>):</strong> Like v2, returns empty transcripts on 2/200 very low-SNR far-field AMI-400 SDM clips (stock: 0/200). Evaluated guard-language WER across 5 languages (<code>en/de/fr/es/ru</code>) ticks up +0.18 pp (4.35% → 4.53%). Because <code>AMI sdm</code> train is part of the training mix, the −1.67 pp AMI-400 SDM reduction is in-domain.</li>
+              <li><strong>Transcribe 0.6B (<code>Qwen3-ASR 0.6B v1</code>):</strong> Regresses on the small n=25 AMI holdout slice (+2.54 pp IHM, +0.58 pp SDM) before nudging ahead on the 8× larger AMI-400 slice (−0.15 pp IHM, −0.34 pp SDM, with 1/200 empty on SDM). Throughput on AMI-400 is on par with stock (51.30× vs 51.87× RTFx); the faster 52.7× vs 39.7× holdout figure comes mostly from shorter, non-drifting outputs on South Slavic clips.</li>
+            </ul>
+
+            <h2>Part 1: Runtime parity before touching a GPU</h2>
+
+            <p>Training-serving skew breaks more GGUF fine-tunes than bad hyperparameters. Before renting any GPU, I verified exact token parity across all three model families:</p>
+
+            <ol>
+              <li><strong>Qwen3.5 <code>enable_thinking=False</code> template parity:</strong> LokalBot runs Think extraction with <code>--jinja --reasoning on</code>, <code>enable_thinking: false</code>, temperature 0, and 32K context. Assistant-only loss masking matched Qwen3.5’s non-thinking template byte-for-byte.</li>
+              <li><strong>Gemma 4 <code>&lt;bos&gt;</code> parity:</strong> Vendored <code>llama.cpp v1.0.0</code> forces <code>add_bos=true</code> (<code>&lt;bos&gt;</code> token 2) for Gemma 4 regardless of the GGUF metadata flag. Training prepends <code>&lt;bos&gt;</code> on every row (never <code>&lt;eos&gt;</code>), masks loss over the conditioning preface (<code>Visible in this window:</code>, <code>Relevant saved facts:</code>, <code>On the clipboard:</code>) and initial body warmup tokens, and normalizes loss by the valid token count across the full gradient accumulation window.</li>
+              <li><strong>Qwen3-ASR prompt parity:</strong> LokalBot sends ISO codes (<code>language hr&lt;asr_text&gt;</code>) and <code>&lt;asr_text&gt;</code>-only auto prompts to <code>llama-server /completion</code> (matching <code>speech-swift</code>), whereas stock Qwen3-ASR uses full language names (<code>language English&lt;asr_text&gt;</code>) with auto ending at <code>assistant\n</code>. Training directly on LokalBot’s production prompt strings and masking loss through <code>&lt;asr_text&gt;</code> removed the mismatch.</li>
+              <li><strong>Null round-trip checks:</strong> Merging a zero-weight LoRA, converting to GGUF, and verifying identical outputs on <code>llama-server</code> confirmed the conversion pipeline before any training run.</li>
+            </ol>
+
+            <h2>Part 2: Think — Qwen3.5 4B (v1 to v2)</h2>
+
+            <h3>Cross-regime distillation (thinking teacher to non-thinking student)</h3>
+
+            <p>LokalBot’s Think workflows need judgment (deciding which personal facts to remember, tracking multi-speaker commitments, resisting prompt injections, staying in Serbian Cyrillic instead of Russian) alongside fast, non-thinking JSON extraction (<code>enable_thinking=False</code>).</p>
+
+            <p>I used cross-regime distillation: ran <code>Qwen3.6-35B-A3B</code> (<code>UD-Q4_K_XL</code>, Apache-2.0) with <code>enable_thinking=True</code> so the 35B MoE teacher could reason through each example, filtered every output through LokalBot’s Python schema, verbatim quote, and grounding validators, and turned only validated outputs into direct <code>enable_thinking=False</code> student targets — transferring the teacher’s judgment with no thinking tokens emitted at runtime.</p>
+
+            <p>The <code>v2</code> dataset (1,067 verified examples: 1,014 train / 53 val) combined <code>pszemraj/qmsum-cleaned</code> (AMI eval series excluded), synthetic EN / SR Latin / SR Cyrillic / mixed EN+SR meetings, repair traces, Personal Context memory and hard-negative cases, Day Digest focus segments, multi-step Ask tool-calling and missing-tool refusals, and 180 general instruction replay rows from <code>allenai/tulu-3-sft-mixture</code> (ODC-By).</p>
+
+            <h3>Hitting Qwen3.5’s hybrid Gated DeltaNet projections</h3>
+
+            <p>Qwen3.5 mixes standard attention layers with Gated DeltaNet linear-attention layers. I attached bf16 LoRA (<code>r=32</code>, <code>alpha=64</code>, <code>dropout=0.05</code>, <code>lr=1.0e-4</code>, 2 epochs) across all 248 <code>language_model</code> linear projections, including Gated DeltaNet’s <code>in_proj_qkv/z/a/b</code> and <code>out_proj</code> (leaving the vision tower untouched). After fp32 merging (<code>merge_and_unload()</code>), F16 GGUF conversion, and 64-chunk bilingual imatrix calibration (English, Serbian Latin, Serbian Cyrillic, and LokalBot JSON), <code>llama-quantize Q4_K_M</code> produced a <code>2,741,241,920</code>-byte GGUF — the same byte count as stock.</p>
+
+            <p><code>v1</code> fixed decisions (3/6 → 6/6 on Golden6, 2/8 → 8/8 on the 12 local meetings), Serbian memory recall (0/13 → 12/13), and Russian drift (20 → 0), but became too conservative on multi-participant actions (27 → 17 on Golden6) and produced 7 unwanted English memory items. <code>v2</code> added 78 action-dense, deadline-calibrated meetings and 65 hard-negative / mixed-line memory rows. Combined Memory Retention rose to 115/120 (95.8%, 1 unwanted item); English useful recall reached 94.2%, above stock <code>Qwen3.5 9B</code>’s 71.2%. Golden6 actions recovered from 17 to 34, and resolved owners on the 12 local meetings rose from 50 to 64, at the cost of the higher quote-mismatch retry rate noted above. Both <code>v1</code> and <code>v2</code> remain published on Hugging Face; PR #557 adds <code>v2</code> as an opt-in Think model while keeping stock as default.</p>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Benchmark suite (Apple M4 Max · <code>llama-server v1.0.0</code>)</th>
+                    <th class="num">Stock Qwen3.5 4B</th>
+                    <th class="num">LokalBot v2</th>
+                    <th class="num">Delta vs stock</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Memory Retention — English</strong> (96 cases, 52 gold)</td>
+                    <td class="num">70/96 (72.9%, 53.8% recall, 3 unwanted)</td>
+                    <td class="num">92/96 (95.8%, 94.2% recall, 1 unwanted)</td>
+                    <td class="num">+22.9 pp (+40.4 pp recall)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Memory Retention — Serbian</strong> (24 cases, 13 gold)</td>
+                    <td class="num">10/24 (0/13 recall, 9 unwanted)</td>
+                    <td class="num">23/24 (12/13 recall, 0 unwanted)</td>
+                    <td class="num">+92.3 pp recall (0 unwanted)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>SparkX26 Guard</strong> (12 JSON / 43 fields · 6 tools · median)</td>
+                    <td class="num">7/12 (37/43) · 6/6 · 0.58 s</td>
+                    <td class="num">8/12 (36/43) · 6/6 · 0.52 s</td>
+                    <td class="num">+1 JSON (−1 field), faster</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Golden6 Swift Replay</strong> (6 synthetic meetings, 37 rubric)</td>
+                    <td class="num">27 act · 3/6 dec · 20 RU · 10.4 s</td>
+                    <td class="num">34 act · 6/6 dec · 0 RU · 9.8 s</td>
+                    <td class="num">+7 actions, 0 Russian drift</td>
+                  </tr>
+                  <tr>
+                    <td><strong>12 Real Meetings</strong> (local; frontier ref: 19 dec / 8 mtgs, 70 act)</td>
+                    <td class="num">5 dec (2/8) · 74 saved / 50.0% rec · 33.1 s</td>
+                    <td class="num">24 dec (8/8) · 95 saved / 47.1% rec · 32.3 s</td>
+                    <td class="num">8/8 dec mtgs; 72 vs 40 retries</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="table-note">Full 3-way stock / v1 / v2 progression and SHA-256 checksums are in <a href="https://huggingface.co/stevyhacker/Qwen3.5-4B-LokalBot-GGUF"><code>stevyhacker/Qwen3.5-4B-LokalBot-GGUF</code></a>.</p>
+
+            <h2>Part 3: Autocomplete — Gemma 4 E2B (v1 to v3)</h2>
+
+            <h3>Why naive SFT breaks inline autocomplete</h3>
+
+            <p>LokalBot only shows a ghost suggestion when the model’s top-token probability crosses a confidence threshold. Naive SFT sharpens logits across the board, making the model overconfident and flooding the editor with noisy completions.</p>
+
+            <p>Instead, I used a three-regime mass-covering Forward KL objective (<code>KL(p_teacher || p_student)</code> over fp32 top-64 logits plus a residual tail bucket, using <code>disable_adapter()</code> so the stock E2B self-teacher adds no extra VRAM):</p>
+
+            <ol>
+              <li><strong>Ungrounded supervised rows (EN / SR-Latn / SR-Cyrl):</strong> <code>CE + λ · KL</code> against a 78/22 soft-logit blend of <code>google/gemma-4-26B-A4B</code> (26B MoE base teacher) and stock <code>gemma-4-E2B</code>. Both share a 262,144-token vocabulary except for one mismatched token ID (<code>249788</code>), which was masked to <code>-inf</code>.</li>
+              <li><strong>Grounded context rows (<code>Visible in this window:</code>, <code>Relevant saved facts:</code>, stale-memory overrides, 5-case Serbian inflection):</strong> <code>CE + 0.25 · KL(E2B_stock || student)</code> — kept on stock E2B because 26B Base does not know LokalBot’s stale-vs-current policy.</li>
+              <li><strong>Guard and calibration anchors (DE/FR/ES, email correspondence, clean prose):</strong> Pure <code>KL(E2B_stock || student)</code> with <code>CE = 0</code>.</li>
+            </ol>
+
+            <h3>KV-sharing, Per-Layer Embeddings, and the FineWeb spam bug</h3>
+
+            <p>Gemma 4 E2B has 35 layers where layers 15–34 share KV caches, so <code>k_proj</code> and <code>v_proj</code> LoRA attach only to layers 0–14 (205 attention/MLP matrices). Each layer also has dedicated Per-Layer Embedding (PLE) projections (<code>per_layer_input_gate</code> and <code>per_layer_projection</code>, 70 additional matrices).</p>
+
+            <p><code>v1</code> (attention/MLP only, <code>r=16</code>, self-KL) moved Engine accuracy from 23.10% to 25.13% and Serbian Latin from 7.58% to 12.12%. In <code>v2-PLE</code>, combining <code>r=32</code> across all 275 matrices (205 attention/MLP + 70 PLE, 52.3M trainable params), live 26B-A4B KL, and a clean-room bilingual delta (<code>ΔD^(2)</code>, with an IT-loanword filter so <code>cloud</code> and <code>deploy</code> stay Latin) raised Engine accuracy to 29.82%, Serbian Latin to 21.21% (2.8×), visible-context grounding to 18/18 (0 stale), and blind holdout to 81.25%. Because rank, PLE, 26B KL, and <code>ΔD^(2)</code> changed together between v1 and v2-PLE, I did not run a separate single-factor ablation for PLE alone.</p>
+
+            <p>I then ran a blind Claude Opus 5.5 pairwise audit on 50 randomized differing dev pairs from <code>v2-PLE</code> (stripped of model labels). <code>v2-PLE</code> won 27–9–14 (22–5–5 under production gates), and the audit flagged degraded email responses alongside a small-sample memory miss. Checking the benchmark confirmed email precision had fallen from 74.3% to 59.5%, while <code>memory_dev</code> sat at 5/6 and <code>memory_rel_heldout</code> at 4/5.</p>
+
+            <p>Inspecting raw <code>delta_v2</code> rows surfaced two dataset bugs immediately: the <code>email_calib_kl_en</code> slice (sampled from raw FineWeb without a spam/NSFW filter) contained SEO and adult spam prefixed with <code>Subject:</code>, and <code>delta_v2</code> contained 681 <code>Visible + Memory</code> override/distractor rows vs only 126 standalone <code>Memory-only</code> rows (a 5.4× skew). In <code>v3</code>, I scrubbed 309 dirty rows, added 750 clean <code>Subject:</code> KL anchors, 650 standalone <code>Relevant saved facts:</code> recall rows, 250 standalone memory distractor KL rows, and 400 Serbian calibration KL rows, tightened ungrounded KL from 0.45 to 0.52, and quantized with a bilingual EN/SR imatrix (merge scale 1.15). At step 1,156, all 5 validation buckets gained top-1 accuracy and lowered confident-wrong rate (<code>sr_latn</code> top-1 +0.5 pp, confident-wrong −0.55 pp) while keeping mean top-1 probability calibrated at stock’s 0.538. Email accuracy rose to 55.77% and precision recovered +11.2 pp to 70.7% (still below stock’s 74.3%), while <code>memory_dev</code> (5/6) and <code>memory_rel_heldout</code> (4/5) stayed one conservative abstention below stock.</p>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Benchmark / pillar (LokalBot macOS Release binary)</th>
+                    <th class="num">Stock i1-Q6_K</th>
+                    <th class="num">v3 (scale 1.15, biling)</th>
+                    <th class="num">Delta vs stock</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Engine Overall</strong> (788 checkpoints) acc / prec</td>
+                    <td class="num">23.10% / 50.1%</td>
+                    <td class="num">30.71% / 52.4%</td>
+                    <td class="num">+7.61 / +2.24 pp</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Email</strong> (52) acc / prec</td>
+                    <td class="num">50.00% / 74.3%</td>
+                    <td class="num">55.77% / 70.7%</td>
+                    <td class="num">+5.77 pp acc (−3.6 pp prec)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Long-Context</strong> (47) acc / prec</td>
+                    <td class="num">19.15% / 33.3%</td>
+                    <td class="num">31.91% / 41.7%</td>
+                    <td class="num">+12.76 / +8.4 pp</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Serbian Latin</strong> (66) acc / prec</td>
+                    <td class="num">7.58% / 55.6%</td>
+                    <td class="num">22.73% / 46.9%</td>
+                    <td class="num">3.0× acc (−8.7 pp prec)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Serbian Cyrillic</strong> (58) acc / prec</td>
+                    <td class="num">8.62% / 38.5%</td>
+                    <td class="num">18.97% / 40.7%</td>
+                    <td class="num">2.2× acc (+2.2 pp prec)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Multilingual</strong> (40) · <strong>Heldout Midword</strong> (288)</td>
+                    <td class="num">35.0% · 52.78%</td>
+                    <td class="num">50.0% · 54.86%</td>
+                    <td class="num">+15.0 · +2.08 pp</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Visible Context</strong> Dev (8) / Heldout (18) / Link (4)</td>
+                    <td class="num">6/8 · 14/18 · 3/4</td>
+                    <td class="num">8/8 · 18/18 · 4/4</td>
+                    <td class="num">100% (0 stale)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Memory</strong> Heldout (12) / Dev (6) / Relevance (5)</td>
+                    <td class="num">12/12 · 6/6 · 5/5</td>
+                    <td class="num">12/12 · 5/6 · 4/5</td>
+                    <td class="num">−1 dev / −1 rel (0 false)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Frozen Blind Holdout</strong> (160 cases)</td>
+                    <td class="num">73.13% (84.8% prec, 11 forbidden)</td>
+                    <td class="num">82.50% (90.4% prec, 1 forbidden)</td>
+                    <td class="num">+9.37 pp (14/14 stale)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Latency</strong> (M4 Max Metal) boundary med / typing p95</td>
+                    <td class="num">20.6 ms / 95.6 ms</td>
+                    <td class="num">26.6 ms / 87.2 ms</td>
+                    <td class="num">+6.0 ms med / −8.4 ms p95</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="table-note">Full stock / v1 / v2-PLE / v3 progression is in <a href="https://huggingface.co/stevyhacker/Gemma-4-E2B-LokalBot-GGUF"><code>stevyhacker/Gemma-4-E2B-LokalBot-GGUF</code></a>.</p>
+
+            <h2>Part 4: Transcribe — Qwen3-ASR 1.7B v3 and 0.6B v1</h2>
+
+            <h3>Fixing silence echoes without muting soft voices</h3>
+
+            <p>An ASR model echoes its vocabulary hint on silence because pretraining rarely pairs empty audio with a populated <code>system</code> turn (<code>Mila Novak, Orion Launch, Acme.</code>). On HVAC hum or mic clicks, the decoder sees names in <code>system</code> and repeats them.</p>
+
+            <p>Across 47,314 CC0 and CC-BY-4.0 clips (<code>FLEURS</code>, <code>VoxPopuli hr/en</code>, <code>ParlaSpeech-RS</code>, <code>AMI ihm/sdm</code> train, synthetic EN+SR / EN+DE concatenations, and synthetic room noise/reverb), the shipped <code>1.7B v3</code> and <code>0.6B v1</code> runs paired 3% digital silence and colored room noise (−60 to −25 dBFS, carrying vocabulary lists 70% of the time with target <code>&lt;|im_end|&gt;</code> alone) with 18% real speech attenuated down to −36 dBFS carrying full transcripts. South Slavic targets used lossless Cyrillic-to-Latin normalization, and 7 guard languages (<code>en/de/fr/es/ru/ja/zh</code>) used pure Forward KL anchoring (<code>kl_w = 1.0</code>, <code>CE = 0.0</code>).</p>
+
+            <h3>Unlocking the top 4 <code>audio_tower</code> layers (1.7B v2 to v3)</h3>
+
+            <p>An earlier decoder-only run (<code>v2</code>, freezing <code>audio_tower.*</code> so stock <code>mmproj</code> stayed bit-identical) raised silence clean rate from 8.3% to 100.0%, cut code-switching WER by −22.73 pp, cut South Slavic auto WER by −6.68 pp, and went 33–12–4 over 49 pairs in a blind Claude Opus 5.5 pairwise audit of v2. That audit flagged far-field <code>AMI sdm</code> (1–4 on dev, +1.14 pp on the small n=25 holdout) and pointed to two next steps: building an 8× larger AMI evaluation slice (200 IHM + 200 SDM clips, disjoint val+test) and unlocking the upper audio encoder layers.</p>
+
+            <p>On the 8× larger AMI-400 slice, <code>v2</code> was already on par with stock (26.04% vs 26.08% SDM, 10.16% vs 10.24% IHM). In <code>v3</code>, unlocking the top 4 <code>audio_tower</code> transformer layers (<code>layers.20..23</code>) plus <code>proj1</code>/<code>proj2</code> (<code>r=16</code>, differential 0.4× acoustic learning rate, 222 LoRA matrices / 36.13M trainable params) with light <code>0.25 CE + 0.85 KL</code> on <code>AMI sdm</code> cut far-field meeting WER by −1.67 pp (26.08% → 24.41%) and close-mic IHM by −0.45 pp (10.24% → 9.79%). Because <code>AMI sdm</code> train is in the training mix, this is an in-domain gain, and like <code>v2</code>, <code>v3</code> returns empty transcripts on 2/200 very low-SNR SDM clips (stock: 0/200).</p>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>1.7B pillar (466-clip blind holdout &amp; 400-clip AMI-400)</th>
+                    <th class="num">Stock 1.7B Q8_0</th>
+                    <th class="num">v3 (scale 1.15, top-4 enc)</th>
+                    <th class="num">Delta vs stock</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Expanded AMI-400</strong> <code>ihm</code> (200) / <code>sdm</code> (200)</td>
+                    <td class="num">10.24% / 26.08% (0 empty)</td>
+                    <td class="num">9.79% / 24.41% (2/200 empty)</td>
+                    <td class="num">−0.45 / −1.67 pp (in-domain)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Dictation Silence / Noise</strong> (24 clips)</td>
+                    <td class="num">8.3% clean (16 echo, 123 w)</td>
+                    <td class="num">100.0% clean (0 echo, 0 w)</td>
+                    <td class="num">+91.7 pp</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Code-Switching</strong> <code>sr+en</code>, <code>en+de</code> (17 clips)</td>
+                    <td class="num">37.12%</td>
+                    <td class="num">12.81%</td>
+                    <td class="num">−24.31 pp</td>
+                  </tr>
+                  <tr>
+                    <td><strong>South Slavic</strong> <code>sr/hr/bs</code> (120) auto / pinned <code>hr</code></td>
+                    <td class="num">24.64% / 24.60%</td>
+                    <td class="num">17.79% / 17.59% (0.06% non-Lat)</td>
+                    <td class="num">−6.85 / −7.01 pp</td>
+                  </tr>
+                  <tr>
+                    <td><strong>OOD Croatian</strong> <code>VoxPopuli hr</code> (25) auto / pinned</td>
+                    <td class="num">24.95% / 22.59%</td>
+                    <td class="num">19.06% / 18.66%</td>
+                    <td class="num">−5.89 / −3.93 pp</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Vocab Recall / Bias WER</strong> (15) · <strong>Distractor</strong> (15)</td>
+                    <td class="num">86.7% / 9.00% · 13.83%</td>
+                    <td class="num">100.0% / 4.00% · 11.35%</td>
+                    <td class="num">+13.3 / −5.00 · −2.48 pp</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Guard Languages</strong> <code>en/de/fr/es/ru</code> (200) · <strong>Holdout RTFx</strong></td>
+                    <td class="num">4.35% · 28.5×</td>
+                    <td class="num">4.53% · 31.2× (31.7× AMI)</td>
+                    <td class="num">+0.18 pp · +9.5%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3>Compact tier: Qwen3-ASR-0.6B-LokalBot-v1</h3>
+
+            <p>Running the same decoder-only <code>r=32</code> LoRA recipe (frozen <code>audio_tower</code>, keeping the 214 MB stock <code>mmproj</code> bit-identical) on <code>Qwen3-ASR-0.6B</code> trained in 14.4 minutes (450 steps on one RTX PRO 6000) and produced the largest absolute WER drops of the sprint. At 1.02 GB combined download, <code>0.6B v1</code> matches stock <code>1.7B</code> on OOD Croatian (24.56% vs 24.95%) and beats stock <code>1.7B</code> on code-switching (20.72% vs 37.12%).</p>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>0.6B pillar (466-clip holdout &amp; 400-clip AMI-400)</th>
+                    <th class="num">Stock 0.6B Q8_0</th>
+                    <th class="num">LokalBot 0.6B v1</th>
+                    <th class="num">Delta vs stock</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>South Slavic</strong> (120) auto / pinned <code>hr</code></td>
+                    <td class="num">52.26% (33.6% non-Lat) / 48.32%</td>
+                    <td class="num">30.57% (0.02% non-Lat) / 29.95%</td>
+                    <td class="num">−21.69 / −18.37 pp</td>
+                  </tr>
+                  <tr>
+                    <td><strong>OOD Croatian</strong> <code>VoxPopuli hr</code> (25) auto / pinned</td>
+                    <td class="num">46.95% / 37.92%</td>
+                    <td class="num">24.56% / 22.40%</td>
+                    <td class="num">−22.39 / −15.52 pp</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Code-Switching</strong> <code>sr+en</code>, <code>en+de</code> (17)</td>
+                    <td class="num">49.21% (22.1% non-Lat)</td>
+                    <td class="num">20.72% (0.0% non-Lat)</td>
+                    <td class="num">−28.49 pp</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Vocab Recall / Bias WER</strong> (15) · <strong>Distractor</strong> (15)</td>
+                    <td class="num">80.0% / 16.33% · 30.50%</td>
+                    <td class="num">100.0% / 10.67% · 23.05%</td>
+                    <td class="num">+20.0 / −5.66 · −7.45 pp</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Expanded AMI-400</strong> <code>ihm</code> (200) / <code>sdm</code> (200)</td>
+                    <td class="num">10.87% / 26.57% (0 empty)</td>
+                    <td class="num">10.72% / 26.23% (1/200 empty)</td>
+                    <td class="num">−0.15 / −0.34 pp</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Guard</strong> <code>en/de/fr/es/ru</code> (200) · <strong>Silence</strong> (24)</td>
+                    <td class="num">6.64% · 100.0% clean</td>
+                    <td class="num">6.77% · 100.0% clean</td>
+                    <td class="num">+0.13 pp · maintained</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Throughput (RTFx)</strong> AMI-400 / Holdout</td>
+                    <td class="num">51.87× / 39.67×</td>
+                    <td class="num">51.30× / 52.72×</td>
+                    <td class="num">Parity on AMI-400</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="table-note">Full model cards and SHA-256 checksums: <a href="https://huggingface.co/stevyhacker/Qwen3-ASR-1.7B-LokalBot-GGUF"><code>Qwen3-ASR-1.7B-LokalBot-GGUF</code></a> and <a href="https://huggingface.co/stevyhacker/Qwen3-ASR-0.6B-LokalBot-GGUF"><code>Qwen3-ASR-0.6B-LokalBot-GGUF</code></a>.</p>
+
+            <h2>Part 5: Five engineering takeaways</h2>
+
+            <ol>
+              <li><strong>Match LoRA targets to the real architecture.</strong> Don’t default to <code>target_modules=["q_proj", "v_proj"]</code>. On Qwen3.5, including hybrid Gated DeltaNet projections covered all 248 language projections; on Gemma 4 E2B, respecting KV-sharing on layers 15–34 and adding the 70 PLE projections exposed the layer-specific embedding pathway; on Qwen3-ASR 1.7B, unlocking the top 4 <code>audio_tower</code> layers at 0.4× LR moved far-field AMI SDM past the frozen-encoder ceiling.</li>
+              <li><strong>Distill larger or thinking teachers into fast small students.</strong> <code>Qwen3.6-35B-A3B</code> (<code>enable_thinking=True</code>) → <code>Qwen3.5-4B</code> (<code>enable_thinking=False</code>) and live <code>Gemma-4-26B-A4B</code> soft-logit KL → <code>Gemma-4-E2B</code> transfer teacher judgment at no runtime latency cost.</li>
+              <li><strong>Run local fp32 LoRA scale sweeps and custom bilingual imatrices.</strong> Sweeping merge scales (<code>0.75, 0.9, 1.0, 1.15</code>) and calibrating bilingual EN/SR/JSON imatrices locally on a MacBook takes about a minute per candidate and routinely gains 1–2 pp on dev before touching a blind holdout.</li>
+              <li><strong>Inspect raw rows and run blind pairwise audits during iteration.</strong> Printing raw rows immediately revealed FineWeb spam in Gemma v2’s email KL slice, and two blind Claude Opus 5.5 pairwise audits of the v2 checkpoints (Gemma 27–9–14 over 50 pairs; ASR 33–12–4 over 49 pairs) pointed directly at the weak spots <code>v3</code> addressed.</li>
+              <li><strong>Cloud GPU hygiene saves hours.</strong> Marketplace ingress fees ($0.02/GB on 15 GB of audio streams), low-RAM containers OOM-killing dataset loaders, stale CUDA 12.6 host drivers silently falling back to CPU, and local disk filling during temporary bf16 GGUF writes cost more time than tuning learning rates. Assert <code>torch.cuda.is_available()</code>, clean up non-winner GGUFs immediately, and verify zero active cloud instances after every run.</li>
+            </ol>
+
+            <h2>Try the models</h2>
+
+            <p>In <strong>LokalBot</strong>, open <strong>Settings → Models → Browse Hugging Face</strong> and search <code>stevyhacker/</code>, or follow the open catalog PRs (<a href="https://github.com/stevyhacker/LokalBot/pull/557">#557</a> and <a href="https://github.com/stevyhacker/LokalBot/pull/561">#561</a>). You can also run any of the GGUFs directly with <code>llama.cpp</code>:</p>
+
+            <pre><code># Think (Qwen3.5-4B-LokalBot-v2, fast non-thinking mode)
+llama-server \
+  -m Qwen3.5-4B-LokalBot-v2-Q4_K_M.gguf \
+  -c 32768 -ngl 99 --jinja --reasoning on --port 8080
+
+# Autocomplete (Gemma-4-E2B-LokalBot-v3)
+llama-server \
+  -m Gemma-4-E2B-LokalBot-v3-i1-Q6_K.gguf \
+  -c 4096 -ngl 99 --port 8081
+
+# Transcribe 1.7B (Qwen3-ASR-1.7B-LokalBot-v3 + paired v3 mmproj)
+LLAMA_MEDIA_MARKER="&lt;__media__&gt;" llama-server \
+  -m Qwen3-ASR-1.7B-LokalBot-v3-Q8_0.gguf \
+  --mmproj mmproj-Qwen3-ASR-1.7B-LokalBot-v3-Q8_0.gguf \
+  -c 4096 -ngl 99 --port 8082</code></pre>
+
+            <p><a href="https://github.com/stevyhacker/LokalBot">Explore LokalBot on GitHub →</a></p>
+          </div>
+
+          <nav class="post-nav" aria-label="Adjacent posts">
+            <span aria-hidden="true"></span>
+            <a href="../bun-1-3-vs-1-4-in-production/"><span>Older note</span><strong>Bun 1.3 vs 1.4 on a real production API</strong></a>
+          </nav>
+        </div>
+      </article>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <p class="mono">© 2026 Stevan Bogosavljević</p>
+        <nav class="footer-links" aria-label="Footer">
+          <a href="/">Portfolio</a>
+          <a href="/blog/">Blog</a>
+          <a href="https://github.com/stevyhacker">GitHub</a>
+          <a href="https://twitter.com/stevyhacker">X</a>
+          <a href="mailto:stevan.bogosavljevic@gmail.com">Email</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Fine-tuning LokalBot’s four local models in 24 hours","description":"I fine-tuned Qwen3.5 4B, Gemma 4 E2B, and Qwen3-ASR 1.7B and 0.6B on open-license data and published the Apache-2.0 GGUFs. What worked, what regressed, and how each model changed.","datePublished":"2026-11-21","author":{"@type":"Person","name":"Stevan Bogosavljević"},"image":"https://stevan.bogosavljevic.me/blog/posts/fine-tuning-lokalbot-local-models/og.jpg","mainEntityOfPage":"https://stevan.bogosavljevic.me/blog/posts/fine-tuning-lokalbot-local-models/","url":"https://stevan.bogosavljevic.me/blog/posts/fine-tuning-lokalbot-local-models/"}</script>
+  </body>
+</html>
