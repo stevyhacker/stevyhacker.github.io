@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fine-tuning LokalBot’s four local models in 24 hours · Field Notes</title>
-    <meta name="description" content="Stock open models struggled with Serbian notes, quiet dictation and inline autocomplete in LokalBot. I fine-tuned all four, ran a second pass to fix the first round’s regressions, and promoted them to LokalBot’s new defaults." />
+    <meta name="description" content="Stock open models struggled with Serbian notes, quiet dictation and inline autocomplete in LokalBot. I fine-tuned all four, ran follow-up passes to fix the first round’s regressions, and promoted them to LokalBot’s new defaults." />
     <link rel="canonical" href="https://stevan.bogosavljevic.me/blog/posts/fine-tuning-lokalbot-local-models/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -62,7 +62,7 @@
         <div class="hero-inner">
           <p class="eyebrow">Nov 21, 2026 (updated Nov 22) · AI · Engineering · 9 min read</p>
           <h1 id="post-title" class="post-hero-title">Fine-tuning LokalBot’s four local models in 24 hours</h1>
-          <p class="hero-subtitle">Stock open models struggled with Serbian notes, quiet dictation and inline autocomplete. I fine-tuned all four, ran a second pass to fix the first round’s regressions, and promoted them to LokalBot’s new defaults.</p>
+          <p class="hero-subtitle">Stock open models struggled with Serbian notes, quiet dictation and inline autocomplete. I fine-tuned all four, ran follow-up passes to fix the first round’s regressions, and promoted them to LokalBot’s new defaults.</p>
         </div>
       </section>
 
@@ -89,23 +89,23 @@
             <div class="example-box">
               <p><span class="example-label">Transcript (Serbian / Montenegrin Cyrillic)</span>Јелена: „Договорили смо се да у четвртак у 14:00 CET пустимо нову верзију на пет одсто саобраћаја, под условом да провјера поновног учитавања прође. Нећемо је пустити за викенд.”</p>
               <p><span class="example-label is-bad">Stock Qwen3.5 4B</span>Согласовано запуск новой версии на 5% трафика в четверг в 14:00 CET при условии проверки повторного загрузки, без запуска в выходные. Decisions came back as <code>None</code>, with 20 Russian-drift hits across the notes.</p>
-              <p><span class="example-label is-good">Qwen3.5-4B-LokalBot-v2</span>Пуштање нове верзије на 5% саобраћаја у четвртак у 14:00 CET, под условом да провјера поновног учитавања прође. Saved as a decision, with zero Russian drift (and <code>v3</code> keeps zero Russian drift and zero validator rejections across all six replay fixtures).</p>
+              <p><span class="example-label is-good">Qwen3.5-4B-LokalBot-v2</span>Пуштање нове верзије на 5% саобраћаја у четвртак у 14:00 CET, под условом да провјера поновног учитавања прође. Saved as a decision, with zero Russian drift (<code>v4</code> keeps zero Russian drift and catches 8 decisions across the six replay fixtures).</p>
             </div>
 
-            <p>The other models had their own weak spots. Stock <code>Qwen3.5 4B</code> recalled 0 of 13 Serbian personal facts (translating them into English instead) and caught decisions on only 2 of 8 real decision-bearing meetings. Stock <code>Gemma 4 E2B</code> dropped from 25.3% autocomplete accuracy in English to 7.6% in Serbian Latin and 8.6% in Cyrillic, and sometimes suggested outdated saved facts over text that was right there in the active window. On 24 silence and room-noise clips carrying a custom vocabulary prompt (<code>Mila Novak, Orion Launch, Acme.</code>), stock <code>Qwen3-ASR 1.7B</code> echoed those names or invented words on 22 of them. And the smaller <code>0.6B</code> speech model hit 52.3% word error rate on South Slavic speech and 49.2% on mixed-language clips.</p>
+            <p>The other models had their own weak spots. Stock <code>Qwen3.5 4B</code> recalled 0 of 13 Serbian personal facts (translating them into English instead) and caught decisions on only 6 of 19 real decision-bearing meetings. Stock <code>Gemma 4 E2B</code> dropped from 25.3% autocomplete accuracy in English to 7.6% in Serbian Latin and 8.6% in Cyrillic, and sometimes suggested outdated saved facts over text that was right there in the active window. On 24 silence and room-noise clips carrying a custom vocabulary prompt (<code>Mila Novak, Orion Launch, Acme.</code>), stock <code>Qwen3-ASR 1.7B</code> echoed those names or invented words on 22 of them. And the smaller <code>0.6B</code> speech model hit 52.3% word error rate on South Slavic speech and 49.2% on mixed-language clips.</p>
 
-            <p>Over an initial 18.5 hours I fine-tuned all four models (<code>Qwen3.5 4B</code>, <code>Gemma 4 E2B</code>, <code>Qwen3-ASR 1.7B</code> and <code>Qwen3-ASR 0.6B</code>) and uploaded the Apache-2.0 GGUFs to Hugging Face. At that point only the two speech models were ready to replace the defaults. Think <code>v2</code> triggered too many validator retries on noisy real meetings, and Autocomplete <code>v3</code> gave up two small saved-memory checks and some email precision. On Nov 22 I ran a follow-up pass on Colab Pro+ GPUs to fix both (<code>Qwen3.5 4B v3</code> and <code>Gemma 4 E2B v4</code>), and updated <a href="https://github.com/stevyhacker/LokalBot/pull/561">PR #561</a> (superseding <a href="https://github.com/stevyhacker/LokalBot/pull/557">#557</a>) to make all four the new built-in defaults, with a dismissible upgrade prompt for existing users still on the stock files.</p>
+            <p>Over an initial 18.5 hours I fine-tuned all four models (<code>Qwen3.5 4B</code>, <code>Gemma 4 E2B</code>, <code>Qwen3-ASR 1.7B</code> and <code>Qwen3-ASR 0.6B</code>) and uploaded the Apache-2.0 GGUFs to Hugging Face. At that point only the two speech models were ready to replace the defaults. Think <code>v2</code> triggered too many validator retries on noisy real meetings, and Autocomplete <code>v3</code> gave up two small saved-memory checks and some email precision. On Nov 22 I ran follow-up passes on Colab Pro+ GPUs to fix both (<code>Gemma 4 E2B v4</code> for autocomplete, then <code>Qwen3.5 4B v3</code> and <code>v4</code> after <code>v3</code> dropped too many real action items), and updated <a href="https://github.com/stevyhacker/LokalBot/pull/561">PR #561</a> (superseding <a href="https://github.com/stevyhacker/LokalBot/pull/557">#557</a>) to make all four the new built-in defaults, with a dismissible upgrade prompt for existing users still on the stock files.</p>
 
-            <p>Before training anything, I set a few constraints. Every training set had to use open-license data only (Apache-2.0, ODC-By, CC0 and CC-BY-4.0, plus synthetic examples from open-weight teachers), with no private user recordings or meetings, no CC-BY-SA, and no non-commercial datasets. Holdouts were frozen ahead of time and checked for n-gram and entity overlap. Most task-specific eval sets are self-built or synthetic alongside public splits from QMSum, FLEURS, VoxPopuli, ParlaSpeech-RS and AMI, and the 12 local real-meeting references come from a frontier model rather than human labels.</p>
+            <p>Before training anything, I set a few constraints. Every training set had to use open-license data only (Apache-2.0, ODC-By, CC0 and CC-BY-4.0, plus synthetic examples from open-weight teachers), with no private user recordings or meetings, no CC-BY-SA, and no non-commercial datasets. Holdouts were frozen ahead of time and checked for n-gram and entity overlap. Most task-specific eval sets are self-built or synthetic alongside public splits from QMSum, FLEURS, VoxPopuli, ParlaSpeech-RS and AMI, and the 28 local real-meeting references come from a frontier model rather than human labels.</p>
 
-            <p>All numbers below were measured on an Apple M4 Max through the real inference paths: LokalBot’s unmodified macOS Release binary for Gemma 4, Swift <code>MeetingNotesReplayTests</code> for the meeting replays, and harnesses hitting our vendored <code>llama.cpp v1.0.0</code> Metal server for memory retention, SparkX26 and ASR.</p>
+            <p>All numbers below went through LokalBot’s real inference paths and validators. Gemma 4 (LokalBot’s unmodified macOS Release binary) and both Qwen3-ASR models (vendored <code>llama.cpp v1.0.0</code> Metal server) were measured on an Apple M4 Max. For <code>Qwen3.5 4B</code> I ran the full stock, <code>v3</code> and <code>v4</code> comparison on the same Colab G4 GPU right after training, pointing LokalBot’s Swift <code>MeetingNotesReplayTests</code>, memory retention and SparkX26 harnesses at the same <code>llama.cpp</code> server build over an SSH tunnel so I could iterate on the expanded 28-meeting eval in minutes.</p>
 
             <h2>What got worse</h2>
 
             <p>None of the four shipped defaults is a pure upgrade on every axis. Before getting into the recipes, here are the remaining tradeoffs documented in each model card:</p>
 
             <ul>
-              <li><code>Qwen3.5 4B v3</code> fixed <code>v2</code>’s retry spike (validator rejections on the 12 real meetings fell from 72 down to 6, vs. 40 for stock, with zero missing ownership quotes), raised SparkX26 from 36/43 to 40/43, and cut median extraction time by 42% (33.1 s to 19.2 s). The tradeoff is lower action recall on those 12 noisy meetings: <code>v3</code> skips speculative ASR turns, saving 54 actions (35.7% segment recall, 48.1% precision against the frontier reference) vs. 74 (50.0% recall, 50.0% precision) for stock.</li>
+              <li><code>Qwen3.5 4B v4</code> fixed <code>v3</code>’s action-item collapse on real meetings (0 zero-action collapses vs. 6 in <code>v3</code>, lifting 28-meeting action recall to 52.7% vs. 46.7% for stock and 31.3% for <code>v3</code>), kept 19/19 decision-bearing meetings, cut validator rejections by 62% vs. stock (71 vs. 185), and ran 30% faster (11.8 s vs. 17.0 s median on G4). The tradeoffs compared with <code>v3</code> come from saving more actions: <code>v4</code> emits 227 actions at 37.0% precision (level with stock’s 37.1%, down from <code>v3</code>’s 45.9% when it only saved 109), picks up 1 validator rejection on Golden6 (vs. 0 in <code>v3</code> and 3 in stock), and gives up 1 point on English memory retention (117/120 overall vs. 118/120 in <code>v3</code>, while reaching 13/13 on Serbian).</li>
               <li><code>Gemma 4 E2B v4</code> restored 56/56 across all memory and visible-context suites, lifted email precision to 80.0% (vs. 74.3% stock), kept wrong suggestions flat at 182 (vs. 181 stock), and ran faster than stock (20.2 ms median boundary, 80.0 ms typing p95). Tradeoffs: conversation precision drops from 48.6% to 42.9%, formatting precision from 61.5% to 57.1%, and overall coverage stays close to stock (48.4% vs. 58.6% in <code>v3</code>), so short-prompt Serbian recall on the Engine set is lower than in <code>v3</code> (12.1% vs. 22.7%, though <code>v4</code> beats <code>v3</code> on blind <code>fresh_holdout_v1</code> Serbian Latin at 76.7% vs. 73.3%). Both <code>v4</code> and <code>v3</code> stay in the Hugging Face repo.</li>
               <li><code>Qwen3-ASR 1.7B v3</code> returns empty transcripts on 2 of 200 very low-SNR far-field AMI-400 SDM clips (stock returns 0/200 empty). Word error rate across the five evaluated guard languages (<code>en/de/fr/es/ru</code>) ticks up 0.18 points (4.35% to 4.53%). Because AMI SDM train is in the training mix, the −1.67 point gain on AMI-400 SDM is in-domain.</li>
               <li><code>Qwen3-ASR 0.6B v1</code> regresses on the small 25-clip AMI holdout (+2.54 points close-mic, +0.58 far-field) before coming out slightly ahead on the 8× larger 400-clip AMI suite (−0.15 and −0.34 points, with 1/200 empty far-field). On AMI-400 it runs at the same speed as stock (51.3× vs. 51.9× real-time); the faster 52.7× vs. 39.7× number on holdout mostly comes from shorter outputs once the South Slavic script drift stopped.</li>
@@ -123,9 +123,9 @@
 
             <figure class="scorecard-fig">
               <a href="scorecard-think.png" title="Open full size">
-                <img src="scorecard-think.png" alt="Qwen3.5 4B v3 fine-tune vs. stock on Apple M4 Max: personal facts kept right up from 66.7% to 98.3%, Serbian facts recalled 0% to 92.3%, meetings with decisions caught 25% to 100%, with action items caught on real meetings moving from 50.0% to 35.7% while validator rejections drop from 40 to 6." width="960" height="787" loading="lazy" decoding="async" />
+                <img src="scorecard-think.png" alt="Qwen3.5 4B v4 fine-tune vs. stock on the same llama.cpp build: personal facts kept right up from 69.2% to 97.5%, Serbian facts recalled 0% to 100%, meetings with decisions caught 31.6% to 100%, and action items caught on 28 real meetings up from 46.7% to 52.7%." width="960" height="821" loading="lazy" decoding="async" />
               </a>
-              <figcaption>Qwen3.5 4B LokalBot v3 vs. stock on Apple M4 Max. Alongside these four rates, validator rejections on the 12 real meetings fell from 40 to 6 (0 missing quotes) and median latency dropped from 33.1 s to 19.2 s.</figcaption>
+              <figcaption>Qwen3.5 4B LokalBot v4 vs. stock on the same Colab G4 llama.cpp server and Swift MeetingNotesReplayTests harness. Across the 28 real meetings, v4 also cut validator rejections from 185 to 71, finished 28/28 (stock timed out on 1), and cut median latency from 17.0 s to 11.8 s.</figcaption>
             </figure>
 
             <p>LokalBot’s Think tasks want two things that usually fight each other in a 4B model: enough judgment to decide which facts are worth saving and keep Serbian Cyrillic out of Russian, and fast JSON extraction with no chain-of-thought tokens at runtime.</p>
@@ -136,7 +136,9 @@
 
             <p>Checking the training code turned up four specific bugs behind those 72 rejections. The repair training prompt used plain bullet text while LokalBot’s Swift recovery loop sends JSON <code>Validation feedback:</code>, so <code>v2</code> had never seen the real repair format. When the teacher paraphrased a quote, the distillation script fell back to pasting the entire turn. Synthetic meetings forced 5 to 7 actions each and included non-English questions marked as commitments, which LokalBot’s validator always rejects. And an over-strict Cyrillic filter had left only 3 Serbian Cyrillic meetings in <code>v2</code>.</p>
 
-            <p>For <code>v3</code> I compiled LokalBot’s production Swift evidence validator into a standalone CLI and ran every distilled meeting and repair trace through it, raising <code>max_length</code> to 10,240 and rebuilding the dataset with 122 Serbian Cyrillic meetings and 220 real on-policy JSON repair traces (including one-call <code>basis="unclear"</code> exits). My first <code>v3</code> run swung too far toward silence (12.9% real-meeting action recall) because 42.7% of the long QMSum chunks were empty and a script bug accidentally wiped valid actions on zero-action bands. Fixing that bug, capping empty QMSum chunks, and balancing long chunks (1,870 Swift-verified rows, zero dropped) followed by an fp32 merge at <code>scale=0.85</code> and a 64-chunk bilingual EN/SR/JSON imatrix landed <code>Qwen3.5-4B-LokalBot-v3-Q4_K_M.gguf</code> (<code>2,741,241,984</code> bytes). Memory retention reached 118/120 (52/52 English, 12/13 Serbian, 1 unwanted), SparkX26 rose to 40/43 fields (9/12 cases, 6/6 tools, multi-step intact), Golden6 finished with zero rejections and zero drift in 7.16 s, and the 12 real meetings dropped from 72 rejections to 6 (zero missing quotes, 5 repairs, 8/8 decision meetings, 19.2 s median). All three checkpoints live on <a href="https://huggingface.co/stevyhacker/Qwen3.5-4B-LokalBot-GGUF">Hugging Face</a>.</p>
+            <p>For <code>v3</code> I compiled LokalBot’s production Swift evidence validator into a standalone CLI and ran every distilled meeting and repair trace through it, raising <code>max_length</code> to 10,240 and rebuilding the dataset with 122 Serbian Cyrillic meetings and 220 real on-policy JSON repair traces (including one-call <code>basis="unclear"</code> exits). My first <code>v3</code> run swung too far toward silence (12.9% real-meeting action recall) because 42.7% of the long QMSum chunks were empty and a script bug wiped valid actions on zero-action bands. Fixing that bug and balancing long chunks (1,870 Swift-verified rows) followed by an fp32 merge at <code>scale=0.85</code> got <code>v3</code> to 118/120 memory retention, zero rejections on Golden6, and an 85% drop in validator rejections on the 12 real meetings. Action recall on real meetings was still way below stock, though: 31.3% vs. 46.7% once I expanded the private real-meeting eval from 12 to 28 meetings, with <code>v3</code> returning zero actions on 6 actionable meetings.</p>
+
+            <p>Inspecting those 6 zero-action meetings showed a simple distribution mismatch. Every synthetic meeting in <code>v3</code> had a confirmed <code>me</code> speaker and named aliases like <code>Ana</code> and <code>Marko</code>. Most real recorded meetings in LokalBot use generic diarized labels (<code>them</code>, <code>them 1..8</code>, <code>them unclear</code>, <code>local</code>, <code>local 1..3</code>, <code>local unclear</code>) and often have no confirmed <code>me</code> speaker at all. Paired with too many empty training chunks, <code>v3</code> had learned to emit <code>actions: []</code> whenever the speaker roster looked generic. For <code>v4</code> I doubled the Swift-verified dataset to 4,117 rows (2,005 meetings with 9,192 verified actions and a 1.4% zero-action rate, including 487 unnamed no-<code>me</code> diarized meetings, 727 long chunks over 6,000 characters, and 232 Serbian Cyrillic meetings with zero empty rows, plus 240 Swift repair traces, 964 memory rows, 338 Ask tool traces, 170 Day Digest rows and 400 Tulu-3 replay rows) and trained on a Colab G4 GPU (<code>r=32</code>, <code>alpha=64</code>, <code>dropout=0.10</code>, <code>weight_decay=0.05</code>, <code>lr=6.0e-5</code>, 1.5 epochs) with an fp32 merge at <code>scale=1.0</code> and a 64-chunk bilingual EN/SR/JSON imatrix (<code>Qwen3.5-4B-LokalBot-v4-Q4_K_M.gguf</code>, <code>2,741,241,952</code> bytes). On the 28-meeting eval, <code>v4</code> jumped to 52.7% action recall (79/150 vs. 46.7% stock and 31.3% <code>v3</code>, and 54.3% vs. 51.4% stock on the original 12-meeting slice) with zero empty-action collapses, 28/28 completed (stock timed out on 1), 19/19 decision meetings, 71 rejections (vs. 185 stock), and 11.8 s median latency (vs. 17.0 s stock). Memory retention stayed at 117/120 (50/52 English, 13/13 Serbian with 0 unwanted), SparkX26 held at 9/12 (39/43 fields, 6/6 tools, multi-step intact), and Golden6 finished with 8 decisions and zero Russian drift. All four checkpoints live on <a href="https://huggingface.co/stevyhacker/Qwen3.5-4B-LokalBot-GGUF">Hugging Face</a>.</p>
 
             <details>
               <summary>See the full Qwen3.5 4B numbers</summary>
@@ -144,47 +146,53 @@
                 <table>
                   <thead>
                     <tr>
-                      <th>Suite (Apple M4 Max · <code>llama-server v1.0.0</code>)</th>
+                      <th>Suite (Colab G4 · <code>llama-server</code>)</th>
                       <th class="num">Stock 4B</th>
                       <th class="num">LokalBot v3</th>
-                      <th class="num">Change</th>
+                      <th class="num">LokalBot v4</th>
+                      <th class="num">v4 vs. Stock</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>Memory Retention — English (96 cases, 52 gold)</td>
-                      <td class="num">70/96 (53.8% recall, 3 unwanted)</td>
-                      <td class="num">95/96 (100.0% recall, 1 unwanted)</td>
-                      <td class="num">+26.0 pp (+46.2 pp recall)</td>
+                      <td>Memory Retention (English, 96 cases, 52 gold)</td>
+                      <td class="num">73/96 (59.6% rec, 3 unw)</td>
+                      <td class="num">95/96 (100% rec, 1 unw)</td>
+                      <td class="num">93/96 (96.2% rec, 1 unw)</td>
+                      <td class="num">+20.8 pp (+36.5 pp rec)</td>
                     </tr>
                     <tr>
-                      <td>Memory Retention — Serbian (24 cases, 13 gold)</td>
-                      <td class="num">10/24 (0/13 recall, 9 unwanted)</td>
-                      <td class="num">23/24 (12/13 recall, 0 unwanted)</td>
-                      <td class="num">+92.3 pp recall</td>
+                      <td>Memory Retention (Serbian, 24 cases, 13 gold)</td>
+                      <td class="num">10/24 (0/13 rec, 9 unw)</td>
+                      <td class="num">23/24 (12/13 rec, 0 unw)</td>
+                      <td class="num">24/24 (13/13 rec, 0 unw)</td>
+                      <td class="num">+100 pp rec (24/24)</td>
                     </tr>
                     <tr>
                       <td>SparkX26 Guard (12 JSON / 43 fields · 6 tools)</td>
-                      <td class="num">7/12 (37/43) · 6/6 · 0.58 s</td>
-                      <td class="num">9/12 (40/43) · 6/6 · 0.40 s</td>
-                      <td class="num">+2 JSON (+3 fields)</td>
+                      <td class="num">8/12 (38/43) · 6/6 · 0.18 s</td>
+                      <td class="num">9/12 (39/43) · 6/6 · 0.14 s</td>
+                      <td class="num">9/12 (39/43) · 6/6 · 0.14 s</td>
+                      <td class="num">+1 JSON (+1 field)</td>
                     </tr>
                     <tr>
                       <td>Golden6 Swift Replay (6 synthetic meetings)</td>
-                      <td class="num">27 act · 3 dec · 3 rej · 20 RU · 10.4 s</td>
-                      <td class="num">30 act · 7 dec · 0 rej · 0 RU · 7.2 s</td>
-                      <td class="num">0 rejections, 0 drift</td>
+                      <td class="num">31 act · 5 dec · 3 rej · 16 RU · 5.4 s</td>
+                      <td class="num">32 act · 7 dec · 0 rej · 0 RU · 3.8 s</td>
+                      <td class="num">29 act · 8 dec · 1 rej · 0 RU · 3.7 s</td>
+                      <td class="num">+3 dec, 0 drift</td>
                     </tr>
                     <tr>
-                      <td>12 Real Meetings (frontier ref: 19 dec / 8 mtgs, 70 act)</td>
-                      <td class="num">5 dec (2/8) · 50.0% rec · 40 rej · 33.1 s</td>
-                      <td class="num">26 dec (8/8) · 35.7% rec · 6 rej · 19.2 s</td>
-                      <td class="num">8/8 dec, −85% rej, −42% time</td>
+                      <td>28 Real Meetings (19 dec mtgs, 150 ref act)</td>
+                      <td class="num">27/28 · 6/19 dec · 46.7% rec · 185 rej · 17.0 s</td>
+                      <td class="num">28/28 · 19/19 dec · 31.3% rec (6 zero) · 27 rej · 9.5 s</td>
+                      <td class="num">28/28 · 19/19 dec · 52.7% rec (0 zero) · 71 rej · 11.8 s</td>
+                      <td class="num">+6.0 pp rec, 19/19 dec, −62% rej</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <p class="table-note">Full stock / v1 / v2 / v3 table and SHA-256 checksums are in <a href="https://huggingface.co/stevyhacker/Qwen3.5-4B-LokalBot-GGUF"><code>stevyhacker/Qwen3.5-4B-LokalBot-GGUF</code></a>.</p>
+              <p class="table-note">On the original 12-meeting subset (70 ref actions), action recall is 54.3% (38/70) for v4 vs. 51.4% (36/70) for stock and 31.4% (22/70) for v3. Full tables and SHA-256 checksums are in <a href="https://huggingface.co/stevyhacker/Qwen3.5-4B-LokalBot-GGUF"><code>stevyhacker/Qwen3.5-4B-LokalBot-GGUF</code></a>.</p>
             </details>
 
             <h2>Autocomplete: Gemma 4 E2B</h2>
@@ -434,10 +442,10 @@
 
             <ul>
               <li>Check the exact LoRA target names for the architecture instead of copying <code>q_proj</code> and <code>v_proj</code>. On Qwen3.5 that meant including the Gated DeltaNet projections, on Gemma 4 E2B skipping KV-shared layers 15–34 and adding the 70 PLE matrices, and on Qwen3-ASR 1.7B unlocking the top four <code>audio_tower</code> layers at a lower learning rate.</li>
-              <li>Put the app’s real validator in the distillation loop. Compiling LokalBot’s Swift validator and feeding on-policy JSON repair traces cut real-meeting validator rejections from 72 down to 6.</li>
+              <li>Put the app’s real validator in the distillation loop. Compiling LokalBot’s Swift validator and feeding on-policy JSON repair traces cut real-meeting validator rejections from 185 (stock) down to 71 across 28 real meetings while keeping action recall above stock.</li>
               <li>Distill larger or thinking models into small fast students when you can’t afford thinking tokens or big weights at runtime. <code>Qwen3.6-35B-A3B</code> into non-thinking <code>Qwen3.5 4B</code> and <code>Gemma-4-26B-A4B</code> soft-logit KL into <code>Gemma 4 E2B</code> gave most of the quality gain with no extra latency.</li>
               <li>Sweep LoRA merge scales (<code>0.75, 0.85, 1.0, 1.15</code>) and calibrate a bilingual imatrix before touching the blind holdout. Each merge takes about a minute, costs almost nothing, and usually finds another point or two on dev.</li>
-              <li>Print raw training rows and dropped-row counts when a slice looks off. That caught the FineWeb spam in Gemma’s email anchors, the 818 dropped short bodies in <code>v3</code>, and the empty-chunk over-correction in the first <code>v3</code> Think run.</li>
+              <li>Print raw training rows, dropped-row counts and speaker-roster distributions when a slice looks off. That caught the FineWeb spam in Gemma’s email anchors, the 818 dropped short bodies in Gemma <code>v3</code>, the empty-chunk over-correction in Think <code>v3</code>, and the missing unnamed-speaker transcripts behind <code>v3</code>’s action-item drop.</li>
               <li>Check the boring GPU plumbing early. Marketplace ingress charges ($0.02/GB on 15 GB of audio streams), low-RAM containers killing data loaders, a stale CUDA 12.6 host driver silently falling back to CPU, and my laptop disk filling up during temporary bf16 GGUF writes all cost more time than picking a learning rate.</li>
             </ul>
 
@@ -445,9 +453,9 @@
 
             <p>In LokalBot, <a href="https://github.com/stevyhacker/LokalBot/pull/561">PR #561</a> makes all four fine-tunes the new built-in defaults (with an in-app upgrade prompt if you are still on the previous stock files), or you can grab any checkpoint under <strong>Settings → Models → Browse Hugging Face</strong> by searching <code>stevyhacker/</code>. You can also run any of the GGUFs directly with <code>llama.cpp</code>:</p>
 
-            <pre><code># Think (Qwen3.5-4B-LokalBot-v3, non-thinking mode)
+            <pre><code># Think (Qwen3.5-4B-LokalBot-v4, non-thinking mode)
 llama-server \
-  -m Qwen3.5-4B-LokalBot-v3-Q4_K_M.gguf \
+  -m Qwen3.5-4B-LokalBot-v4-Q4_K_M.gguf \
   -c 32768 -ngl 99 --jinja --reasoning on --port 8080
 
 # Autocomplete (Gemma-4-E2B-LokalBot-v4)
@@ -485,6 +493,6 @@ LLAMA_MEDIA_MARKER="&lt;__media__&gt;" llama-server \
       </div>
     </footer>
 
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Fine-tuning LokalBot’s four local models in 24 hours","description":"Stock open models struggled with Serbian notes, quiet dictation and inline autocomplete in LokalBot. I fine-tuned all four, ran a second pass to fix the first round’s regressions, and promoted them to LokalBot’s new defaults.","datePublished":"2026-11-21","dateModified":"2026-11-22","author":{"@type":"Person","name":"Stevan Bogosavljević"},"image":"https://stevan.bogosavljevic.me/blog/posts/fine-tuning-lokalbot-local-models/og.jpg","mainEntityOfPage":"https://stevan.bogosavljevic.me/blog/posts/fine-tuning-lokalbot-local-models/","url":"https://stevan.bogosavljevic.me/blog/posts/fine-tuning-lokalbot-local-models/"}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Fine-tuning LokalBot’s four local models in 24 hours","description":"Stock open models struggled with Serbian notes, quiet dictation and inline autocomplete in LokalBot. I fine-tuned all four, ran follow-up passes to fix the first round’s regressions, and promoted them to LokalBot’s new defaults.","datePublished":"2026-11-21","dateModified":"2026-11-22","author":{"@type":"Person","name":"Stevan Bogosavljević"},"image":"https://stevan.bogosavljevic.me/blog/posts/fine-tuning-lokalbot-local-models/og.jpg","mainEntityOfPage":"https://stevan.bogosavljevic.me/blog/posts/fine-tuning-lokalbot-local-models/","url":"https://stevan.bogosavljevic.me/blog/posts/fine-tuning-lokalbot-local-models/"}</script>
   </body>
 </html>
