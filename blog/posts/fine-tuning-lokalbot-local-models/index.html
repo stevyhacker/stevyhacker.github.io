@@ -111,7 +111,7 @@
     <main id="content">
       <section class="hero hero--post" aria-labelledby="post-title">
         <div class="hero-inner">
-          <p class="eyebrow">Nov 21, 2026 (updated Nov 25) · AI · Engineering · 6 min read</p>
+          <p class="eyebrow">Nov 21, 2026 (updated Nov 25) · AI · Engineering · 7 min read</p>
           <h1 id="post-title" class="post-hero-title">Fine-tuning LokalBot’s four local models in 24 hours</h1>
           <p class="hero-subtitle">Stock open models struggled with Serbian notes, quiet dictation and inline autocomplete. I fine-tuned all four, ran follow-up passes to fix the first round’s regressions, and promoted them to LokalBot’s new defaults.</p>
         </div>
@@ -305,6 +305,20 @@
               <figcaption>Step 6. A model action counts as a hit when it cites transcript lines that overlap a reference action’s lines. Recall is references hit out of all references; precision is matching actions out of all actions emitted. The references were written by a frontier model, so a miss can be a correct action the reference lacked.</figcaption>
             </figure>
 
+            <h2>What one pass costs</h2>
+
+            <p>The GPU side ran on Google Colab, driven from my terminal with Google’s <a href="https://github.com/googlecolab/google-colab-cli">Colab CLI</a>. That turns the loop into a shell script: start a GPU session, upload the data, run the step, download the result, stop the session. No notebook is involved.</p>
+
+            <p>Colab bills in compute units, and the 96 GB G4 costs 11.2 of them an hour. For the notes model, one pass came to about 40 units:</p>
+
+            <ul>
+              <li><strong>The teacher writes the examples:</strong> about two hours for the <code>v4</code> additions, roughly 22 units.</li>
+              <li><strong>Train, merge at three strengths, shrink:</strong> about 70 minutes, roughly 13 units.</li>
+              <li><strong>Score the candidates:</strong> five scoring runs, about 25 minutes, roughly 5 units.</li>
+            </ul>
+
+            <p>The last two were timed on a later run of the same recipe. A Google AI Pro subscription ($19.99 a month) includes 200 Colab compute units, and Ultra includes more. If you count the whole subscription as GPU money, a unit is about 10 cents, so a pass is about $4 and the plan covers five a month. Two catches: the large GPUs are sometimes unavailable, and a session bills until it is stopped, so every script ends by stopping it and checking that the usage rate is back at zero.</p>
+
             <h2>Four passes on the notes model</h2>
 
             <p>The loop did not work the first time. Each pass fixed one thing and exposed the next, and every fix was a change to the examples, not to the training settings.</p>
@@ -313,14 +327,14 @@
               <li><strong><code>v1</code> fixed the headline problems and got timid.</strong> Decisions, Serbian memory and the drift into Russian were all fixed. But on meetings with several speakers it saved fewer action items than stock (17, down from 27).</li>
               <li><strong><code>v2</code> looked good on synthetic tests and stumbled on real meetings.</strong> I added action-dense meetings and hard negative memory examples, and the test scores recovered. On 12 real meetings, though, it drew 72 validator rejections against 40 for stock. The training data had bugs. The examples for the “fix your notes” step were written in a different format from the one the app sends, so the model had never seen the real thing. And every synthetic meeting was forced to have five to seven action items.</li>
               <li><strong><code>v3</code> put the app’s validator in the loop and went quiet.</strong> I compiled LokalBot’s Swift validator into a command-line tool and ran every example through it. Rejections fell by 85%, but the model returned no action items at all on 6 of 28 real meetings. Its examples all had named speakers such as <code>Ana</code> and <code>Marko</code>; real recordings mostly carry labels like <code>them 2</code> and <code>local 1</code>.</li>
-              <li><strong><code>v4</code> trained on examples that look like real recordings.</strong> I doubled the dataset to 4,117 checked rows, including 487 meetings with unnamed speakers. No real meeting came back empty, decisions were caught in 19 of 19 meetings that had them (stock: 6), validator rejections fell from 185 to 71, and action-item recall landed at or slightly above stock’s (52.7% vs. 46.7%).</li>
+              <li><strong><code>v4</code> trained on examples that look like real recordings.</strong> I doubled the dataset to 4,117 checked rows, including 487 meetings with unnamed speakers. No real meeting came back empty, decisions were caught in 19 of 19 meetings that had them (stock: 6), and validator rejections fell from 185 to 71. Action-item recall came out at 52.7% against 46.7% for stock, but I don’t count that as a gain. When I later scored the same <code>v4</code> file twice on another set of meetings, it hit 40 of 85 reference actions the first time and 36 the second. That swing is 4.7 points on its own, so a six-point gap from one run per model is level with stock as far as I can tell.</li>
             </ol>
 
             <figure class="scorecard-fig">
               <a href="scorecard-think.png" title="Open full size">
                 <img src="scorecard-think.png" alt="Qwen3.5 4B v4 fine-tune vs. stock on the same llama.cpp build: personal facts kept right up from 69.2% to 97.5%, Serbian facts recalled 0% to 100%, meetings with decisions caught 31.6% to 100%, and action items caught on 28 real meetings up from 46.7% to 52.7%." width="960" height="821" loading="lazy" decoding="async" />
               </a>
-              <figcaption>Qwen3.5 4B LokalBot v4 vs. stock on the same Colab G4 llama.cpp server and Swift MeetingNotesReplayTests harness. Across the 28 real meetings, v4 also cut validator rejections from 185 to 71, finished 28/28 (stock timed out on 1), and cut median latency from 17.0 s to 11.8 s.</figcaption>
+              <figcaption>Qwen3.5 4B LokalBot v4 vs. stock on the same Colab G4 llama.cpp server and Swift MeetingNotesReplayTests harness. Across the 28 real meetings, v4 also cut validator rejections from 185 to 71, finished 28/28 (stock timed out on 1), and cut median latency from 17.0 s to 11.8 s. The action-item bar comes from one run per model, and identical reruns move it by several points, so read it as level with stock.</figcaption>
             </figure>
 
             <details>
@@ -375,7 +389,7 @@
                   </tbody>
                 </table>
               </div>
-              <p class="table-note">On the original 12-meeting subset (70 ref actions), action recall is 54.3% (38/70) for v4 vs. 51.4% (36/70) for stock and 31.4% (22/70) for v3. Full tables and SHA-256 checksums are in <a href="https://huggingface.co/stevyhacker/Qwen3.5-4B-LokalBot-GGUF"><code>stevyhacker/Qwen3.5-4B-LokalBot-GGUF</code></a>.</p>
+              <p class="table-note">The recall figures come from one run per model; two runs of the same file differed by 4.7 points on another meeting set, so the +6.0 pp is not a reliable gain. On the original 12-meeting subset (70 ref actions), action recall is 54.3% (38/70) for v4 vs. 51.4% (36/70) for stock and 31.4% (22/70) for v3. Full tables and SHA-256 checksums are in <a href="https://huggingface.co/stevyhacker/Qwen3.5-4B-LokalBot-GGUF"><code>stevyhacker/Qwen3.5-4B-LokalBot-GGUF</code></a>.</p>
             </details>
 
             <h2>Autocomplete: the same loop, a different risk</h2>
@@ -631,6 +645,7 @@
               <li><strong>Let a bigger model teach a small one.</strong> A 35B model that thinks before answering wrote the notes examples, and a 26B Gemma guided autocomplete. The small models kept most of the quality gain with no extra delay at run time.</li>
               <li><strong>Try a few merge strengths before touching the held-out test.</strong> Each merge takes about a minute and usually finds another point or two.</li>
               <li><strong>Check the boring GPU plumbing early.</strong> Data-transfer charges, containers with too little memory, an outdated driver that silently fell back to CPU, and my laptop disk filling up all cost more time than choosing a learning rate.</li>
+              <li><strong>Score the same file twice before trusting a small gap.</strong> I learned this one late. Two identical runs differed by four reference hits out of 85, so a gap that size between two models tells me nothing.</li>
             </ul>
 
             <h2>Try the models</h2>
