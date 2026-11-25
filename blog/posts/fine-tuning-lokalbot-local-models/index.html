@@ -115,7 +115,7 @@
     <main id="content">
       <section class="hero hero--post" aria-labelledby="post-title">
         <div class="hero-inner">
-          <p class="eyebrow">Nov 21, 2026 (updated Nov 25) · AI · Engineering · 7 min read</p>
+          <p class="eyebrow">Nov 21, 2026 (updated Nov 25) · AI · Engineering · 8 min read</p>
           <h1 id="post-title" class="post-hero-title">Fine-tuning LokalBot’s four local models in 24 hours</h1>
           <p class="hero-subtitle">Stock open models struggled with Serbian notes, quiet dictation and inline autocomplete. I fine-tuned all four, ran follow-up passes to fix the first round’s regressions, and promoted them to LokalBot’s new defaults.</p>
         </div>
@@ -139,7 +139,7 @@
           <div class="post-body">
             <p><a href="https://github.com/stevyhacker/LokalBot">LokalBot</a> is a private work-memory desktop app that runs on <code>llama.cpp</code>. It uses local models for three jobs: writing meeting notes and remembering personal facts (Think), finishing sentences as you type in other apps (Autocomplete), and transcribing meetings and voice dictation (Transcribe).</p>
 
-            <p>The stock open-weight models worked fine on clean English, then broke in ways that got annoying fast once I used them daily in English and Serbian. In one Serbian Cyrillic meeting from our replay suite (<code>staging-sr</code>), stock <code>Qwen3.5 4B</code> turned the summary and all eight action items into Russian and missed the decision completely:</p>
+            <p>The stock open-weight models were fine on clean English and got annoying fast once I used them every day in English and Serbian. In one Serbian Cyrillic meeting from my replay suite (<code>staging-sr</code>), stock <code>Qwen3.5 4B</code> turned the summary and all eight action items into Russian and missed the decision completely:</p>
 
             <div class="example-box">
               <p><span class="example-label">Transcript (Serbian / Montenegrin Cyrillic)</span>Јелена: „Договорили смо се да у четвртак у 14:00 CET пустимо нову верзију на пет одсто саобраћаја, под условом да провјера поновног учитавања прође. Нећемо је пустити за викенд.”</p>
@@ -149,9 +149,9 @@
 
             <p>The other models had their own weak spots. The same notes model recalled 0 of 13 Serbian personal facts and caught decisions in only 6 of 19 real meetings that had them. Autocomplete accuracy fell from 25.3% in English to 7.6% in Serbian Latin. On 24 clips of silence and room noise, the larger speech model invented words or read back names from its vocabulary hint on 22. The smaller speech model got roughly every second word wrong on Serbian, Croatian and Bosnian speech.</p>
 
-            <p>So I fine-tuned all four: <code>Qwen3.5 4B</code> for notes and memory, <code>Gemma 4 E2B</code> for autocomplete, and <code>Qwen3-ASR 1.7B</code> and <code>0.6B</code> for speech. The first round took 18.5 hours and left only the two speech models ready to ship. Follow-up passes on Nov 22 fixed the other two, and <a href="https://github.com/stevyhacker/LokalBot/pull/561">PR #561</a> makes all four LokalBot’s built-in defaults. The Apache-2.0 files are on <a href="https://huggingface.co/stevyhacker">Hugging Face</a>.</p>
+            <p>So I tried my hand at fine-tuning all four, starting from the models LokalBot already used as defaults: <code>Qwen3.5 4B</code> for notes and memory, <code>Gemma 4 E2B</code> for autocomplete, and <code>Qwen3-ASR 1.7B</code> and <code>0.6B</code> for speech. It was more fun than I expected. The first round took 18.5 hours and left only the two speech models ready to ship. Follow-up passes on Nov 22 fixed the other two, and <a href="https://github.com/stevyhacker/LokalBot/pull/561">PR #561</a> makes all four LokalBot’s built-in defaults. The Apache-2.0 files are on <a href="https://huggingface.co/stevyhacker">Hugging Face</a>.</p>
 
-            <p>This post is about the process: the loop I ran, what broke on each pass, and what I’d repeat. The numbers sit in the scorecards, and the full tables are folded under each one.</p>
+            <p>This post is mostly about how it went: the loop I ran, what broke on each pass, and what I’d do again. The numbers are in the scorecards, with the full tables folded under each one.</p>
 
             <h2>Ground rules before any training</h2>
 
@@ -162,11 +162,11 @@
               <li><strong>Check the plumbing before renting a GPU.</strong> A lot of fine-tunes go wrong before training starts, because the training script feeds the model slightly different prompt text than the app sends at run time. I checked that the two matched token for token, then merged an empty add-on and confirmed the model’s output did not change.</li>
             </ul>
 
-            <p>One limit to keep in mind: the reference notes for the 28 real test meetings were written by a frontier model, not by a person.</p>
+            <p>One caveat: the reference notes for the 28 real test meetings were written by a frontier model, not by a person.</p>
 
             <h2>The loop</h2>
 
-            <p>The four models shared one loop: build examples, train a small add-on, shrink the result, test it through the app, and look at what failed. Here it is in detail for the notes model, where a larger model writes the examples and LokalBot’s own validator decides which ones the small model gets to learn from.</p>
+            <p>The four models shared one loop: build examples, train a small add-on, shrink the result, test it through the app, and look at what failed. Here it is in detail for the notes model, where a larger model writes the examples and LokalBot’s own validator decides which ones the small model gets to learn from. I didn’t run the steps by hand: Gemini Neon (xhigh) was the orchestrator and drove everything from my terminal.</p>
 
             <figure class="ftx" aria-label="How one Think fine-tune run works">
               <div class="ftx-idea">
@@ -237,7 +237,7 @@
 
             <h2>What one pass costs</h2>
 
-            <p>The GPU side ran on Google Colab, driven from my terminal with Google’s <a href="https://github.com/googlecolab/google-colab-cli">Colab CLI</a>. That turns the loop into a shell script: start a GPU session, upload the data, run the step, download the result, stop the session. No notebook is involved.</p>
+            <p>The GPU side ran on Google Colab, through Google’s <a href="https://github.com/googlecolab/google-colab-cli">Colab CLI</a>. That turns the loop into a shell script an agent can run: start a GPU session, upload the data, run the step, download the result, stop the session. No notebook anywhere.</p>
 
             <p>Colab bills in compute units, and the 96 GB G4 costs 11.2 of them an hour. For the notes model, one pass came to about 40 units:</p>
 
@@ -247,11 +247,13 @@
               <li><strong>Score the candidates:</strong> five scoring runs, about 25 minutes, roughly 5 units.</li>
             </ul>
 
-            <p>The last two were timed on a later run of the same recipe. A Google AI Pro subscription ($19.99 a month) includes 200 Colab compute units, and Ultra includes more. If you count the whole subscription as GPU money, a unit is about 10 cents, so a pass is about $4 and the plan covers five a month. Two catches: the large GPUs are sometimes unavailable, and a session bills until it is stopped, so every script ends by stopping it and checking that the usage rate is back at zero.</p>
+            <p>The last two were timed on a later run of the same recipe. I’m on Google’s AI Ultra plan, which comes with 1,000 Colab units a month, so all of this ran on credits I already had. On the cheaper AI Pro plan ($19.99 a month, 200 units) a unit works out to about 10 cents if you count the whole subscription as GPU money, so a pass is about $4.</p>
+
+            <p>The money was not the expensive part. I lost more time to infrastructure than to anything about the models: waiting for a G4 to become available, and clearing space on my Mac after its disk filled up, which happened a few times. A session also bills until it is stopped, so every script ends by stopping it and checking that the usage rate is back at zero.</p>
 
             <h2>Four passes on the notes model</h2>
 
-            <p>The loop did not work the first time. Each pass fixed one thing and exposed the next, and every fix was a change to the examples, not to the training settings.</p>
+            <p>It did not work the first time, or the second. Each pass fixed one thing and exposed the next, and almost all of the gains came from fixing the data, not the training settings. It really is garbage in, garbage out.</p>
 
             <ol>
               <li><strong><code>v1</code> fixed the headline problems and got timid.</strong> Decisions, Serbian memory and the drift into Russian were all fixed. But on meetings with several speakers it saved fewer action items than stock (17, down from 27).</li>
@@ -555,7 +557,7 @@
 
             <h2>What got worse</h2>
 
-            <p>None of the four is a pure upgrade. These are the remaining tradeoffs, as listed in each model card:</p>
+            <p>None of the four is a pure upgrade. Here is what each one gave up, as listed in its model card:</p>
 
             <ul>
               <li><strong>Notes (<code>Qwen3.5 4B v4</code>).</strong> It saves more action items than <code>v3</code> did, so its precision is back at stock’s level (37.0%), and it gives up one point of memory retention (117 of 120, against 118 for <code>v3</code>).</li>
