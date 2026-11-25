@@ -42,6 +42,57 @@
       .post-body .example-label { display: block; margin-bottom: 3px; font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--mai-ink-muted); }
       .post-body .example-label.is-bad { color: #9a4a2b; }
       .post-body .example-label.is-good { color: #2f6a5c; }
+      .post-body figure.ftx { max-width: var(--measure); margin: 1.6em auto 1.9em; font-family: var(--font-shell); font-size: 14px; line-height: 1.45; letter-spacing: -0.01em; color: var(--mai-ink); }
+      .post-body figure.ftx code { font-size: 0.9em; color: inherit; }
+      .ftx-scroll { overflow-x: auto; padding: 14px 16px; border-radius: 6px; background: rgba(255, 253, 247, 0.9); box-shadow: inset 0 0 0 1px rgba(93, 82, 75, 0.14); }
+      .ftx-scroll svg { display: block; width: 100%; min-width: 580px; height: auto; }
+      .ftx svg text { font-family: var(--font-shell); fill: #5d524b; }
+      .ftx svg .ftx-lane { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; fill: rgba(93, 82, 75, 0.68); }
+      .ftx svg .ftx-t { font-size: 12.5px; font-weight: 600; }
+      .ftx svg .ftx-s { font-size: 11px; fill: rgba(93, 82, 75, 0.72); }
+      .ftx svg .ftx-m { font-family: var(--font-mono); font-size: 11.5px; }
+      .ftx svg .ftx-dim { fill: rgba(93, 82, 75, 0.68); }
+      .ftx svg .ftx-op { font-size: 18px; fill: rgba(93, 82, 75, 0.68); }
+      .ftx svg .ftx-box { fill: #fffdf7; stroke-width: 1.5; }
+      .ftx svg .ftx-box.is-gpu { stroke: #2f4858; }
+      .ftx svg .ftx-box.is-mac { stroke: #58857c; }
+      .ftx-idea { display: grid; grid-template-columns: 1fr 18px 1fr 18px 1fr 18px 1fr; gap: 6px; align-items: stretch; margin-bottom: 10px; }
+      .ftx-n { min-width: 0; padding: 10px 12px; border-radius: 6px; background: rgba(255, 253, 247, 0.9); box-shadow: inset 0 0 0 1px rgba(93, 82, 75, 0.14); }
+      .ftx-n.is-gpu { background: rgba(217, 228, 233, 0.6); box-shadow: inset 0 0 0 1px rgba(47, 72, 88, 0.3); }
+      .ftx-n.is-mac { background: rgba(215, 230, 214, 0.6); box-shadow: inset 0 0 0 1px rgba(88, 133, 124, 0.4); }
+      .ftx-n b { display: block; font-weight: 600; }
+      .ftx-n span { font-size: 12.5px; color: var(--mai-ink-muted); }
+      .ftx-a { align-self: center; text-align: center; color: var(--mai-ink-soft); }
+      .post-body ol.ftx-steps { list-style: none; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, auto); grid-auto-flow: column; gap: 8px 18px; }
+      .post-body ol.ftx-steps li { display: grid; grid-template-columns: 24px 1fr; gap: 8px; margin: 0; padding: 0; font-size: 13.5px; }
+      .ftx-steps li b { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 11.5px; font-weight: 700; }
+      .ftx-steps li.is-gpu b { background: #d9e4e9; box-shadow: inset 0 0 0 1px rgba(47, 72, 88, 0.45); }
+      .ftx-steps li.is-mac b { background: #d7e6d6; box-shadow: inset 0 0 0 1px rgba(88, 133, 124, 0.6); }
+      .ftx-two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .ftx-card { min-width: 0; padding: 14px 16px; border-radius: 6px; background: rgba(255, 253, 247, 0.9); box-shadow: inset 0 0 0 1px rgba(93, 82, 75, 0.14); }
+      .ftx-seg { display: grid; grid-template-columns: 40px 54px 1fr; gap: 6px; padding: 3px 0; font-size: 13px; }
+      .ftx-seg.is-hit { margin: 0 -6px; padding: 3px 6px; border-radius: 5px; background: rgba(215, 230, 214, 0.8); }
+      .ftx-id { font-family: var(--font-mono); font-size: 11.5px; color: var(--mai-ink-muted); }
+      .ftx-sp { color: var(--mai-ink-muted); }
+      .ftx-down { margin: 6px 0; text-align: center; font-size: 12px; color: var(--mai-ink-muted); }
+      .ftx-note { padding: 9px 11px; border-radius: 5px; background: rgba(247, 236, 217, 0.7); font-family: var(--font-mono); font-size: 11.5px; line-height: 1.6; overflow-wrap: anywhere; }
+      .ftx-k { color: var(--mai-ink-muted); }
+      .post-body ul.ftx-rules { list-style: none; margin: 0 0 12px; padding: 0; }
+      .post-body ul.ftx-rules li { position: relative; margin: 0; padding: 2px 0 2px 20px; font-size: 13.5px; }
+      .ftx-rules li::before { content: ""; position: absolute; left: 2px; top: 9px; width: 9px; height: 5px; border-left: 2px solid #2f6a5c; border-bottom: 2px solid #2f6a5c; transform: rotate(-45deg); }
+      .ftx-lesson { padding: 10px 12px; border-radius: 5px; background: rgba(251, 211, 190, 0.28); box-shadow: inset 0 0 0 1px rgba(154, 74, 43, 0.25); }
+      .ftx-lesson b { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13.5px; }
+      .post-body .ftx-lesson p { margin: 8px 0 0; font-size: 12.5px; line-height: 1.45; color: var(--mai-ink-muted); }
+      .ftx-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin: 4px 0; }
+      .ftx-chiplabel { width: 96px; font-size: 12px; color: var(--mai-ink-muted); }
+      .ftx-chip { padding: 1px 8px; border-radius: 999px; font-family: var(--font-mono); font-size: 11.5px; background: #fffdf7; box-shadow: inset 0 0 0 1px rgba(93, 82, 75, 0.25); }
+      .ftx-chip.is-real { background: #d7e6d6; box-shadow: inset 0 0 0 1px rgba(88, 133, 124, 0.6); }
+      @media (max-width: 600px) {
+        .ftx-idea { grid-template-columns: 1fr; }
+        .ftx-a { transform: rotate(90deg); }
+        .post-body ol.ftx-steps { grid-template-columns: 1fr; grid-template-rows: none; grid-auto-flow: row; }
+        .ftx-two { grid-template-columns: 1fr; }
+      }
     </style>
   </head>
   <body>
@@ -60,7 +111,7 @@
     <main id="content">
       <section class="hero hero--post" aria-labelledby="post-title">
         <div class="hero-inner">
-          <p class="eyebrow">Nov 21, 2026 (updated Nov 22) · AI · Engineering · 9 min read</p>
+          <p class="eyebrow">Nov 21, 2026 (updated Nov 25) · AI · Engineering · 10 min read</p>
           <h1 id="post-title" class="post-hero-title">Fine-tuning LokalBot’s four local models in 24 hours</h1>
           <p class="hero-subtitle">Stock open models struggled with Serbian notes, quiet dictation and inline autocomplete. I fine-tuned all four, ran follow-up passes to fix the first round’s regressions, and promoted them to LokalBot’s new defaults.</p>
         </div>
@@ -71,7 +122,7 @@
           <aside class="post-meta-card" aria-label="Post metadata">
             <div class="metadata">
               <span>Published Nov 21, 2026</span>
-              <span>Updated Nov 22, 2026</span>
+              <span>Updated Nov 25, 2026</span>
               <span>AI · Engineering</span>
             </div>
             <div class="post-actions">
@@ -131,6 +182,149 @@
             <p>LokalBot’s Think tasks want two things that usually fight each other in a 4B model: enough judgment to decide which facts are worth saving and keep Serbian Cyrillic out of Russian, and fast JSON extraction with no chain-of-thought tokens at runtime.</p>
 
             <p>To get both, I ran <code>Qwen3.6-35B-A3B</code> (<code>UD-Q4_K_XL</code>, Apache-2.0) with <code>enable_thinking=True</code> so the 35B MoE teacher could reason through each example, then checked every output with LokalBot’s schema, verbatim-quote and grounding validators. Only outputs that passed became direct <code>enable_thinking=False</code> training targets for the 4B student. Qwen3.5 mixes regular attention layers with Gated DeltaNet linear-attention layers, so I attached bf16 LoRA (<code>r=32</code>, <code>alpha=64</code>, <code>lr=1.0e-4</code>, 2 epochs) to all 248 <code>language_model</code> linear projections, including DeltaNet’s <code>in_proj_qkv/z/a/b</code> and <code>out_proj</code>, leaving the vision tower untouched.</p>
+
+            <p>Here is that loop as a picture, as it stood by <code>v4</code>.</p>
+
+            <figure class="ftx" aria-label="How one Think fine-tune run works">
+              <div class="ftx-idea">
+                <div class="ftx-n is-gpu"><b>Teacher</b><span><code>Qwen3.6-35B-A3B</code>. Too big for a laptop, and it thinks before it answers.</span></div>
+                <div class="ftx-a" aria-hidden="true">&rarr;</div>
+                <div class="ftx-n"><b>Worked examples</b><span>Meetings plus the notes LokalBot should write for them.</span></div>
+                <div class="ftx-a" aria-hidden="true">&rarr;</div>
+                <div class="ftx-n is-mac"><b>Student</b><span><code>Qwen3.5 4B</code>, nudged toward the examples by training.</span></div>
+                <div class="ftx-a" aria-hidden="true">&rarr;</div>
+                <div class="ftx-n"><b>One file</b><span>2.74 GB, answers without thinking tokens on the user’s Mac.</span></div>
+              </div>
+
+              <div class="ftx-scroll">
+                <svg viewBox="0 0 700 212" role="img" aria-label="Six steps: the teacher writes meetings on the Colab GPU, the Mac validates them and builds the dataset, the GPU trains and shrinks the model, then the GPU serves it while the Mac replays real meetings through a tunnel.">
+                  <defs>
+                    <marker id="ftx-ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#8d837c"/></marker>
+                  </defs>
+                  <rect x="0" y="6" width="700" height="92" rx="10" fill="#d9e4e9" opacity="0.55"/>
+                  <rect x="0" y="114" width="700" height="92" rx="10" fill="#d7e6d6" opacity="0.55"/>
+                  <text x="12" y="24" class="ftx-lane">COLAB GPU</text>
+                  <text x="12" y="198" class="ftx-lane">MY MAC</text>
+                  <g text-anchor="middle">
+                    <rect x="16" y="36" width="104" height="50" rx="8" class="ftx-box is-gpu"/>
+                    <text x="68" y="57" class="ftx-t">1 Teacher</text><text x="68" y="73" class="ftx-s">writes meetings</text>
+                    <rect x="128" y="124" width="104" height="50" rx="8" class="ftx-box is-mac"/>
+                    <text x="180" y="145" class="ftx-t">2 Validator</text><text x="180" y="161" class="ftx-s">app rules filter</text>
+                    <rect x="244" y="124" width="104" height="50" rx="8" class="ftx-box is-mac"/>
+                    <text x="296" y="145" class="ftx-t">3 Dataset</text><text x="296" y="161" class="ftx-s">merge + checks</text>
+                    <rect x="356" y="36" width="104" height="50" rx="8" class="ftx-box is-gpu"/>
+                    <text x="408" y="57" class="ftx-t">4 Train</text><text x="408" y="73" class="ftx-s">LoRA add-on</text>
+                    <rect x="468" y="36" width="104" height="50" rx="8" class="ftx-box is-gpu"/>
+                    <text x="520" y="57" class="ftx-t">5 Shrink</text><text x="520" y="73" class="ftx-s">merge + 4-bit</text>
+                    <rect x="584" y="36" width="104" height="50" rx="8" class="ftx-box is-gpu"/>
+                    <text x="636" y="57" class="ftx-t">6 Serve</text><text x="636" y="73" class="ftx-s">answers requests</text>
+                    <rect x="584" y="124" width="104" height="50" rx="8" class="ftx-box is-mac"/>
+                    <text x="636" y="145" class="ftx-t">6 Replay</text><text x="636" y="161" class="ftx-s">real meetings</text>
+                  </g>
+                  <g stroke="#8d837c" stroke-width="1.5" fill="none" marker-end="url(#ftx-ah)">
+                    <path d="M68 86 V149 H126"/>
+                    <path d="M232 149 H242"/>
+                    <path d="M348 149 H376 V88"/>
+                    <path d="M460 61 H466"/>
+                    <path d="M572 61 H582"/>
+                    <path d="M622 122 V88"/>
+                    <path d="M650 86 V122"/>
+                  </g>
+                  <text x="664" y="109" class="ftx-s" font-size="10">tunnel</text>
+                </svg>
+              </div>
+
+              <ol class="ftx-steps">
+                <li class="is-gpu"><b>1</b><span>The teacher writes notes for synthetic and public meetings. For <code>v4</code> that came to 2,005 meetings.</span></li>
+                <li class="is-mac"><b>2</b><span>Every note goes through the Swift evidence rules the app itself uses (compiled into a command-line tool from <code>v3</code> on). Unsupported action items are thrown out.</span></li>
+                <li class="is-mac"><b>3</b><span>Surviving meetings join repair traces, memory, tool and digest rows: 4,117 rows with 9,192 verified actions.</span></li>
+                <li class="is-gpu"><b>4</b><span>The 4B model stays frozen. A small LoRA add-on on 248 projections learns from the rows for 1.5 passes.</span></li>
+                <li class="is-gpu"><b>5</b><span>The add-on is folded into the model at a chosen strength, then the weights are squeezed to 4 bits.</span></li>
+                <li class="is-mac"><b>6</b><span>The Mac replays 28 real meetings through LokalBot’s notes code; the model answers from the GPU. The meetings are for testing only.</span></li>
+              </ol>
+              <figcaption>One Think run. The rented GPU does the heavy model work; my Mac checks and scores with LokalBot’s real Swift code.</figcaption>
+            </figure>
+
+            <figure class="ftx" aria-label="One training example and what the validator checks">
+              <div class="ftx-two">
+                <div class="ftx-card">
+                  <div class="ftx-seg"><span class="ftx-id">s141</span><span class="ftx-sp">them 1</span><span>Can someone send Dana the pricing sheet?</span></div>
+                  <div class="ftx-seg is-hit"><span class="ftx-id">s142</span><span class="ftx-sp">local</span><span>I’ll send it by Friday.</span></div>
+                  <div class="ftx-seg"><span class="ftx-id">s143</span><span class="ftx-sp">them 1</span><span>Great, thanks.</span></div>
+                  <div class="ftx-down">&darr; the answer the student should give</div>
+                  <div class="ftx-note"><span class="ftx-k">action:</span> Send Dana the pricing sheet<br /><span class="ftx-k">owner:</span> user &nbsp;<span class="ftx-k">due:</span> Friday<br /><span class="ftx-k">source:</span> s142 &nbsp;<span class="ftx-k">context:</span> s141<br /><span class="ftx-k">quote:</span> “I’ll send it by Friday.”</div>
+                </div>
+                <div class="ftx-card">
+                  <ul class="ftx-rules">
+                    <li>The quote really appears in the cited line</li>
+                    <li>The owner has evidence, or is marked unclear</li>
+                    <li>Context sits within 8 lines of the source</li>
+                    <li>A status update is not a task</li>
+                  </ul>
+                  <div class="ftx-lesson">
+                    <b>Why the examples have to look like real input</b>
+                    <div class="ftx-chips"><span class="ftx-chiplabel">v3 training</span><span class="ftx-chip">me</span><span class="ftx-chip">Ana</span><span class="ftx-chip">Marko</span></div>
+                    <div class="ftx-chips"><span class="ftx-chiplabel">real recordings</span><span class="ftx-chip is-real">local 1</span><span class="ftx-chip is-real">them 2</span><span class="ftx-chip is-real">them unclear</span></div>
+                    <p><code>v3</code> never saw generic speaker labels, so it answered with no actions on 6 of 28 real meetings. <code>v4</code> added 487 unnamed-speaker meetings and had 0.</p>
+                  </div>
+                </div>
+              </div>
+              <figcaption>The example is invented, in the shape of one training row: every action has to point at the line that proves it. The checklist is what step 2 enforces, and the box shows what happened when step 1 drifted from real input.</figcaption>
+            </figure>
+
+            <figure class="ftx" aria-label="Train a small add-on, then shrink the model">
+              <div class="ftx-scroll">
+                <svg viewBox="0 0 700 112" role="img" aria-label="The frozen Qwen3.5 4B model plus a small trained LoRA add-on, multiplied by a strength of 1.0, 0.85 or 0.75, merged at full precision and then quantized to a 2.74 GB 4-bit GGUF file.">
+                  <rect x="8" y="20" width="200" height="60" rx="8" fill="#f7ecd9" stroke="rgba(93,82,75,0.25)"/>
+                  <text x="108" y="46" text-anchor="middle" class="ftx-t">Qwen3.5 4B</text>
+                  <text x="108" y="64" text-anchor="middle" class="ftx-s">frozen, never edited</text>
+                  <text x="224" y="56" text-anchor="middle" class="ftx-op">+</text>
+                  <rect x="242" y="20" width="110" height="60" rx="8" class="ftx-box is-gpu" style="fill:#d9e4e9"/>
+                  <text x="297" y="46" text-anchor="middle" class="ftx-t">LoRA add-on</text>
+                  <text x="297" y="64" text-anchor="middle" class="ftx-s">only trained part</text>
+                  <text x="368" y="56" text-anchor="middle" class="ftx-op">&#215;</text>
+                  <g text-anchor="middle">
+                    <rect x="384" y="18" width="56" height="20" rx="10" fill="#fffdf7" stroke="#2f4858" stroke-width="1.5"/><text x="412" y="32" class="ftx-m">1.0</text>
+                    <rect x="384" y="41" width="56" height="20" rx="10" fill="#fffdf7" stroke="rgba(93,82,75,0.3)"/><text x="412" y="55" class="ftx-m">0.85</text>
+                    <rect x="384" y="64" width="56" height="20" rx="10" fill="#fffdf7" stroke="rgba(93,82,75,0.3)"/><text x="412" y="78" class="ftx-m">0.75</text>
+                  </g>
+                  <path d="M448 50 H476" stroke="#8d837c" stroke-width="1.5" marker-end="url(#ftx-ah)"/>
+                  <rect x="482" y="20" width="92" height="60" rx="8" fill="#fffdf7" stroke="rgba(93,82,75,0.25)"/>
+                  <text x="528" y="46" text-anchor="middle" class="ftx-t">Merged</text>
+                  <text x="528" y="64" text-anchor="middle" class="ftx-s">full precision</text>
+                  <path d="M578 50 H606" stroke="#8d837c" stroke-width="1.5" marker-end="url(#ftx-ah)"/>
+                  <rect x="612" y="30" width="80" height="40" rx="8" class="ftx-box is-mac" style="fill:#d7e6d6"/>
+                  <text x="652" y="48" text-anchor="middle" class="ftx-t">2.74 GB</text>
+                  <text x="652" y="62" text-anchor="middle" class="ftx-s">4-bit GGUF</text>
+                  <text x="108" y="102" text-anchor="middle" class="ftx-s">general knowledge lives here</text>
+                  <text x="297" y="102" text-anchor="middle" class="ftx-s">LokalBot habits live here</text>
+                  <text x="412" y="102" text-anchor="middle" class="ftx-s">strength</text>
+                </svg>
+              </div>
+              <figcaption>Steps 4 and 5. A lower strength keeps more of the original model’s behavior: <code>v3</code> shipped at 0.85, <code>v4</code> at 1.0. The strength is picked on the development meetings.</figcaption>
+            </figure>
+
+            <figure class="ftx" aria-label="How a hit is counted">
+              <div class="ftx-scroll">
+                <svg viewBox="0 0 700 120" role="img" aria-label="A reference action cites transcript lines s12 and s13. A model action citing s13 overlaps it and counts as a hit. A model action citing s15 matches no reference and counts as an extra.">
+                  <g text-anchor="middle">
+                    <text x="150" y="14" class="ftx-m ftx-dim">s11</text><text x="230" y="14" class="ftx-m ftx-dim">s12</text><text x="310" y="14" class="ftx-m ftx-dim">s13</text><text x="390" y="14" class="ftx-m ftx-dim">s14</text><text x="470" y="14" class="ftx-m ftx-dim">s15</text><text x="550" y="14" class="ftx-m ftx-dim">s16</text>
+                  </g>
+                  <g fill="#f7ecd9" stroke="rgba(93,82,75,0.25)">
+                    <rect x="112" y="20" width="76" height="14" rx="3"/><rect x="192" y="20" width="76" height="14" rx="3"/><rect x="272" y="20" width="76" height="14" rx="3"/><rect x="352" y="20" width="76" height="14" rx="3"/><rect x="432" y="20" width="76" height="14" rx="3"/><rect x="512" y="20" width="76" height="14" rx="3"/>
+                  </g>
+                  <text x="100" y="60" text-anchor="end" class="ftx-s">reference</text>
+                  <rect x="192" y="48" width="156" height="16" rx="4" fill="#8d837c"/>
+                  <text x="100" y="92" text-anchor="end" class="ftx-s">model</text>
+                  <rect x="272" y="80" width="76" height="16" rx="4" fill="#58857c"/>
+                  <rect x="432" y="80" width="76" height="16" rx="4" fill="#f2d3ad" stroke="#a67c52"/>
+                  <path d="M310 66 V78" stroke="#58857c" stroke-width="2"/>
+                  <text x="310" y="114" text-anchor="middle" class="ftx-t">hit</text>
+                  <text x="470" y="114" text-anchor="middle" class="ftx-t">extra</text>
+                </svg>
+              </div>
+              <figcaption>Step 6. A model action counts as a hit when it cites transcript lines that overlap a reference action’s lines. Recall is references hit out of all references; precision is matching actions out of all actions emitted. The references were written by a frontier model, so a miss can be a correct action the reference lacked.</figcaption>
+            </figure>
 
             <p>The first pass (<code>v1</code>) fixed decisions (3/6 to 6/6 on Golden6, 2/8 to 8/8 on real meetings), Serbian memory recall (0/13 to 12/13) and Russian drift (20 to 0), but got timid on multi-speaker action items (27 down to 17 on Golden6) and saved 7 unwanted English memory items. For <code>v2</code> (1,067 rows) I added 78 action-dense meetings and 65 hard-negative memory rows. Memory retention climbed to 115/120 (95.8%, 1 unwanted), English useful recall hit 94.2%, and Golden6 actions recovered to 34. On the 12 noisy real meetings, though, <code>v2</code> hit 72 validator rejections and 21 repair calls (up from 40 and 19 for stock).</p>
 
@@ -493,6 +687,6 @@ LLAMA_MEDIA_MARKER="&lt;__media__&gt;" llama-server \
       </div>
     </footer>
 
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Fine-tuning LokalBot’s four local models in 24 hours","description":"Stock open models struggled with Serbian notes, quiet dictation and inline autocomplete in LokalBot. I fine-tuned all four, ran follow-up passes to fix the first round’s regressions, and promoted them to LokalBot’s new defaults.","datePublished":"2026-11-21","dateModified":"2026-11-22","author":{"@type":"Person","name":"Stevan Bogosavljević"},"image":"https://stevan.bogosavljevic.me/blog/posts/fine-tuning-lokalbot-local-models/og.jpg","mainEntityOfPage":"https://stevan.bogosavljevic.me/blog/posts/fine-tuning-lokalbot-local-models/","url":"https://stevan.bogosavljevic.me/blog/posts/fine-tuning-lokalbot-local-models/"}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Fine-tuning LokalBot’s four local models in 24 hours","description":"Stock open models struggled with Serbian notes, quiet dictation and inline autocomplete in LokalBot. I fine-tuned all four, ran follow-up passes to fix the first round’s regressions, and promoted them to LokalBot’s new defaults.","datePublished":"2026-11-21","dateModified":"2026-11-25","author":{"@type":"Person","name":"Stevan Bogosavljević"},"image":"https://stevan.bogosavljevic.me/blog/posts/fine-tuning-lokalbot-local-models/og.jpg","mainEntityOfPage":"https://stevan.bogosavljevic.me/blog/posts/fine-tuning-lokalbot-local-models/","url":"https://stevan.bogosavljevic.me/blog/posts/fine-tuning-lokalbot-local-models/"}</script>
   </body>
 </html>
